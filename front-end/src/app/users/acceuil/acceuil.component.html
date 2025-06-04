@@ -1,0 +1,583 @@
+<div class="min-h-screen bg-[#22252a] text-[#bbbec2] overflow-x-hidden">
+ <!-- Hero Section -->
+<section class="relative h-screen min-h-[800px] overflow-hidden" id="hero">
+  <!-- Animated Background Elements -->
+  <div class="absolute inset-0 bg-black/40 z-10"></div>
+
+  <!-- Floating Animated Circles -->
+  <div class="absolute top-1/4 left-1/4 w-8 h-8 rounded-full bg-[#ffa117]/20 animate-float-1"></div>
+  <div class="absolute top-1/3 right-1/4 w-12 h-12 rounded-full bg-[#ffa117]/15 animate-float-2"></div>
+  <div class="absolute bottom-1/4 left-1/3 w-16 h-16 rounded-full bg-[#ffa117]/10 animate-float-3"></div>
+
+  <!-- Video Background with Parallax -->
+  <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover" id="hero-video">
+    <source src="assets/videos/hero-video.mp4" type="video/mp4">
+  </video>
+
+  <!-- Hero Content -->
+  <div class="relative z-20 container mx-auto h-full flex flex-col justify-center px-6">
+    <div class="max-w-2xl" id="hero-content">
+      <!-- Animated Badge -->
+      <div class="inline-flex items-center mb-4 px-4 py-2 bg-[#ffa117]/10 border border-[#ffa117] rounded-full text-[#ffa117] text-sm font-medium transform -rotate-1" id="hero-badge">
+        <span class="animate-pulse">🔥</span>
+        <span class="ml-2">PLATEFORME FITNESS N°1 EN TUNISIE</span>
+      </div>
+
+      <!-- Main Headline with Character Animation -->
+      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-[#ffa117] leading-tight" id="hero-headline">
+        <span class="block" id="headline-part1">LA RÉVOLUTION</span>
+        <span class="block" id="headline-part2">DU FITNESS CONNECTÉ</span>
+      </h1>
+
+      <!-- Animated Paragraph -->
+      <p class="text-lg sm:text-xl mb-8 max-w-lg relative opacity-0" id="hero-text">
+        <span class="absolute -left-6 text-[#ffa117]">»</span>
+        La solution complète pour athlètes, coaches et gestionnaires de salles de sport - optimisation, gestion et résultats garantis.
+      </p>
+
+      <!-- Animated Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 opacity-0" id="hero-buttons">
+        <button class="cta-primary bg-[#ffa117] hover:bg-[#e69115] text-[#22252a] font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 shadow-lg hover:shadow-[#ffa117]/30 flex items-center">
+          <span>Commencer gratuitement</span>
+          <svg class="w-5 h-5 ml-2 animate-bounce-x" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </button>
+        <button class="cta-secondary border-2 border-[#ffa117] text-[#ffa117] hover:bg-[#ffa117]/10 font-bold py-3 px-8 rounded-full transition-all shadow-lg hover:shadow-[#ffa117]/20 flex items-center">
+          <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+          </svg>
+          <span>Voir la démo</span>
+        </button>
+      </div>
+
+      <!-- Animated User Avatars -->
+      <div class="mt-8 flex items-center opacity-0" id="hero-users">
+        <div class="flex -space-x-2">
+          <img src="assets/images/avatars/avatar1.jpg" class="w-10 h-10 rounded-full border-2 border-[#22252a] transform hover:scale-110 transition" alt="User">
+          <img src="assets/images/avatars/avatar2.jpg" class="w-10 h-10 rounded-full border-2 border-[#22252a] transform hover:scale-110 transition" alt="User">
+          <img src="assets/images/avatars/avatar3.jpg" class="w-10 h-10 rounded-full border-2 border-[#22252a] transform hover:scale-110 transition" alt="User">
+        </div>
+        <div class="ml-4">
+          <div class="text-sm text-[#bbbec2]">Rejoignez plus de <span class="text-[#ffa117] font-bold">15,000</span> utilisateurs</div>
+          <div class="flex text-[#ffa117] text-xs">
+            ★★★★★ <span class="text-[#bbbec2] ml-1">(4.9/5)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Animated Scroll Indicator -->
+  <div class="absolute bottom-10 left-0 right-0 flex justify-center z-20" id="scroll-indicator">
+    <a href="#stats" class="flex flex-col items-center">
+      <span class="text-sm mb-2 animate-bounce">Explorer</span>
+      <svg class="w-8 h-8 text-[#ffa117] animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+      </svg>
+    </a>
+  </div>
+</section>
+
+<!-- Statistics Section -->
+<section id="stats" class="py-20 bg-[#2a2e34]">
+  <div class="container mx-auto px-6">
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+      <div class="stat-item p-6 rounded-xl bg-[#22252a] border border-[#ffa117]/20 hover:border-[#ffa117] transition-all hover:shadow-lg hover:shadow-[#ffa117]/10">
+        <div class="text-4xl md:text-5xl font-bold text-[#ffa117] mb-2">
+          <span class="stat-number" data-target="75234">0</span>+
+        </div>
+        <div class="text-lg">Salles de sport</div>
+      </div>
+      <div class="stat-item p-6 rounded-xl bg-[#22252a] border border-[#ffa117]/20 hover:border-[#ffa117] transition-all hover:shadow-lg hover:shadow-[#ffa117]/10">
+        <div class="text-4xl md:text-5xl font-bold text-[#ffa117] mb-2">
+          <span class="stat-number" data-target="3200">0</span>+
+        </div>
+        <div class="text-lg">Coachs certifiés</div>
+      </div>
+      <div class="stat-item p-6 rounded-xl bg-[#22252a] border border-[#ffa117]/20 hover:border-[#ffa117] transition-all hover:shadow-lg hover:shadow-[#ffa117]/10">
+        <div class="text-4xl md:text-5xl font-bold text-[#ffa117] mb-2">
+          <span class="stat-number" data-target="15000">0</span>+
+        </div>
+        <div class="text-lg">Athlètes actifs</div>
+      </div>
+      <div class="stat-item p-6 rounded-xl bg-[#22252a] border border-[#ffa117]/20 hover:border-[#ffa117] transition-all hover:shadow-lg hover:shadow-[#ffa117]/10">
+        <div class="text-4xl md:text-5xl font-bold text-[#ffa117] mb-2">
+          <span class="stat-number" data-target="98">0</span>%
+        </div>
+        <div class="text-lg">Satisfaction clients</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- Features Section -->
+  <section #featuresSection class="py-20 bg-[#2a2e34]">
+    <div class="container mx-auto px-6">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-[#ffa117]">POURQUOI CHOISIR SUPPORTINI?</h2>
+        <p class="max-w-2xl mx-auto text-lg sm:text-xl">La plateforme qui réunit tous les acteurs du monde du fitness</p>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <div class="mb-8">
+            <div class="feature-item flex items-start mb-8">
+              <div class="bg-[#ffa117] p-3 rounded-full mr-4 flex-shrink-0">
+                <svg class="w-6 h-6 text-[#22252a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold mb-2">Gestion Simplifiée</h3>
+                <p>Outils complets pour gérer les réservations, les abonnements et le matériel de votre salle de sport avec une interface intuitive.</p>
+              </div>
+            </div>
+
+            <div class="feature-item flex items-start mb-8">
+              <div class="bg-[#ffa117] p-3 rounded-full mr-4 flex-shrink-0">
+                <svg class="w-6 h-6 text-[#22252a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold mb-2">Suivi Personnalisé</h3>
+                <p>Tableaux de bord détaillés pour suivre vos progrès et recevoir des recommandations adaptées à vos objectifs spécifiques.</p>
+              </div>
+            </div>
+
+            <div class="feature-item flex items-start">
+              <div class="bg-[#ffa117] p-3 rounded-full mr-4 flex-shrink-0">
+                <svg class="w-6 h-6 text-[#22252a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                </svg>
+              </div>
+              <div>
+                <h3 class="text-xl font-bold mb-2">Communauté Engagée</h3>
+                <p>Connectez-vous avec des passionnés de fitness et des professionnels certifiés pour partager des conseils et des motivations.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="relative">
+          <img src="assets/images/acceuil/dashb.png" alt="Tableau de bord Supportini" class="features-image rounded-xl shadow-2xl border border-[#ffa117]/20 w-full">
+          <div class="feature-badge absolute -bottom-6 -right-6 bg-[#ffa117] text-[#22252a] px-4 py-2 rounded-lg font-bold transform rotate-6">
+            FIT IS HIT!
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- Services Section -->
+<section id="services" class="py-20">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-[#ffa117]">NOS SERVICES EXCLUSIFS</h2>
+      <p class="max-w-2xl mx-auto text-lg sm:text-xl">Découvrez notre gamme complète de solutions fitness</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <!-- Coaching -->
+      <div class="service-card group relative overflow-hidden rounded-xl bg-[#2a2e34] hover:bg-[#22252a] border border-[#ffa117]/10 hover:border-[#ffa117]/50 transition-all duration-300">
+        <div class="relative h-64 overflow-hidden">
+          <img src="assets/images/acceuil/services/coaching.jpeg" alt="Coaching sportif" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#22252a] to-transparent"></div>
+        </div>
+        <div class="p-6 relative z-10">
+          <div class="service-icon w-14 h-14 bg-[#ffa117] rounded-full flex items-center justify-center mb-4 mx-auto">
+            <svg class="w-8 h-8 text-[#22252a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-3 text-[#ffa117] text-center">Coaching Personnalisé</h3>
+          <p class="mb-4 text-center">Programmes sur-mesure avec nos coaches certifiés pour atteindre vos objectifs spécifiques.</p>
+          <a href="#" class="text-[#ffa117] font-semibold flex items-center justify-center group-hover:underline">
+            En savoir plus
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Gestion de Salle -->
+      <div class="service-card group relative overflow-hidden rounded-xl bg-[#2a2e34] hover:bg-[#22252a] border border-[#ffa117]/10 hover:border-[#ffa117]/50 transition-all duration-300">
+        <div class="relative h-64 overflow-hidden">
+          <img src="assets/images/acceuil/dashb.png" alt="Gestion de salle" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#22252a] to-transparent"></div>
+        </div>
+        <div class="p-6 relative z-10">
+          <div class="service-icon w-14 h-14 bg-[#ffa117] rounded-full flex items-center justify-center mb-4 mx-auto">
+            <svg class="w-8 h-8 text-[#22252a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-3 text-[#ffa117] text-center">Gestion de Salle</h3>
+          <p class="mb-4 text-center">Solution complète pour gérer votre salle de sport: membres, planning, paiements et statistiques.</p>
+          <a href="#" class="text-[#ffa117] font-semibold flex items-center justify-center group-hover:underline">
+            En savoir plus
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Suivi Sportif -->
+      <div class="service-card group relative overflow-hidden rounded-xl bg-[#2a2e34] hover:bg-[#22252a] border border-[#ffa117]/10 hover:border-[#ffa117]/50 transition-all duration-300">
+        <div class="relative h-64 overflow-hidden">
+          <img src="assets/images/acceuil/services/tracking.avif" alt="Suivi sportif" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#22252a] to-transparent"></div>
+        </div>
+        <div class="p-6 relative z-10">
+          <div class="service-icon w-14 h-14 bg-[#ffa117] rounded-full flex items-center justify-center mb-4 mx-auto">
+            <svg class="w-8 h-8 text-[#22252a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-3 text-[#ffa117] text-center">Suivi Sportif</h3>
+          <p class="mb-4 text-center">Analyse complète de vos performances avec statistiques détaillées et recommandations intelligentes.</p>
+          <a href="#" class="text-[#ffa117] font-semibold flex items-center justify-center group-hover:underline">
+            En savoir plus
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Boutique en Ligne -->
+      <div class="service-card group relative overflow-hidden rounded-xl bg-[#2a2e34] hover:bg-[#22252a] border border-[#ffa117]/10 hover:border-[#ffa117]/50 transition-all duration-300">
+        <div class="relative h-64 overflow-hidden">
+          <img src="assets/images/acceuil/services/shop.avif" alt="Boutique en ligne" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+          <div class="absolute inset-0 bg-gradient-to-t from-[#22252a] to-transparent"></div>
+        </div>
+        <div class="p-6 relative z-10">
+          <div class="service-icon w-14 h-14 bg-[#ffa117] rounded-full flex items-center justify-center mb-4 mx-auto">
+            <svg class="w-8 h-8 text-[#22252a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold mb-3 text-[#ffa117] text-center">Boutique en Ligne</h3>
+          <p class="mb-4 text-center">Équipements et compléments de qualité pour optimiser vos performances et votre récupération.</p>
+          <a href="#" class="text-[#ffa117] font-semibold flex items-center justify-center group-hover:underline">
+            En savoir plus
+            <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Additional Services -->
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-[#22252a] p-6 rounded-xl border border-[#ffa117]/20 hover:border-[#ffa117] transition-all">
+        <div class="flex items-center mb-4">
+          <div class="bg-[#ffa117] p-2 rounded-full mr-4">
+            <svg class="w-6 h-6 text-[#22252a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-[#ffa117]">Programmes Spéciaux</h3>
+        </div>
+        <p>Programmes dédiés pour perte de poids, prise de masse, préparation physique et rééducation.</p>
+      </div>
+
+      <div class="bg-[#22252a] p-6 rounded-xl border border-[#ffa117]/20 hover:border-[#ffa117] transition-all">
+        <div class="flex items-center mb-4">
+          <div class="bg-[#ffa117] p-2 rounded-full mr-4">
+            <svg class="w-6 h-6 text-[#22252a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-[#ffa117]">Nutrition Optimisée</h3>
+        </div>
+        <p>Plans alimentaires personnalisés en fonction de vos objectifs et préférences alimentaires.</p>
+      </div>
+
+      <div class="bg-[#22252a] p-6 rounded-xl border border-[#ffa117]/20 hover:border-[#ffa117] transition-all">
+        <div class="flex items-center mb-4">
+          <div class="bg-[#ffa117] p-2 rounded-full mr-4">
+            <svg class="w-6 h-6 text-[#22252a]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+            </svg>
+          </div>
+          <h3 class="text-xl font-bold text-[#ffa117]">Événements Exclusifs</h3>
+        </div>
+        <p>Participation à des compétitions, séminaires et rencontres avec des professionnels du fitness.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="py-20 bg-[#1e2126]">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-[#ffa117]">ILS NOUS FONT CONFIANCE</h2>
+      <p class="max-w-2xl mx-auto text-lg sm:text-xl">Ce que disent nos clients et partenaires</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Testimonial 1 -->
+      <div class="testimonial-card bg-[#22252a] p-8 rounded-xl border border-[#ffa117]/20 hover:border-[#ffa117] transition-all">
+        <div class="flex items-center mb-4">
+          <div class="text-[#ffa117] text-2xl mr-2">★★★★★</div>
+          <div class="text-sm">(49 avis)</div>
+        </div>
+        <p class="mb-6 italic">"Depuis que j'utilise Supportini pour gérer ma salle de sport, j'ai gagné 30% de temps en administration et mes membres sont plus satisfaits que jamais!"</p>
+        <div class="flex items-center">
+          <img src="assets/images/testimonials/asma.jpg" alt="Asma Melliti" class="w-12 h-12 rounded-full mr-4 object-cover">
+          <div>
+            <div class="font-bold">Asma Melliti</div>
+            <div class="text-sm text-[#ffa117]">Propriétaire, FitWorld Tunis</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="testimonial-card bg-[#22252a] p-8 rounded-xl border border-[#ffa117]/20 hover:border-[#ffa117] transition-all">
+        <div class="flex items-center mb-4">
+          <div class="text-[#ffa117] text-2xl mr-2">★★★★★</div>
+          <div class="text-sm">(36 avis)</div>
+        </div>
+        <p class="mb-6 italic">"Le suivi personnalisé m'a permis de perdre 15kg en 5 mois. Mon coach était disponible et à l'écoute grâce à la plateforme."</p>
+        <div class="flex items-center">
+          <img src="assets/images/testimonials/hassen.jpg" alt="Hassen Rahali" class="w-12 h-12 rounded-full mr-4 object-cover">
+          <div>
+            <div class="font-bold">Hassen Rahali</div>
+            <div class="text-sm text-[#ffa117]">Client depuis 2021</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 3 -->
+      <div class="testimonial-card bg-[#22252a] p-8 rounded-xl border border-[#ffa117]/20 hover:border-[#ffa117] transition-all">
+        <div class="flex items-center mb-4">
+          <div class="text-[#ffa117] text-2xl mr-2">★★★★☆</div>
+          <div class="text-sm">(28 avis)</div>
+        </div>
+        <p class="mb-6 italic">"En tant que coach, Supportini me permet de gérer tous mes clients au même endroit avec un suivi détaillé de leurs progrès."</p>
+        <div class="flex items-center">
+          <img src="assets/images/testimonials/omar.jpg" alt="Tbessi Omar" class="w-12 h-12 rounded-full mr-4 object-cover">
+          <div>
+            <div class="font-bold">Tbessi Omar</div>
+            <div class="text-sm text-[#ffa117]">Coach personnel certifié</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Video Testimonials -->
+    <div class="mt-16 grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-[#22252a] rounded-xl overflow-hidden border border-[#ffa117]/20">
+        <div class="relative pt-[56.25%]">
+          <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2 text-[#ffa117]">Témoignage de Chakiba</h3>
+          <p class="text-sm">Propriétaire de salle depuis 3 ans</p>
+        </div>
+      </div>
+
+      <div class="bg-[#22252a] rounded-xl overflow-hidden border border-[#ffa117]/20">
+        <div class="relative pt-[56.25%]">
+          <iframe class="absolute top-0 left-0 w-full h-full" src="https://www.youtube.com/embed/VIDEO_ID" frameborder="0" allowfullscreen></iframe>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl font-bold mb-2 text-[#ffa117]">Expérience de Mouhib</h3>
+          <p class="text-sm">Athlète professionnel</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Pricing Section -->
+<section class="py-20 bg-[#2a2e34]">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-16">
+      <h2 class="text-3xl sm:text-4xl font-bold mb-4 text-[#ffa117]">TARIFS ABORDABLES</h2>
+      <p class="max-w-2xl mx-auto text-lg sm:text-xl">Choisissez la formule qui correspond à vos besoins</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+      <!-- Basic Plan -->
+      <div class="pricing-card bg-[#22252a] p-8 rounded-xl border border-[#ffa117]/20 hover:border-[#ffa117] transition-all text-center">
+        <h3 class="text-2xl font-bold mb-4 text-[#ffa117]">Starter</h3>
+        <div class="text-5xl font-bold mb-6">29<span class="text-xl">DT</span><span class="text-sm font-normal">/mois</span></div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Accès à 5 salles partenaires
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Suivi basique des performances
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Support par email
+          </li>
+        </ul>
+        <button class="w-full bg-[#ffa117] hover:bg-[#e69115] text-[#22252a] font-bold py-3 px-8 rounded-full transition-all">
+          Choisir ce plan
+        </button>
+      </div>
+
+      <!-- Pro Plan (Featured) -->
+      <div class="pricing-card bg-gradient-to-b from-[#ffa117]/10 to-[#22252a] p-8 rounded-xl border-2 border-[#ffa117] transform hover:scale-105 transition-all text-center relative">
+        <div class="absolute top-0 right-0 bg-[#ffa117] text-[#22252a] px-4 py-1 rounded-bl-lg rounded-tr-lg text-sm font-bold">
+          POPULAIRE
+        </div>
+        <h3 class="text-2xl font-bold mb-4 text-[#ffa117]">Pro</h3>
+        <div class="text-5xl font-bold mb-6">59<span class="text-xl">DT</span><span class="text-sm font-normal">/mois</span></div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Accès illimité aux salles
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Suivi avancé + nutrition
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            2 séances coaching/mois
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Support prioritaire
+          </li>
+        </ul>
+        <button class="w-full bg-[#ffa117] hover:bg-[#e69115] text-[#22252a] font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105">
+          Choisir ce plan
+        </button>
+      </div>
+
+      <!-- Business Plan -->
+      <div class="pricing-card bg-[#22252a] p-8 rounded-xl border border-[#ffa117]/20 hover:border-[#ffa117] transition-all text-center">
+        <h3 class="text-2xl font-bold mb-4 text-[#ffa117]">Business</h3>
+        <div class="text-5xl font-bold mb-6">199<span class="text-xl">DT</span><span class="text-sm font-normal">/mois</span></div>
+        <ul class="space-y-3 mb-8">
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Gestion complète de salle
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Jusqu'à 5 employés
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Statistiques avancées
+          </li>
+          <li class="flex items-center">
+            <svg class="w-5 h-5 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            Support 24/7
+          </li>
+        </ul>
+        <button class="w-full bg-[#ffa117] hover:bg-[#e69115] text-[#22252a] font-bold py-3 px-8 rounded-full transition-all">
+          Choisir ce plan
+        </button>
+      </div>
+    </div>
+
+    <div class="mt-12 text-center text-sm text-[#bbbec2]">
+      <p>Essai gratuit de 14 jours pour tous les plans • Annulation à tout moment</p>
+    </div>
+  </div>
+</section>
+
+<!-- Partners Section -->
+<section class="py-16 bg-[#22252a]">
+  <div class="container mx-auto px-6">
+    <div class="text-center mb-12">
+      <h3 class="text-xl font-medium text-[#bbbec2]">ILS NOUS FONT CONFIANCE</h3>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-8 items-center">
+      <div class="flex justify-center">
+        <img src="assets/images/partners/gym1.png" alt="Partner 1" class="h-12 opacity-80 hover:opacity-100 transition">
+      </div>
+      <div class="flex justify-center">
+        <img src="assets/images/partners/gym2.png" alt="Partner 2" class="h-12 opacity-80 hover:opacity-100 transition">
+      </div>
+      <div class="flex justify-center">
+        <img src="assets/images/partners/gym3.png" alt="Partner 3" class="h-14 opacity-80 hover:opacity-100 transition">
+      </div>
+      <div class="flex justify-center">
+        <img src="assets/images/partners/gym4.png" alt="Partner 4" class="h-12 opacity-80 hover:opacity-100 transition">
+      </div>
+      <div class="flex justify-center">
+        <img src="assets/images/partners/gym5.png" alt="Partner 5" class="h-10 opacity-80 hover:opacity-100 transition">
+      </div>
+      <div class="flex justify-center">
+        <img src="assets/images/partners/gym6.png" alt="Partner 6" class="h-12 opacity-80 hover:opacity-100 transition">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Final CTA Section -->
+<section class="py-20 bg-gradient-to-r from-[#ffa117]/10 to-[#ffa117]/5 relative overflow-hidden">
+  <!-- Floating Elements -->
+  <div class="absolute top-20 left-10 w-16 h-16 opacity-20 animate-float-slow">
+    <svg viewBox="0 0 24 24" fill="none" stroke="#ffa117" stroke-width="2">
+      <path d="M12 2v4m0 12v4M4.93 4.93l2.83 2.83m8.48 8.48l2.83 2.83M2 12h4m12 0h4M4.93 19.07l2.83-2.83m8.48-8.48l2.83-2.83"></path>
+    </svg>
+  </div>
+
+  <div class="container mx-auto px-6 text-center relative z-10">
+    <h2 class="text-3xl sm:text-4xl font-bold mb-6 text-[#ffa117]">PRÊT À TRANSFORMER VOTRE EXPÉRIENCE FITNESS?</h2>
+    <p class="text-lg sm:text-xl mb-8 max-w-3xl mx-auto">Rejoignez la révolution sportive en Tunisie et découvrez comment Supportini peut vous aider à atteindre vos objectifs.</p>
+
+    <div class="flex flex-col sm:flex-row justify-center gap-4 max-w-md mx-auto">
+      <button class="cta-primary bg-[#ffa117] hover:bg-[#e69115] text-[#22252a] font-bold py-3 px-8 rounded-full transition-all transform hover:scale-105 text-lg shadow-lg hover:shadow-[#ffa117]/30">
+        S'inscrire gratuitement
+      </button>
+      <button class="cta-secondary border-2 border-[#ffa117] text-[#ffa117] hover:bg-[#ffa117]/10 font-bold py-3 px-8 rounded-full transition-all text-lg shadow-lg hover:shadow-[#ffa117]/20 flex items-center justify-center">
+        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+        </svg>
+        <span>Contactez-nous</span>
+      </button>
+    </div>
+
+    <div class="mt-8 flex items-center justify-center">
+      <div class="flex items-center text-sm text-[#bbbec2]">
+        <svg class="w-4 h-4 mr-2 text-[#ffa117]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+        </svg>
+        <span>Données 100% sécurisées</span>
+      </div>
+    </div>
+  </div>
+</section>
+</div>
