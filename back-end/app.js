@@ -72,6 +72,7 @@ app.use('/suivi/feedback', feedbackRouter);
 app.use('/equipmentGym', equipmentGym);
 app.use('/auth',authRouter  );
 app.use('/annonce',annonceRouter);
+
 app.use('/regime',regimeRouter);
 app.use('/email',emailRouter);
 

@@ -1,93 +1,230 @@
-<div class="meteo">
-  <div class="topWeatherleft1">
+<div class="min-h-screen bg-gray-900 p-4 md:p-6 space-y-6">
+  <!-- Role-Specific Header -->
+  <div class="flex justify-between items-center mb-4">
+    <div>
+      <h1 class="text-2xl md:text-3xl font-bold text-white">
+        Bonjour, {{user?.prenom}} {{user?.nom}}
+      </h1>
+      <p class="text-amber-400">
+        <span *ngIf="user?.fk_idRole==2">Entraîné</span>
+        <span *ngIf="user?.fk_idRole==3">Coach Sportif</span>
+        <span *ngIf="user?.fk_idRole==4">Propriétaire de Salle</span>
+      </p>
+    </div>
+    <div class="weather-container">
+      <app-meteo></app-meteo>
+    </div>
   </div>
-  <div class="topWeatherCenter">
-    <app-meteo></app-meteo>
-  </div>
-  <div class="topWeatherRight">
-  </div>
-</div>
-<div class="afterWeather">
-  <div class="list-planing">
-    <h1 class="align-center">Liste Planning</h1>
-    <app-list-planning-dashboard></app-list-planning-dashboard>
-  </div>
-  <div class="listSalle">
-    <app-liste-salle-de-sport-dashboard></app-liste-salle-de-sport-dashboard>
-  </div>
-</div>
-<div class="suivi">
-</div>
 
-
-
-
-<div >
-
-
-    <app-top-ten-annonce [user]="user"></app-top-ten-annonce>
-
-
-<div class="productsList">
-  <h1 class="align-center">Nouveaux Produits</h1>
-  <ul>
-    <li *ngFor="let listProduct of listeProduit">
-      <div class="details">
-        <h2>{{listProduct.nomproduit}}</h2>
-        <p>{{listProduct.prix}}DT</p>
-        <p>{{listProduct.description}}</p>
-        <img src="http://localhost:8080/public/images/{{listProduct.imageProduit}}" style="width: 100px; height: 100px">
-        <img src="http://localhost:8080/public/images/{{listProduct.imageProduit}}"style="width: 100px; height: 100px">
+  <!-- Role-Specific Quick Stats -->
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+    <!-- Common Stats -->
+    <div class="quick-stat-card bg-gradient-to-r from-amber-500/20 to-amber-600/20">
+      <div class="stat-icon">
+        <i class="fas fa-dumbbell text-amber-400"></i>
       </div>
-    </li>
-  </ul>
-  <a class="buttonConsult" routerLink="/Nos-Produits">Consulter Produit ...</a>
+      <div>
+        <p class="stat-label">Séances</p>
+        <h3 class="stat-value">{{stats?.seancesThisWeek || 0}}</h3>
+      </div>
+    </div>
+
+    <!-- Trainee Specific -->
+    <div *ngIf="user?.fk_idRole==2" class="quick-stat-card bg-gradient-to-r from-blue-500/20 to-blue-600/20">
+      <div class="stat-icon">
+        <i class="fas fa-fire text-blue-400"></i>
+      </div>
+      <div>
+        <p class="stat-label">Calories</p>
+        <h3 class="stat-value">{{stats?.caloriesBurned || 0}} kcal</h3>
+      </div>
+    </div>
+
+    <!-- Coach Specific -->
+    <div *ngIf="user?.fk_idRole==3" class="quick-stat-card bg-gradient-to-r from-green-500/20 to-green-600/20">
+      <div class="stat-icon">
+        <i class="fas fa-users text-green-400"></i>
+      </div>
+      <div>
+        <p class="stat-label">Clients</p>
+        <h3 class="stat-value">{{stats?.totalClients || 0}}</h3>
+      </div>
+    </div>
+
+    <!-- Common Goal Progress -->
+    <div class="quick-stat-card bg-gradient-to-r from-amber-500/20 to-amber-600/20">
+      <div class="stat-icon">
+        <i class="fas fa-bullseye text-amber-400"></i>
+      </div>
+      <div>
+        <p class="stat-label">Objectif</p>
+        <h3 class="stat-value">{{stats?.monthlyGoalProgress || '0'}}/{{stats?.monthlyGoal || '0'}}</h3>
+      </div>
+    </div>
+
+    <!-- Coach Specific - Feedback Pending -->
+    <div *ngIf="user?.fk_idRole==3" class="quick-stat-card bg-gradient-to-r from-red-500/20 to-red-600/20">
+      <div class="stat-icon">
+        <i class="fas fa-comment-dots text-red-400"></i>
+      </div>
+      <div>
+        <p class="stat-label">Feedback en attente</p>
+        <h3 class="stat-value">{{stats?.pendingFeedback || 0}}</h3>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+    <!-- Left Column -->
+    <div class="lg:col-span-2 space-y-6">
+      <!-- Coach Specific - Athletes List -->
+      <div *ngIf="user?.fk_idRole==3" class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-users mr-2"></i>
+            Mes Athlètes
+          </h2>
+          <div class="relative">
+            <input type="text"
+                   class="search-input"
+                   placeholder="Rechercher un athlète..."
+                   #NameEntr
+                   (keyup)="searchByName(NameEntr.value)">
+            <i class="fas fa-search search-icon"></i>
+          </div>
+        </div>
+        <app-list-entr></app-list-entr>
+      </div>
+
+      <!-- Trainee Progress Section -->
+      <div *ngIf="user?.fk_idRole==2" class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-chart-line mr-2"></i>
+            Ma Progression
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="chart-container p-4">
+            <canvas baseChart
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [legend]="barChartLegend"
+                    [type]="barChartType">
+            </canvas>
+          </div>
+          <div class="chart-container p-4">
+            <canvas baseChart
+                    [datasets]="lineChartData"
+                    [labels]="lineChartLabels"
+                    [options]="lineChartOptions"
+                    [legend]="lineChartLegend"
+                    [type]="lineChartType">
+            </canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coach Specific - Announcements -->
+      <div *ngIf="user?.fk_idRole==3" class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-bullhorn mr-2"></i>
+            Mes Annonces
+          </h2>
+          <a routerLink="/mes-annonces" class="section-link">
+            Voir plus <i class="fas fa-arrow-right ml-1"></i>
+          </a>
+        </div>
+        <app-mes-annonce></app-mes-annonce>
+      </div>
+
+      <!-- Coach Clients Progress Chart -->
+      <div *ngIf="user?.fk_idRole==3" class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-chart-bar mr-2"></i>
+            Progression des Clients
+          </h2>
+        </div>
+        <div class="chart-container p-4">
+          <canvas baseChart
+                  [datasets]="clientsChartData"
+                  [labels]="clientsChartLabels"
+                  [options]="barChartOptions"
+                  [type]="clientsChartType">
+          </canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="space-y-6">
+      <!-- Gym Section (All Roles) -->
+      <div class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-dumbbell mr-2"></i>
+            <span *ngIf="user?.fk_idRole==2">Ma Salle</span>
+            <span *ngIf="user?.fk_idRole==3">Salles Partenaires</span>
+            <span *ngIf="user?.fk_idRole==4">Ma Salle</span>
+          </h2>
+          <a routerLink="/salles" class="section-link">
+            Voir plus <i class="fas fa-arrow-right ml-1"></i>
+          </a>
+        </div>
+        <app-liste-salle-de-sport-dashboard></app-liste-salle-de-sport-dashboard>
+      </div>
+
+      <!-- Coach Specific - Quick Actions -->
+      <div *ngIf="user?.fk_idRole==3" class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-bolt mr-2"></i> Actions Rapides
+          </h2>
+        </div>
+        <div class="space-y-3">
+          <button class="action-btn bg-amber-500 hover:bg-amber-600">
+            <i class="fas fa-plus mr-2"></i> Créer Séance
+          </button>
+          <button class="action-btn bg-blue-500 hover:bg-blue-600">
+            <i class="fas fa-user-plus mr-2"></i> Ajouter Client
+          </button>
+          <button class="action-btn bg-green-500 hover:bg-green-600">
+            <i class="fas fa-bullhorn mr-2"></i> Nouvelle Annonce
+          </button>
+        </div>
+      </div>
+
+      <!-- Products Section (All Roles) -->
+      <div class="dashboard-section">
+        <div class="section-header">
+          <h2 class="section-title">
+            <i class="fas fa-shopping-bag mr-2"></i>
+            <span *ngIf="user?.fk_idRole==2">Produits Recommandés</span>
+            <span *ngIf="user?.fk_idRole==3">Équipements</span>
+            <span *ngIf="user?.fk_idRole==4">Inventaire</span>
+          </h2>
+          <a routerLink="/Nos-Produits" class="section-link">
+            Voir plus <i class="fas fa-arrow-right ml-1"></i>
+          </a>
+        </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div *ngFor="let listProduct of listeProduit.slice(0,2)" class="product-card">
+            <div class="product-image-container">
+              <img src="http://localhost:8080/public/images/{{listProduct.imageProduit}}"
+                   alt="{{listProduct.nomproduit}}"
+                   class="product-image">
+            </div>
+            <div class="product-details">
+              <h3 class="product-name">{{listProduct.nomproduit}}</h3>
+              <p class="product-price">{{listProduct.prix}} DT</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
-
-</div>
-<!--<div class="suivi">-->
-<!--  <div class="card 1">-->
-<!--    <div class="card">-->
-<!--      <div class="body">-->
-<!--        <div class="d-flex align-items-center justify-content-center">-->
-<!--          <div class="icon-in-bg bg-indigo text-white text-large rounded-circle"><i class="fa fa-ruler-vertical"><i-->
-<!--            class="fa fa-person"></i></i></div>-->
-<!--          <div class="ml-4">-->
-<!--            <span>Taille</span>-->
-<!--            <h4 class="mb-0 font-weight-medium">{{suiviss?.taille}} cm</h4>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <div class="card 2">-->
-<!--    <div class="card">-->
-<!--      <div class="body">-->
-<!--        <div class="d-flex align-items-center justify-content-center">-->
-<!--          <div class="icon-in-bg bg-pink text-white text-large rounded-circle"><i class="fa fa-cake-candles"></i></div>-->
-<!--          <div class="ml-4">-->
-<!--            <span>Age</span>-->
-<!--            <h4 class="mb-0 font-weight-medium">{{suiviss?.age}} Ans</h4>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-
-<!--  <div class="card 3">-->
-<!--    <div class="card">-->
-<!--      <div class="body">-->
-<!--        <div class="d-flex align-items-center justify-content-center">-->
-<!--          <div class="icon-in-bg bg-azura text-white rounded-circle text-large"><i class="fa fa-weight-scale"></i></div>-->
-<!--          <div class="ml-4">-->
-<!--            <span>Poids</span>-->
-<!--            <h4 class="mb-0 font-weight-medium">{{suiviss?.poids}} Kg</h4>-->
-<!--          </div>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-<!--  <div>-->
-<!--  </div>-->
-<!--</div>-->
-

@@ -1,39 +1,37 @@
-const multer = require('multer')
-const path = require('path')
+const multer = require('multer');
+const path = require('path');
+const fs = require('fs');
 
+const uploadDir = path.join(__dirname, '../../public/images/salleDeSport');
 
-
-// Upload image
-
-
-const MIME_TYPES = {
-    'image/jpg': 'jpg',
-    'image/jpeg': 'jpg',
-    'image/png': 'png'
-};
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
 
 const storage = multer.diskStorage({
-    destination: (req, file, callback) => {
-        callback(null, './public/images/salleDeSport');
-        callback(null,'C:/Users/GIGABYTE/Documents/Supportini/SupportiniDesk/src/gui/uicontrolers/imageSalleSport');
-    },
-    filename: (req, file, callback) => {
-
-        callback(null, Date.now()+ path.extname(file.originalname));
-
-    }
+  destination: (req, file, cb) => {
+    cb(null, uploadDir);
+  },
+  filename: (req, file, cb) => {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    const ext = path.extname(file.originalname);
+    cb(null, `${uniqueSuffix}${ext}`);
+  }
 });
 
 const fileFilter = (req, file, cb) => {
+  const allowedTypes = ['image/jpg', 'image/jpeg', 'image/png', 'image/gif'];
+  if (allowedTypes.includes(file.mimetype)) {
+    cb(null, true);
+  } else {
+    cb(new Error('Invalid file type. Only JPG, JPEG, PNG, GIF are allowed'), false);
+  }
+};
 
-    if (file.mimetype == 'image/jpg' || file.mimetype == 'image/jpeg' || file.mimetype == 'image/png' || file.mimetype == 'image/gif') {
-        cb(null, true);
-    } else {
-        cb(null, false);
-    }
-}
+const uploadImageGym = multer({ 
+  storage,
+  fileFilter,
+  limits: { fileSize: 100000000 } // ~100MB
+}).array("images[]", 10); // Accept up to 10 images
 
-const uploadGym = multer({ storage: storage,fileFilter: fileFilter, limits: { fileSize: 100000000 }  }).single("imageVitrine");
-
-
-module.exports ={uploadGym}
+module.exports = { uploadImageGym };

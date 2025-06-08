@@ -1,19 +1,31 @@
-
-<div id="divWeatherMain">
-  <div *ngIf="WeatherData.isDay" class="weatherWidgetRow">
-   <i class="fas fa-3x fa-sun sun"></i>
+<div class="weather-compact bg-gray-800 rounded-xl p-4 flex items-center justify-between shadow-lg">
+  <div class="flex items-center space-x-4">
+    <div class="weather-icon text-4xl">
+      <i *ngIf="WeatherData.isDay" class="fas fa-sun text-amber-400"></i>
+      <i *ngIf="!WeatherData.isDay" class="fas fa-moon text-blue-200"></i>
+    </div>
+    <div>
+      <div class="text-3xl font-bold text-white">{{WeatherData.temp_celcius}}°</div>
+      <div class="text-gray-400 text-sm">{{WeatherData.name}}</div>
+    </div>
   </div>
-  <div *ngIf="!WeatherData.isDay" class="weatherWidgetRow">
-    <i class="fas fa-3x fa-moon moon"></i>
+  <div class="weather-details grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
+    <div class="flex items-center">
+      <i class="fas fa-temperature-low text-amber-400 mr-2"></i>
+      <span>{{WeatherData.temp_min}}° / {{WeatherData.temp_max}}°</span>
+    </div>
+    <div class="flex items-center">
+      <i class="fas fa-tint text-amber-400 mr-2"></i>
+      <span>{{WeatherData.main?.humidity}}%</span>
+    </div>
+    <div class="flex items-center">
+      <i class="fas fa-wind text-amber-400 mr-2"></i>
+      <span>{{WeatherData.wind?.speed || '0'}} km/h</span>
+    </div>
+    <div class="flex items-center">
+      <i *ngIf="WeatherData.isDay" class="fas fa-sun text-amber-400 mr-2"></i>
+      <i *ngIf="!WeatherData.isDay" class="fas fa-moon text-blue-200 mr-2"></i>
+      <span>{{getWeatherDescription()}}</span>
+    </div>
   </div>
-  <div class="weatherWidgetRow cloudDiv">
-    <i class="fas fa-cloud fa-3x cloud"></i>
-  </div>
-  <div class="weatherWidgetRow" style="font-size: 23px;margin-top: 5px;">{{WeatherData.temp_celcius}}°</div>
-  <div class="weatherWidgetRow" style="font-weight: bolder;">{{WeatherData.temp_min}}° / {{WeatherData.temp_max}}°</div>
-  <div class="weatherWidgetRow" style="font-weight: bolder;">Feels Like: {{WeatherData.temp_feels_like}}°</div>
-  <div class="weatherWidgetRow" style="font-weight: bolder;margin-top: 10px;">{{WeatherData.name}}</div>
-  <div class="weatherWidgetRow" style="font-weight: bolder">Humidity: {{WeatherData.main.humidity}}%</div>
 </div>
-
-

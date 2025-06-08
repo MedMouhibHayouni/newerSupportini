@@ -6,11 +6,29 @@ import {type} from "os";
 import {FeedbackService} from "../../../../shared-service/feedbackService/feedback.service";
 import {Feedback} from "../../../../model/Feedback";
 import {ChartType} from "chart.js";
+import { animate, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-list-entr',
   templateUrl: './list-entr.component.html',
-  styleUrls: ['./list-entr.component.scss']
+  styleUrls: ['./list-entr.component.scss'],
+  animations: [
+    trigger('rowAnimation', [
+      transition('void => *', [
+        style({ opacity: 0, transform: 'translateY(-20px)' }),
+        animate('0.5s ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ]),
+    trigger('modalAnimation', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('0.3s ease-in', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('0.2s ease-out', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class ListEntrComponent implements OnInit {
   firstSuivi!:any;
@@ -33,9 +51,8 @@ export class ListEntrComponent implements OnInit {
   feedBackInputModel:any;
   @ViewChild('feedBackInput') feedBackInput!:any;
   //feedBackInput = document.getElementById('feedBackInput') as HTMLInputElement;
-  constructor(private suiviService:SuiviServiceService,private router:Router,private feedbackService:FeedbackService) {
+  constructor(private suiviService: SuiviServiceService, private router: Router, private feedbackService: FeedbackService) {
     this.timeCurrent(this.dateSuivi);
-
   }
 
 
@@ -47,24 +64,6 @@ export class ListEntrComponent implements OnInit {
 
   public barChartType:ChartType = 'bar';
   public barChartLegend = true;
-
-//   isMoreThan30DaysAgo(date:any) {
-//     //                   days  hours min  sec  ms
-//     const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
-//     const timestampSevenDaysAgo = new Date().getTime() - sevenDaysInMs;
-//
-//
-//
-//     if (timestampSevenDaysAgo > date) {
-//
-//       console.log('date is more than 30 days into the past');
-// return true;
-//     } else {
-//       console.log('date is NOT more than 30 days into the past');
-//
-//       return false;
-//     }
-//   }
 
   SearchByNameEntr (searchEntr:any){
     return this.suiviService.searchByEntrNameForCoach(searchEntr).subscribe(
@@ -80,9 +79,6 @@ export class ListEntrComponent implements OnInit {
     this.feedbackService.createFeedback(idSuivi,feedbackModele).subscribe()
     console.log(feedbackModele);
   }
-
-
-
 
 
   showDetails(id:any){
@@ -109,7 +105,6 @@ export class ListEntrComponent implements OnInit {
         ];
 
 
-        //console.log(this.listSuiviByEntr)
       });
     });
 
@@ -150,10 +145,6 @@ export class ListEntrComponent implements OnInit {
         );
       }}}
 
-  // findGymWithLettre(search : any){
-  //   return this.salleDeSportService.getGymWithLettre().subscribe(
-  //     (data) =>this.listeGym=data);
-  // }
   timeCurrent(dateSuivi:any) {
     this.date = new Date();
 
@@ -198,6 +189,25 @@ export class ListEntrComponent implements OnInit {
 
 
 
+  }
+
+   ngAfterViewInit() {
+    // GSAP animations
+    gsap.from('.search-bar', {
+      duration: 0.8,
+      y: -50,
+      opacity: 0,
+      ease: 'power2.out'
+    });
+
+    gsap.from('table tr', {
+      duration: 0.6,
+      opacity: 0,
+      y: 20,
+      stagger: 0.1,
+      delay: 0.3,
+      ease: 'back.out'
+    });
   }
 
 }

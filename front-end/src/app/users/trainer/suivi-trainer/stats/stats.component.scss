@@ -1,0 +1,194 @@
+.stats-container {
+  background-color: #22252a;
+  color: #bbbec2;
+}
+
+.stat-card {
+  @apply rounded-xl p-4 shadow-lg transition-all duration-300 hover:shadow-xl;
+  border: 1px solid rgba(255, 161, 23, 0.1);
+
+  .stat-icon {
+    @apply w-12 h-12 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 text-xl mb-3;
+  }
+
+  .stat-label {
+    @apply text-gray-400 text-sm uppercase tracking-wider;
+  }
+
+  .stat-value {
+    @apply text-white font-bold text-2xl my-1;
+  }
+
+  .stat-trend, .stat-meta, .stat-progress {
+    @apply mt-2;
+  }
+
+  .progress-bar {
+    @apply w-full h-2 bg-gray-700 rounded-full overflow-hidden mt-1;
+
+    .progress-fill {
+      @apply h-full bg-gradient-to-r from-amber-500 to-amber-600 rounded-full;
+    }
+  }
+}
+
+.chart-card {
+  @apply bg-gray-800 rounded-xl p-4 shadow-lg;
+
+  .chart-header {
+    @apply flex justify-between items-center mb-4;
+  }
+
+  .chart-title {
+    @apply text-xl font-bold text-amber-500;
+  }
+
+  .chart-actions {
+    @apply flex space-x-2;
+  }
+
+  .chart-action-btn {
+    @apply w-8 h-8 rounded-full bg-gray-700 text-amber-400 flex items-center justify-center hover:bg-amber-500 hover:text-white transition-colors;
+  }
+
+  .chart-container {
+    @apply h-64;
+  }
+}
+
+.composition-chart {
+  @apply space-y-4 mt-4;
+
+  .composition-item {
+    @apply flex items-center space-x-4;
+  }
+
+  .composition-label {
+    @apply text-gray-400 w-16;
+  }
+
+  .composition-bar {
+    @apply flex-1 h-4 bg-gray-700 rounded-full overflow-hidden;
+  }
+
+  .composition-fill {
+    @apply h-full rounded-full;
+
+    &.muscle {
+      @apply bg-green-500;
+    }
+
+    &.fat {
+      @apply bg-red-500;
+    }
+
+    &.water {
+      @apply bg-blue-500;
+    }
+  }
+
+  .composition-value {
+    @apply text-white font-medium w-12 text-right;
+  }
+}
+
+.activity-card {
+  @apply bg-gray-800 rounded-xl p-4 shadow-lg;
+
+  .activity-header {
+    @apply flex justify-between items-center mb-4;
+  }
+
+  .activity-title {
+    @apply text-xl font-bold text-amber-500;
+  }
+
+  .activity-link {
+    @apply text-amber-400 hover:text-amber-300 text-sm;
+  }
+
+  .activity-list {
+    @apply space-y-3;
+  }
+
+  .activity-item {
+    @apply flex items-center p-3 rounded-lg bg-gray-700 hover:bg-gray-600 transition-colors;
+  }
+
+  .activity-icon {
+    @apply w-10 h-10 rounded-full bg-amber-500/20 flex items-center justify-center text-amber-400 mr-3;
+  }
+
+  .activity-name {
+    @apply text-white font-medium;
+  }
+
+  .activity-meta {
+    @apply text-xs text-gray-400 mt-1 flex space-x-3;
+  }
+}
+
+/* Modal Styles */
+.modal-container {
+  @apply bg-gray-800 rounded-xl shadow-xl overflow-hidden max-w-md w-full;
+
+  .modal-header {
+    @apply bg-gray-900 px-6 py-4 flex justify-between items-center;
+
+    .modal-title {
+      @apply text-white font-bold;
+    }
+
+    .modal-close {
+      @apply text-gray-400 hover:text-white;
+    }
+  }
+
+  .modal-body {
+    @apply p-6;
+  }
+
+  .coach-profile {
+    @apply flex items-center mb-6;
+
+    .coach-avatar {
+      @apply w-16 h-16 rounded-full object-cover border-2 border-amber-500 mr-4;
+    }
+
+    .coach-info {
+      h4 {
+        @apply text-white font-bold;
+      }
+
+      .coach-title {
+        @apply text-gray-400 text-sm;
+      }
+    }
+  }
+
+  .feedback-content {
+    @apply bg-gray-700 rounded-lg p-4;
+
+    .feedback-rating {
+      @apply mb-3;
+    }
+
+    .feedback-text {
+      @apply text-gray-300 mb-2;
+    }
+
+    .feedback-date {
+      @apply text-gray-400 text-xs text-right;
+    }
+  }
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-in {
+  animation: fadeIn 0.5s ease-out forwards;
+}

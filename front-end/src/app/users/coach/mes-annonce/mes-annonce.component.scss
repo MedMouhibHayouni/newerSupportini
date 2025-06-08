@@ -1,0 +1,19 @@
+.announcement-container {
+  // Reset any conflicting styles
+  transform: none !important;
+  opacity: 1 !important;
+
+  // Ensure proper layout
+  display: block;
+  min-height: 1px; // Prevent collapse
+
+  // Child component styling
+  app-item-annonce {
+    display: block;
+    height: 100%;
+
+    &.animate-in {
+      // Child component will handle its own animations
+    }
+  }
+}

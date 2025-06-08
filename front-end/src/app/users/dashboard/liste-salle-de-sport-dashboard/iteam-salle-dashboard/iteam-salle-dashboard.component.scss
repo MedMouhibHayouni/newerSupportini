@@ -1,0 +1,13 @@
+.responsive{
+
+}
+.gym-card {
+  transform: translateY(20px);
+  //opacity: 0;
+  transition: all 0.4s ease-out;
+  z-index: 1000;
+
+  &:hover {
+    transform: translateY(-5px) !important;
+  }
+}

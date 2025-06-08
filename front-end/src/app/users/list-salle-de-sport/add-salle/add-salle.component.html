@@ -1,151 +1,244 @@
+<div class="min-h-screen bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-4xl mx-auto bg-gray-800 rounded-xl shadow-2xl overflow-hidden">
+    <!-- Header -->
+    <div class="bg-orange-500 px-6 py-4">
+      <h2 class="text-2xl font-bold text-white">Ajouter Votre Salle de Sport</h2>
+    </div>
 
-<div class=" col-md-12 col-sm-12">
-  <div class="card">
-    <div class="body">
-        <h6 >Ajouter votre salle de sport</h6>
-
-      <form class="form-auth-small m-t-20 mb-3 " ngForm #salleForm="ngForm">
-      <div class="row clearfix">
-        <div class="col-sm-6">
-          <div class="form-group">
-            <input [(ngModel)]="gym.nomSalle" #nomSalleInput  type="text" class="form-control round" name="nomSalle" ngModel #nom="ngModel"  placeholder="Nom Salle De Sport" required  >
-            <input #idinput   type="hidden" [value]="iduser" >
-
-            <div class="invalid-feedback d-block text-left" *ngIf="nom.invalid&&nom.touched&&nom.hasError('required')">
-              Nom salle est obligatoire.
-            </div>
+    <!-- Form -->
+    <form class="p-6 space-y-6" ngForm #salleForm="ngForm">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Gym Name -->
+        <div>
+          <label class="block text-gray-300 text-sm font-medium mb-2">Nom de la Salle</label>
+          <input
+            [(ngModel)]="gym.nomSalle"
+            #nomSalleInput
+            type="text"
+            name="nomSalle"
+            ngModel #nom="ngModel"
+            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            placeholder="Nom Salle De Sport"
+            required>
+          <div *ngIf="nom.invalid && nom.touched && nom.hasError('required')" class="mt-1 text-sm text-red-400">
+            Nom salle est obligatoire.
           </div>
-          <h6 >Votre Adress</h6>
         </div>
-        <div class="col-sm-6">
-          <div class="form-group">
 
-            <input  #numTelinput [(ngModel)]="gym.numTel" type="number" class="form-control round" name="numTel" ngModel #tel="ngModel" placeholder="Numero Telephone" pattern="[0-9]{8,8}"  required>
-            <div class="invalid-feedback d-block text-left" *ngIf="tel.invalid&&tel.touched&&tel.hasError('required')">
-              Numero Telephone est obligatoire.
-            </div>
-            <div class="invalid-feedback d-block text-left" *ngIf="tel.errors?.['pattern']">
-              Numero Telephone doit de longueur 8.
-            </div>
+        <!-- Phone Number -->
+        <div>
+          <label class="block text-gray-300 text-sm font-medium mb-2">Numéro de Téléphone</label>
+          <input
+            #numTelinput
+            [(ngModel)]="gym.numTel"
+            type="number"
+            name="numTel"
+            ngModel #tel="ngModel"
+            class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            placeholder="Numero Telephone"
+            pattern="[0-9]{8,8}"
+            required>
+          <div *ngIf="tel.invalid && tel.touched && tel.hasError('required')" class="mt-1 text-sm text-red-400">
+            Numero Telephone est obligatoire.
           </div>
-          <h6 >Montant Abonnement</h6>
+          <div *ngIf="tel.errors?.['pattern']" class="mt-1 text-sm text-red-400">
+            Numero Telephone doit de longueur 8.
+          </div>
         </div>
       </div>
-      <div class="row clearfix">
 
-        <div class="col-sm-3">
-          <div class="form-group">
-
-            <input  #villeinput [(ngModel)]="gym.ville" type="text" class="form-control round" name="ville" ngModel #ville="ngModel"  placeholder="Ville" required>
-            <div class="invalid-feedback d-block text-left" *ngIf="ville.invalid&&ville.touched&&ville.hasError('required')">
+      <!-- Address Section -->
+      <div class="bg-gray-700/50 p-4 rounded-lg">
+        <h3 class="text-lg font-medium text-orange-500 mb-4">Adresse de la Salle</h3>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- City -->
+          <div>
+            <label class="block text-gray-300 text-sm font-medium mb-2">Ville</label>
+            <input
+              #villeinput
+              [(ngModel)]="gym.ville"
+              type="text"
+              name="ville"
+              ngModel #ville="ngModel"
+              class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              placeholder="Ville"
+              required>
+            <div *ngIf="ville.invalid && ville.touched && ville.hasError('required')" class="mt-1 text-sm text-red-400">
               Ville est obligatoire.
             </div>
-
           </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="form-group">
 
-            <input #rueinput [(ngModel)]="gym.rue" type="text" class="form-control " name="rue" ngModel #rue="ngModel" placeholder="Rue"  required>
-            <div class="invalid-feedback d-block text-left" *ngIf="rue.invalid&&rue.touched&&rue.hasError('required')">
-              rue est obligatoire.
+          <!-- Street -->
+          <div>
+            <label class="block text-gray-300 text-sm font-medium mb-2">Rue</label>
+            <input
+              #rueinput
+              [(ngModel)]="gym.rue"
+              type="text"
+              name="rue"
+              ngModel #rue="ngModel"
+              class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              placeholder="Rue"
+              required>
+            <div *ngIf="rue.invalid && rue.touched && rue.hasError('required')" class="mt-1 text-sm text-red-400">
+              Rue est obligatoire.
             </div>
           </div>
-        </div>
-        <div class="col-sm-3">
-          <div class="form-group">
 
-            <input #prixinput  [(ngModel)]="gym.prix" type="number" class="form-control " name="prix" ngModel #prix="ngModel" [(ngModel)]="montant" placeholder="Montant Mensuel" pattern="[1-9][0-9]{0,}"  required>
-            <div class="invalid-feedback d-block text-left" *ngIf="prix.invalid&&prix.touched&&prix.hasError('required')">
-              Montant Mensuel est obligatoire.
-            </div>
-            <div class="invalid-feedback d-block text-left" *ngIf="prix.errors?.['pattern']">
-              montant doit etre positif.
-            </div>
-          </div>
-        </div>
-
-        <div class="col-sm-6">
-          <div class="form-group">
-
-            <input #postalinput   [(ngModel)]="gym.codePostal" type="number" class="form-control round" name="postal" ngModel #postal="ngModel" placeholder="Code Postal" pattern="[0-9]{4,4}"  required>
-            <div class="invalid-feedback d-block text-left" *ngIf="postal.invalid&&postal.touched&&postal.hasError('required')">
+          <!-- Postal Code -->
+          <div>
+            <label class="block text-gray-300 text-sm font-medium mb-2">Code Postal</label>
+            <input
+              #postalinput
+              [(ngModel)]="gym.codePostal"
+              type="number"
+              name="postal"
+              ngModel #postal="ngModel"
+              class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              placeholder="Code Postal"
+              pattern="[0-9]{4,4}"
+              required>
+            <div *ngIf="postal.invalid && postal.touched && postal.hasError('required')" class="mt-1 text-sm text-red-400">
               Code postal est obligatoire.
             </div>
-            <div class="invalid-feedback d-block text-left" *ngIf="postal.errors?.['pattern']">
-            Code postal de longueur 4.
-          </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-12 mb-2 ">
-          <mat-slider color="warn" class="w-100"  thumbLabel [displayWith]="formatLabel" min="1" max="100" step="1"  aria-label="units" name="slide_pr" [(ngModel)]="value"></mat-slider>
-          <div class="row" *ngIf="montant">
-            <div class="col-md-3 col-12"><span>prix pour 1 mois: {{montant-((value *montant )/100)}} DT</span></div>
-            <div class="col-md-3 col-12"><span>prix pour 3 mois: {{(montant*3)-((value *(montant*3) )/100)}} DT</span></div>
-            <div class="col-md-3 col-12"><span>prix pour 6 mois: {{(montant*6)-((value *(montant*6) )/100)}} DT</span></div>
-            <div class="col-md-3 col-12"><span>prix pour 12 mois: {{(montant*12)-((value *(montant*12) )/100)}} DT</span></div>
+            <div *ngIf="postal.errors?.['pattern']" class="mt-1 text-sm text-red-400">
+              Code postal de longueur 4.
+            </div>
           </div>
         </div>
       </div>
-        <div class="col-md-12  ">
-          <input  multiple="multiple"  type="file" class="dropify" (change)="selectFiles($event)" >
-        </div>
-        <div class="col-sm-12">
-          <div class="form-group mt-3">
-            <textarea  #descriptionInput    [(ngModel)]="gym.description" rows="4" class="form-control " name="description" ngModel #description="ngModel" placeholder="description..." required></textarea>
-            <div class="invalid-feedback d-block text-left" *ngIf="description.invalid&&description.touched&&description.hasError('required')">
-              Description est obligatoire.
-            </div>
 
+      <!-- Pricing Section -->
+      <div class="bg-gray-700/50 p-4 rounded-lg">
+        <h3 class="text-lg font-medium text-orange-500 mb-4">Tarifs d'Abonnement</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Monthly Price -->
+          <div>
+            <label class="block text-gray-300 text-sm font-medium mb-2">Montant Mensuel (DT)</label>
+            <input
+              #prixinput
+              [(ngModel)]="gym.prix"
+              type="number"
+              name="prix"
+              ngModel #prix="ngModel"
+              [(ngModel)]="montant"
+              class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+              placeholder="Montant Mensuel"
+              pattern="[1-9][0-9]{0,}"
+              required>
+            <div *ngIf="prix.invalid && prix.touched && prix.hasError('required')" class="mt-1 text-sm text-red-400">
+              Montant Mensuel est obligatoire.
+            </div>
+            <div *ngIf="prix.errors?.['pattern']" class="mt-1 text-sm text-red-400">
+              Montant doit être positif.
+            </div>
+          </div>
+
+          <!-- Discount Slider -->
+          <div>
+            <label class="block text-gray-300 text-sm font-medium mb-2">Remise sur abonnement long terme</label>
+            <mat-slider
+              color="warn"
+              class="w-full"
+              thumbLabel
+              [displayWith]="formatLabel"
+              min="1"
+              max="100"
+              step="1"
+              aria-label="units"
+              name="slide_pr"
+              [(ngModel)]="value">
+            </mat-slider>
           </div>
         </div>
-        <div class="row clearfix col-md-12 ">
-          <div class="col-md-6">
-            <div class="input-group mb-3">
-              <div class="input-group-prepend">
-                <span class="input-group-text"><i class="icon-globe"></i></span>
-              </div>
-                <input #urlInput [(ngModel)]="gym.url" name="url"  type="text" class="form-control" placeholder="http://">
-            </div>
+
+        <!-- Calculated Prices -->
+        <div *ngIf="montant" class="mt-4 grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-gray-700 p-3 rounded-lg">
+            <p class="text-sm text-gray-400">1 mois</p>
+            <p class="text-lg font-bold text-orange-500">{{montant-((value *montant )/100)}} DT</p>
           </div>
-<!--          <div class="col-md-6">-->
-<!--            <div class="input-group mb-3">-->
-<!--              <div class="input-group-prepend">-->
-<!--                <span class="input-group-text"><i class="fa fa-facebook"></i></span>-->
-<!--              </div>-->
-<!--              <input type="text" class="form-control" placeholder="Facebook">-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="col-md-6">-->
-<!--            <div class="input-group mb-3">-->
-<!--              <div class="input-group-prepend">-->
-<!--                <span class="input-group-text"><i class="fa fa-youtube"></i></span>-->
-<!--              </div>-->
-<!--              <input type="text" class="form-control" placeholder="Youtube">-->
-<!--            </div>-->
-<!--          </div>-->
-<!--          <div class="col-md-6">-->
-<!--            <div class="input-group mb-3">-->
-<!--              <div class="input-group-prepend">-->
-<!--                <span class="input-group-text"><i class="fa fa-instagram"></i></span>-->
-<!--              </div>-->
-<!--              <input type="text" class="form-control" placeholder="Instagram">-->
-<!--            </div>-->
-<!--          </div>-->
+          <div class="bg-gray-700 p-3 rounded-lg">
+            <p class="text-sm text-gray-400">3 mois</p>
+            <p class="text-lg font-bold text-orange-500">{{(montant*3)-((value *(montant*3) )/100)}} DT</p>
+          </div>
+          <div class="bg-gray-700 p-3 rounded-lg">
+            <p class="text-sm text-gray-400">6 mois</p>
+            <p class="text-lg font-bold text-orange-500">{{(montant*6)-((value *(montant*6) )/100)}} DT</p>
+          </div>
+          <div class="bg-gray-700 p-3 rounded-lg">
+            <p class="text-sm text-gray-400">12 mois</p>
+            <p class="text-lg font-bold text-orange-500">{{(montant*12)-((value *(montant*12) )/100)}} DT</p>
+          </div>
         </div>
+      </div>
 
+      <!-- Description -->
+      <div>
+        <label class="block text-gray-300 text-sm font-medium mb-2">Description</label>
+        <textarea
+          #descriptionInput
+          [(ngModel)]="gym.description"
+          rows="4"
+          name="description"
+          ngModel #description="ngModel"
+          class="w-full px-4 py-3 bg-gray-700 border border-gray-600 rounded-lg text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+          placeholder="Décrivez votre salle de sport..."
+          required></textarea>
+        <div *ngIf="description.invalid && description.touched && description.hasError('required')" class="mt-1 text-sm text-red-400">
+          Description est obligatoire.
+        </div>
+      </div>
 
-        <div class="row clearfix col-sm-12 m-5">
-          <button type="submit" class="btn btn-round btn-success"  (click)="createGym()" [disabled]="salleForm.invalid">Valider</button>
-          <button type="submit" class="btn btn-round btn-default" [routerLink]="'/list-salle-de-sport'">Annuler</button>
+      <!-- Website URL -->
+      <div>
+        <label class="block text-gray-300 text-sm font-medium mb-2">Site Web (Optionnel)</label>
+        <div class="flex">
+          <span class="inline-flex items-center px-3 rounded-l-lg border border-r-0 border-gray-600 bg-gray-700 text-gray-400">
+            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+              <path fill-rule="evenodd" d="M12.586 4.586a2 2 0 112.828 2.828l-3 3a2 2 0 01-2.828 0 1 1 0 00-1.414 1.414 4 4 0 005.656 0l3-3a4 4 0 00-5.656-5.656l-1.5 1.5a1 1 0 101.414 1.414l1.5-1.5zm-5 5a2 2 0 012.828 0 1 1 0 101.414-1.414 4 4 0 00-5.656 0l-3 3a4 4 0 105.656 5.656l1.5-1.5a1 1 0 10-1.414-1.414l-1.5 1.5a2 2 0 11-2.828-2.828l3-3z" clip-rule="evenodd"></path>
+            </svg>
+          </span>
+          <input
+            #urlInput
+            [(ngModel)]="gym.url"
+            name="url"
+            type="text"
+            class="flex-1 min-w-0 block w-full px-4 py-3 rounded-r-lg border border-l-0 border-gray-600 bg-gray-700 text-gray-200 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+            placeholder="https://votresalle.com">
         </div>
-      </form>
+      </div>
+
+      <!-- Image Upload -->
+      <div>
+        <label class="block text-gray-300 text-sm font-medium mb-2">Photos de la Salle</label>
+        <div class="border-2 border-dashed border-gray-600 rounded-lg p-4 text-center">
+          <input
+            multiple="multiple"
+            type="file"
+            class="dropify"
+            (change)="selectFiles($event)"
+            data-allowed-file-extensions="jpg jpeg png"
+            data-max-file-size="5M">
+          <p class="mt-2 text-sm text-gray-400">Glissez-déposez des images ou cliquez pour sélectionner</p>
         </div>
-        </div>
+      </div>
+
+      <!-- Form Actions -->
+      <div class="flex justify-end space-x-4 pt-6">
+        <button
+          type="button"
+          [routerLink]="'/list-salle-de-sport'"
+          class="px-6 py-3 border border-gray-600 rounded-lg text-gray-300 hover:bg-gray-700 transition-colors duration-300">
+          Annuler
+        </button>
+        <button
+          type="submit"
+          (click)="createGym()"
+          class="px-6 py-3 bg-orange-500 hover:bg-orange-600 rounded-lg text-white font-medium disabled:opacity-50 disabled:cursor-not-allowed transition-colors duration-300">
+          Enregistrer la Salle
+        </button>
+      </div>
+    </form>
+  </div>
 </div>
-
-
-
-
-
-

@@ -1,151 +1,175 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {Suivis} from "../../../../model/Suivis";
-import {SuiviServiceService} from "../../../../shared-service/suiviService/suivi-service.service";
-import { ModalDismissReasons, NgbDatepickerModule, NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import {list} from "postcss";
-import {FeedbackService} from "../../../../shared-service/feedbackService/feedback.service";
-import {FormBuilder} from "@angular/forms";
-import {Button} from "primeng/button";
-import {Feedback} from "../../../../model/Feedback";
-import {ChartType} from "chart.js";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { Suivis } from "../../../../model/Suivis";
+import { SuiviServiceService } from "../../../../shared-service/suiviService/suivi-service.service";
+import { ModalDismissReasons, NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { FeedbackService } from "../../../../shared-service/feedbackService/feedback.service";
+import { Feedback } from "../../../../model/Feedback";
+import { ChartType, ChartConfiguration } from 'chart.js';
 
 @Component({
   selector: 'app-stats',
   templateUrl: './stats.component.html',
-  styleUrls: ['./stats.component.css']
+  styleUrls: ['./stats.component.scss']
 })
-
-
 export class StatsComponent implements OnInit {
-
-
   suiviss!: any;
   listSuiviByEntr!: any;
   feedbackByIdSuivi!: any;
-  barChartLabels: any;
-  barChartData: any;
-  feedbackGeted!:any;
-  feedbackDataGeted!:any;
- feedbackData = new Feedback();
- getedCoachData:any;
- coachImage:any;
+  getedCoachData: any;
+  coachImage: any;
 
-  @ViewChild('closebutton') closebutton!:any;
-  @ViewChild('content') mymodal: ElementRef | undefined;
-  @ViewChild('tailleInput') tailleInput!: any ;
-  @ViewChild('poidsInput') poidsInput!: any ;
-  @ViewChild('closeModalBtn') closeModalBtn:any;
-
-  closeResult = '';
-   Suivisss=new Suivis();
-   idSuivisss!:any;
-  constructor(private suiviService: SuiviServiceService, private feedbackService: FeedbackService,private modalService: NgbModal) {
-
-  }
-
-  open(content:any) {
-    this.modalService.open(content, { ariaLabelledBy: 'modal-basic-title' }).result.then(
-      (result) => {
-        this.closeResult = `Closed with: ${result}`;
+  // Chart Configuration
+  public barChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    maintainAspectRatio: false,
+    scales: {
+      y: {
+        beginAtZero: true,
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        },
+        ticks: {
+          color: '#bbbec2'
+        }
       },
-      (reason) => {
-        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+      x: {
+        grid: {
+          color: 'rgba(255, 255, 255, 0.1)'
+        },
+        ticks: {
+          color: '#bbbec2'
+        }
+      }
+    },
+    plugins: {
+      legend: {
+        labels: {
+          color: '#bbbec2',
+          font: {
+            size: 14
+          }
+        }
       },
-    );
-  }
-  private getDismissReason(reason: any): string {
-    if (reason === ModalDismissReasons.ESC) {
-      return 'by pressing ESC';
-    } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
-      return 'by clicking on a backdrop';
-    } else {
-      return `with: ${reason}`;
+      tooltip: {
+        backgroundColor: '#2d3748',
+        titleColor: '#ffa117',
+        bodyColor: '#bbbec2',
+        borderColor: '#ffa117',
+        borderWidth: 1
+      }
     }
-  }
-
-
-
-
-  ngAfterViewInit(): void {
-
-    }
-  public barChartOptions = {
-    scaleShowVerticalLines: false,
-    responsive: true
   };
 
-  public barChartType:ChartType = 'bar';
+  public barChartLabels: string[] = [];
+  public barChartData: ChartConfiguration['data'] = {
+    labels: this.barChartLabels,
+    datasets: [{
+      data: [],
+      label: 'BMI',
+      backgroundColor: '#ffa117',
+      borderColor: '#e69115',
+      borderWidth: 1,
+      hoverBackgroundColor: '#ffb347'
+    }]
+  };
+  public barChartType: ChartType = 'bar';
   public barChartLegend = true;
 
-  public onSave() {
-    this.closebutton.nativeElement.click();
-  }
-  getFeedback() {
-    this.feedbackService.getFeedbackByIdSuivi(this.idSuivisss).subscribe((data) => {
-      this.feedbackByIdSuivi = data?.feedbackBySuivi;
+  // Sample recent activities
+  recentActivities = [
+    { name: 'Weight Training', icon: 'fas fa-dumbbell', date: 'Today', duration: 45, calories: 320 },
+    { name: 'Running', icon: 'fas fa-running', date: 'Yesterday', duration: 30, calories: 280 },
+    { name: 'Yoga', icon: 'fas fa-spa', date: '2 days ago', duration: 60, calories: 180 }
+  ];
 
-      //console.log(id_Suivi)
+  @ViewChild('feedbackModal') feedbackModal!: ElementRef;
 
-    });
-  }
-
+  constructor(
+    private suiviService: SuiviServiceService,
+    private feedbackService: FeedbackService,
+    public modalService: NgbModal
+  ) {}
 
   ngOnInit(): void {
-    /*Suivi By id Connected */
+    this.loadInitialData();
+  }
 
-
+  private loadInitialData(): void {
     this.suiviService.getSuiviByIdEntr().subscribe((data) => {
       this.suiviss = data?.suivis;
-      this.feedbackService.getOneFeedbackByIdSuivi(this.suiviss.id).subscribe((data) => {
-        this.feedbackByIdSuivi = data?.feedbackBySuivi;
-        if(this.feedbackByIdSuivi.feedback==''){
-        }else{
-          this.open(this.mymodal)
-        }
-        console.log(data)
-      });
-      console.log(this.suiviss.fk_id_coach)
-      this.suiviService.getCoachBySuivi(this.suiviss?.fk_id_coach).subscribe((data)=>{
-        this.getedCoachData = data?.coachInUser;
-        this.coachImage = this.getedCoachData?.image_name;
-
-        console.log(this?.getedCoachData)
-      });
-      }
-     );
-
-
-
-    // this.suiviService.getSuiviAscByEntr().subscribe((dataSuivi) => {
-    //   let su
-    //   su = dataSuivi.sui;
-    //   if(dataSuivi.sui.id == undefined){
-    //     console.log('undefined Object');
-    //   }else{
-    //     console.log('Ok');
-    //   }
-    //   console.log(typeof su.imc)
-    //
-    // });
+      this.loadCoachFeedback();
+    });
 
     this.suiviService.getSuiviAscByEntr().subscribe((dataset) => {
-      this.listSuiviByEntr = dataset?.sui;
-      let dataofimc= this.listSuiviByEntr.map((a:any)=> a.imc)
-      let dataofDateSuivi= this.listSuiviByEntr.map((a:any)=> a.date_suivi)
-      this.barChartLabels= dataofDateSuivi
-      this.barChartData = [{data: dataofimc, label: 'IMC',
-        backgroundColor: ["#ffa117"],
+      const listSuiviByEntr = dataset?.sui;
+      if (listSuiviByEntr) {
+        this.barChartLabels = listSuiviByEntr.map((a: any) =>
+          new Date(a.date_suivi).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' }));
+        this.barChartData.datasets[0].data = listSuiviByEntr.map((a: any) => a.imc);
       }
-      ];
-
-
-      //console.log(this.listSuiviByEntr)
     });
   }
 
+  private loadCoachFeedback(): void {
+    if (this.suiviss?.id) {
+      this.feedbackService.getOneFeedbackByIdSuivi(this.suiviss.id).subscribe((data) => {
+        this.feedbackByIdSuivi = data?.feedbackBySuivi;
+      });
 
+      if (this.suiviss?.fk_id_coach) {
+        this.suiviService.getCoachBySuivi(this.suiviss.fk_id_coach).subscribe((data) => {
+          this.getedCoachData = data?.coachInUser;
+          this.coachImage = this.getedCoachData?.image_name;
+        });
+      }
+    }
+  }
 
+  // Utility methods
+  calculateBMI(): number {
+    if (this.suiviss?.poids && this.suiviss?.taille) {
+      const heightInMeters = this.suiviss.taille / 100;
+      return this.suiviss.poids / (heightInMeters * heightInMeters);
+    }
+    return 0;
+  }
 
+  getBMIStatus(): string {
+    const bmi = this.calculateBMI();
+    if (bmi < 18.5) return 'Underweight';
+    if (bmi < 25) return 'Normal';
+    if (bmi < 30) return 'Overweight';
+    return 'Obese';
+  }
 
+  getBMIProgress(): number {
+    const bmi = this.calculateBMI();
+    // Assuming ideal BMI is 22 (midpoint of normal range)
+    return Math.min(Math.max((22 / bmi) * 100, 0), 100);
+  }
+
+  calculateFitnessAge(): number {
+    // Simple calculation - can be enhanced with real logic
+    return this.suiviss?.age ? Math.max(this.suiviss.age - 2, 18) : 0;
+  }
+
+  getFeedbackDate(): Date {
+    return this.feedbackByIdSuivi?.date ? new Date(this.feedbackByIdSuivi.date) : new Date();
+  }
+
+  // UI Interactions
+  toggleChartType(): void {
+    this.barChartType = this.barChartType === 'bar' ? 'line' : 'bar';
+  }
+
+  openFeedbackModal(): void {
+    if (this.feedbackByIdSuivi) {
+      this.modalService.open(this.feedbackModal, {
+        size: 'md',
+        centered: true,
+        windowClass: 'modal-animate'
+      });
+    }
+  }
 }

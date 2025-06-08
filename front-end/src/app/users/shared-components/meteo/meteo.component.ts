@@ -1,54 +1,89 @@
-import {Component, OnInit} from '@angular/core';
-import {GeoLocalisationService} from "../../../shared-service/geoLocalisationService/geo-localisation.service";
+import { Component, OnInit } from '@angular/core';
+import { GeoLocalisationService } from "../../../shared-service/geoLocalisationService/geo-localisation.service";
+import { gsap } from 'gsap';
 
 @Component({
   selector: 'app-meteo',
   templateUrl: './meteo.component.html',
-  styleUrls: ['./meteo.component.css']
+  styleUrls: ['./meteo.component.scss']
 })
 export class MeteoComponent implements OnInit {
+  WeatherData: any = {
+    main: {},
+    sys: {},
+    wind: {},
+    isDay: true
+  };
+  currentDate = new Date();
 
-  WeatherData!: any;
-
-  constructor(private geolocalisationservice: GeoLocalisationService) {
-  }
+  constructor(private geolocalisationservice: GeoLocalisationService) {}
 
   ngOnInit(): void {
     this.getLocation();
-    this.WeatherData = {
-      main: {},
-      isDay: true
-    };
-
-
+    this.animateCard();
   }
 
-  getLocation() {
+  animateCard(): void {
+    gsap.from('.weather-card', {
+      opacity: 0,
+      y: 30,
+      duration: 0.8,
+      ease: "power2.out"
+    });
+  }
+
+  getLocation(): void {
     this.geolocalisationservice.getLocationService().then(res => {
-    this.getWeatherData(res.lng, res.lat);
-    }).catch(err =>
-      console.log(err))
+      this.getWeatherData(res.lng, res.lat);
+    }).catch(err => console.log(err));
   }
-  getWeatherData(lng: number, lat: number) {
+
+  getWeatherData(lng: number, lat: number): void {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lng}&appid=6ec9e04e85c0c9f0917e60845016303f`)
       .then(response => response.json())
-      .then(data => {
-        this.setWeatherData(data);
-      })
-    //    let data = JSON.parse('{"coord":{"lon":-0.85,"lat":52.5},"weather":[{"id":803,"main":"Clouds","description":"broken clouds","icon":"04d"}],"base":"stations","main":{"temp":285.29,"feels_like":284.91,"temp_min":284.87,"temp_max":286.03,"pressure":1021,"humidity":90},"visibility":10000,"wind":{"speed":0.89,"deg":158,"gust":3.58},"clouds":{"all":59},"dt":1668349207,"sys":{"type":2,"id":2036206,"country":"GB","sunrise":1668324079,"sunset":1668356050},"timezone":0,"id":2643027,"name":"Market Harborough","cod":200}')
-    // this.setWeatherData({data: data});
+      .then(data => this.setWeatherData(data));
   }
-  setWeatherData(data: any) {
+
+  setWeatherData(data: any): void {
     this.WeatherData = data;
-    let sunsetTime = new Date(this.WeatherData.sys.sunset * 1000);
+    const sunsetTime = new Date(this.WeatherData.sys.sunset * 1000);
     this.WeatherData.sunset_time = sunsetTime.toLocaleTimeString();
-    let currentDate = new Date();
-    this.WeatherData['isDay'] = (currentDate.getTime() < sunsetTime.getTime());
+    const currentDate = new Date();
+    this.WeatherData.isDay = currentDate.getTime() < sunsetTime.getTime();
     this.WeatherData.temp_celcius = (this.WeatherData.main.temp - 273.15).toFixed(0);
     this.WeatherData.temp_min = (this.WeatherData.main.temp_min - 273.15).toFixed(0);
     this.WeatherData.temp_max = (this.WeatherData.main.temp_max - 273.15).toFixed(0);
     this.WeatherData.temp_feels_like = (this.WeatherData.main.feels_like - 273.15).toFixed(0);
   }
 
+  getWeatherDescription(): string {
+    if (!this.WeatherData.weather || !this.WeatherData.weather[0]) return 'Conditions inconnues';
 
+    const descriptions: {[key: string]: string} = {
+      'clear': 'Dégagé',
+      'clouds': 'Nuageux',
+      'rain': 'Pluvieux',
+      'snow': 'Neigeux',
+      'thunderstorm': 'Orage',
+      'drizzle': 'Bruine',
+      'mist': 'Brume',
+      'smoke': 'Fumée',
+      'haze': 'Brume sèche',
+      'dust': 'Poussière',
+      'fog': 'Brouillard',
+      'sand': 'Tempête de sable',
+      'ash': 'Cendres volcaniques',
+      'squall': 'Rafales',
+      'tornado': 'Tornade'
+    };
+
+    return descriptions[this.WeatherData.weather[0].main.toLowerCase()] ||
+           this.WeatherData.weather[0].description;
+  }
+
+  getTime(timestamp: number): string {
+    if (!timestamp) return '--:--';
+    const date = new Date(timestamp * 1000);
+    return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+  }
 }

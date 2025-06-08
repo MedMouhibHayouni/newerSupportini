@@ -1,29 +1,24 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EquipementGymService {
+  private baseUrl = "http://localhost:8080/equipmentGym";
 
-  constructor(private httpClient : HttpClient) { }
+  constructor(private httpClient: HttpClient) { }
 
-  getEquipementGymUrl       :string ="http://localhost:8080/equipmentGym/affiche"
-  getCreateEquipementGymUrl :string ="http://localhost:8080/equipmentGym/create"
-  putUpdateEquipementGymUrl :string ="http://localhost:8080/equipmentGym/update"
-
-
-
-
-  getCreateEquipementGym(id : any, equipement:any){
-    return this.httpClient.post<any>(this.getCreateEquipementGymUrl+"/"+id,equipement)
+  createEquipment(gymId: number, formData: FormData): Observable<any> {
+    return this.httpClient.post(`${this.baseUrl}/create/${gymId}`, formData);
   }
 
-  getEquipementGym(id : any){
-    return this.httpClient.get<any>(this.getEquipementGymUrl+"/"+id)
-  }
-  putUpdateEquipementGym(id : any, equipments:any){
-    return this.httpClient.put<any>(this.putUpdateEquipementGymUrl+"/"+id,equipments)
+  getEquipment(gymId: number): Observable<any> {
+    return this.httpClient.get(`${this.baseUrl}/affiche/${gymId}`);
   }
 
+  updateEquipment(equipmentId: number, equipment: any): Observable<any> {
+    return this.httpClient.put(`${this.baseUrl}/update/${equipmentId}`, equipment);
+  }
 }

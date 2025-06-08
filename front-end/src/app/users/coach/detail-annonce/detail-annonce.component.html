@@ -1,129 +1,112 @@
-<!--<div>-->
-<!--  <ngx-qrcode-->
-<!-- -->
-<!--    [elementType]="elementType"-->
-<!--    [value]="value"-->
-<!--    cssClass="aclass ">-->
-<!--  </ngx-qrcode>-->
-<!--</div>-->
-
-
-
-<div *ngIf="user.fk_idRole==3 && oneannonce.fk_idcoach==idCoach">
-  <button type="button"  class="btn  btnColor" routerLink="/liste-annonce" (click)="supprimerAnnonce()">supprimer</button>
-  <button type="button" class="btn  btnColor" routerLink="/modifierannonce/{{oneannonce.id}}" >Modifier</button>
-  <button type="button" class="btn  btnColor" routerLink="/ajouter-regime/{{oneannonce.id}}" >Ajouter Un Regime</button>
-</div>
-
-<div class="modal" id="exampleModal" tabindex="-1">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Modifier votre annonce</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <a>
-        <app-modifier-annonce></app-modifier-annonce>
-        </a>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" >Annuler</button>
-        <button type="button" class="btn btn-primary">Modifier</button>
-      </div>
-    </div>
+<div class=" min-h-screen py-8 px-4 sm:px-6 lg:px-8">
+  <!-- Action Buttons for Coach -->
+  <div *ngIf="user.fk_idRole==3 && oneannonce.fk_idcoach==idCoach" class="flex space-x-4 mb-6 justify-end">
+    <button type="button"
+            class="px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded-lg transition-colors duration-300"
+            routerLink="/liste-annonce"
+            (click)="supprimerAnnonce()">
+      <i class="fas fa-trash mr-2"></i>Supprimer
+    </button>
+    <button type="button"
+            class="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-white rounded-lg transition-colors duration-300"
+            routerLink="/modifierannonce/{{oneannonce.id}}">
+      <i class="fas fa-edit mr-2"></i>Modifier
+    </button>
+    <button type="button"
+            class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white rounded-lg transition-colors duration-300"
+            routerLink="/ajouter-regime/{{oneannonce.id}}">
+      <i class="fas fa-plus mr-2"></i>Ajouter Un Régime
+    </button>
   </div>
-</div>
 
-<!-------------------------------------------------------------------------------------------------------------------->
-<div class=" container-fluid p-4 ">
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto bg-gray-800 rounded-xl shadow-xl overflow-hidden">
+    <!-- Image and Profile Section -->
+    <div class="md:flex">
+      <!-- Image -->
+      <div class="md:w-1/2 relative">
+        <img class="w-full h-full object-cover"
+             src="http://localhost:8080/public/images/annonce/{{oneannonce.image}}"
+             alt="{{oneannonce.titre}}"
+             #annonceImage>
+        <!-- Price Badge -->
+        <div class="absolute top-4 right-4 bg-amber-500 text-gray-900 font-bold px-4 py-2 rounded-full shadow-lg">
+          {{oneannonce.prix}} TND
+        </div>
+      </div>
 
-  <!--  div 1 image et info generale-->
-  <div  class="row "  >
-    <!--image-->
-    <div class="col-6 " >
-      <img class="d-block w-100" src="http://localhost:8080/public/images/annonce/{{oneannonce.image}}" alt="First slide">
-    </div>
-    <!--profile-->
-    <div class="card social col-6 d-flex " >
-      <div class="profile-header d-flex justify-content-between justify-content-center">
-        <div class="d-flex">
-          <div class="mr-3">
-            <img src="http://localhost:8080/public/images/imageUser/{{user.image_name}}" class="rounded" alt="">
+      <!-- Profile and Info -->
+      <div class="md:w-1/2 p-6 bg-gray-800">
+        <!-- Coach Profile -->
+        <div class="flex items-center mb-6 pb-6 border-b border-gray-700">
+          <img src="http://localhost:8080/public/images/imageUser/{{user.image_name}}"
+               class="w-16 h-16 rounded-full object-cover border-2 border-amber-500 mr-4"
+               alt="{{coachInfo.nom}} {{coachInfo.prenom}}">
+          <div>
+            <a routerLink="/coach-profile/{{coachInfo.id}}" class="text-xl font-bold text-white hover:text-amber-400 transition-colors duration-300">
+              {{coachInfo.nom}} {{coachInfo.prenom}}
+            </a>
+            <div class="flex items-center text-gray-400 mt-1">
+              <i class="fas fa-phone-alt text-amber-500 mr-2"></i>
+              <span>{{coachInfo.phone}}</span>
+            </div>
           </div>
-          <div class="details">
-            <a routerLink="/coach-profile/{{coachInfo.id}}" style="color: white" ><h5 class="mb-0"> {{coachInfo.nom}} {{coachInfo.prenom}}</h5></a>
-            <span class="text-light"> {{coachInfo.phone}}</span>
-
-          </div>
-
-
-
         </div>
 
-      </div>
+        <!-- Annonce Details -->
+        <div class="space-y-4">
+          <div class="bg-gray-700 p-4 rounded-lg">
+            <h2 class="text-2xl font-bold text-white mb-2">{{oneannonce.titre}}</h2>
+            <div class="flex items-center text-amber-400">
+              <i class="fas fa-dumbbell mr-2"></i>
+              <span>{{oneannonce.discipline}}</span>
+            </div>
+          </div>
 
-      <!--information-->
-      <ul class="list-group d-flex ">
-        <li class="list-group-item">
-          <small class="text-muted">Title: </small>
-          <p class="mb-0">{{oneannonce.titre}}</p>
-        </li>
-        <li class="list-group-item">
-          <small class="text-muted">Discipline: </small>
-          <p  class="mb-0">{{oneannonce.discipline}}</p>
-        </li>
-        <li class="list-group-item">
-          <small class="text-muted">Type:</small>
-          <p  class="mb-0">{{oneannonce.type}}</p>
-        </li>
-        <li class="list-group-item">
-          <small class="text-muted">Prix: </small>
-          <p  class="mb-0">{{oneannonce.prix}}</p>
-        </li>
-        <li class="list-group-item">
-          <small class="text-muted">Adresse : </small>
-          <p  class="mb-0">{{oneannonce.rue}},{{oneannonce.codePostal}},{{oneannonce.ville}}</p>
-        </li>
-        <li class="list-group-item">
-          <small class="text-muted">Periode : </small>
-          <p  class="mb-0">{{oneannonce.dateDebut}}  jusqu'a  {{oneannonce.dateDebut}}</p>
-        </li>
-      </ul>
+          <div class="grid grid-cols-2 gap-4">
+            <div class="bg-gray-700 p-3 rounded-lg">
+              <div class="text-gray-400 text-sm">Type</div>
+              <div class="text-white font-medium">{{oneannonce.type}}</div>
+            </div>
+            <div class="bg-gray-700 p-3 rounded-lg">
+              <div class="text-gray-400 text-sm">Ville</div>
+              <div class="text-white font-medium">{{oneannonce.ville}}</div>
+            </div>
+            <div class="bg-gray-700 p-3 rounded-lg">
+              <div class="text-gray-400 text-sm">Adresse</div>
+              <div class="text-white font-medium">{{oneannonce.rue}}, {{oneannonce.codePostal}}</div>
+            </div>
+            <div class="bg-gray-700 p-3 rounded-lg">
+              <div class="text-gray-400 text-sm">Période</div>
+              <div class="text-white font-medium">{{oneannonce.dateDebut}} - {{oneannonce.dateFin}}</div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <!-- Description Section -->
+    <div class="p-6 border-t border-gray-700">
+      <h3 class="text-xl font-bold text-white mb-4">Description</h3>
+      <p class="text-gray-300 leading-relaxed">{{oneannonce.description}}</p>
+    </div>
 
-
-
-
-  </div >
-
-
-
-  <!--   desciption -->
-
-  <div class="list-group-item">
-    <small class="text-muted">Description: </small>
-    <p  class="mb-0">{{oneannonce.description}}</p>
+    <!-- Participate Button -->
+    <div class="p-6 text-center" *ngIf="user.fk_idRole==3 || user.fk_idRole==2 || user.fk_idRole==1">
+      <button (click)="participerAndSuivi()"
+              [routerLink]="'/suiviTrainer'"
+              class="px-8 py-3 bg-amber-500 hover:bg-amber-600 text-white font-bold rounded-full transition-all duration-300 transform hover:scale-105 shadow-lg">
+        Participer à cette séance
+      </button>
+    </div>
   </div>
 
-
-
-  <div class="text-center m-3" >
-    <button type="submit" class="btn  btnColor" (click)="participerAndSuivi()" [routerLink]="'/suiviTrainer'" *ngIf="oneannonce.fk_idcoach!=idCoach" >Participer</button>
+  <!-- Trainer List and Regime List -->
+  <div *ngIf="user.fk_idRole==3" class="mt-8">
+    <app-list-trainer-annonce></app-list-trainer-annonce>
   </div>
 
-
+  <div class="mt-8">
+    <app-listregime></app-listregime>
+  </div>
 </div>
-
- <div *ngIf="user.fk_idRole==3 ">
-   <app-list-trainer-annonce></app-list-trainer-annonce>
- </div>
-
-
-<div>
-  <app-listregime></app-listregime>
-</div>
-
-
-

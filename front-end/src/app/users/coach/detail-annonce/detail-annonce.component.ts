@@ -1,5 +1,5 @@
 
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, ElementRef, Input, OnInit, ViewChild} from '@angular/core';
 import {AnnonceService} from "../../../shared-service/AnnonceService/annonce.service";
 import {Annonce} from "../../../model/annonce";
 
@@ -19,6 +19,8 @@ import {ToastService} from "../../../shared-service/toastService/toast.service";
   styleUrls: ['./detail-annonce.component.css']
 })
 export class DetailAnnonceComponent implements OnInit {
+    @ViewChild('annonceImage') annonceImage!: ElementRef;
+
   // title ='extraqrcode';
   // elementType = NgxQrcodeElementTypes.URL
   // value = 'https://www.facebook.com'
@@ -101,58 +103,30 @@ export class DetailAnnonceComponent implements OnInit {
     }
 
 
+ ngAfterViewInit() {
+    gsap.registerPlugin(ScrollTrigger);
 
+    // Image animation
+    gsap.from(this.annonceImage.nativeElement, {
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.8,
+      ease: "power3.out"
+    });
 
-// import {Component, Input, OnInit} from '@angular/core';
-// import {AnnonceService} from "../../../shared-service/AnnonceService/annonce.service";
-// import {Annonce} from "../../../model/annonce";
-// import {ActivatedRoute} from "@angular/router";
-// import {UserService} from "../../../shared-service/userService/user.service";
-// import {User} from "../../../model/user";
-// @Component({
-//   selector: 'app-detail-annonce',
-//   templateUrl: './detail-annonce.component.html',
-//   styleUrls: ['./detail-annonce.component.css']
-// })
-// export class DetailAnnonceComponent implements OnInit {
-//
-//   user! :User
-//   oneannonce !: Annonce
-//   id!:string
-//   fk_idc!:Number
-// idCoach!:number
-//   iduser!:any
-//   constructor(private serviceAnnonce : AnnonceService, private ac:ActivatedRoute, private userService: UserService) {
-//     this.id  = this.ac.snapshot.params["id"];
-//   }
-//
-//   ngOnInit(): void {
-//
-//     this.serviceAnnonce.getAnnonceById( this.id).subscribe(
-//       (data)=> {this.oneannonce=data.annonceData;
-//         console.log("fkidCoach"+this.oneannonce.fk_idcoach);
-//         this.fk_idc=this.oneannonce.fk_idcoach
-//
-//     }
-//     )
-//
-//     this.user = this.userService.getUser()||JSON.parse(localStorage.getItem("user") || '{}')
-//            this.iduser= this.user.id;
-//     console.log("idsuer"+this.iduser)
-//
-//     this.userService.coachByUser(this.iduser).subscribe(
-//       (data)=>{this.idCoach=data;}
-//     )
-//
-//   }
-//
-//
-//   supprimerAnnonce()
-//   {
-//
-//     this.serviceAnnonce.supprimerannonce(this.id).subscribe()
-//   }
-//
-// }
+    // Section animations
+    gsap.utils.toArray(".bg-gray-700").forEach((section: any) => {
+      gsap.from(section, {
+        scrollTrigger: {
+          trigger: section,
+          start: "top 80%"
+        },
+        opacity: 0,
+        y: 30,
+        duration: 0.6,
+        ease: "back.out"
+      });
+    });
+  }
 
 }

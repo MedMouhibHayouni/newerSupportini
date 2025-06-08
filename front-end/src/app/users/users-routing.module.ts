@@ -29,7 +29,6 @@ import {ModifierAnnonceComponent} from "./coach/modifier-annonce/modifier-annonc
 
 import {SuiviCoachComponent} from "./coach/suivi-coach/suivi-coach.component";
 import {ListEntrComponent} from "./coach/suivi-coach/list-entr/list-entr.component";
-import {DetailsEntrComponent} from "./coach/suivi-coach/details-entr/details-entr.component";
 import {ListTrainerAnnonceComponent} from "./coach/list-trainer-annonce/list-trainer-annonce.component";
 import {AcceuilComponent} from "./acceuil/acceuil.component";
 import {ContactComponent} from "./contact/contact.component";
@@ -47,6 +46,7 @@ import {MesAnnonceComponent} from "./coach/mes-annonce/mes-annonce.component";
 import {ListregimeComponent} from "./coach/listregime/listregime.component";
 import {CoachProfileComponent} from "./coach/coach-profile/coach-profile.component";
 import {CheckoutComponent} from "./commerce/checkout/checkout.component";
+import { ModifierSalleComponent } from './list-salle-de-sport/modifier-salle/modifier-salle.component';
 
 
 
@@ -82,7 +82,6 @@ const routes: Routes = [{
       ]
     },
     {path: 'suiviCoach', component: SuiviCoachComponent,data:{header:'Suivi'}, children: [
-        {path: 'details', component: DetailsEntrComponent,data:{header:'Suivi',second:'Details',route:'suivi'}},
         {path: 'listEntr', component: ListEntrComponent,data:{header:'Suivi',second:'Stats',route:'suivi'}}
       ]
     },
@@ -93,6 +92,7 @@ const routes: Routes = [{
     {path:'list-salle-de-sport',component:ListSalleDeSportComponent,data:{header:'Salles de Sport'}},
     {path:'my-gym',component:MySalleComponent,data:{header:' Mes Salles de Sport'}},
     {path:'detail-salle/:id',component:DetailSalleComponent,canActivate:[GuardSalleGuard],data:{header:'Salles de Sport',second:'Detail',route:'list-salle-de-sport'}},
+      { path: 'modifier-salle/:id', component: ModifierSalleComponent },
     {path:'ajout-salle',component:AddSalleComponent,data:{header:'Salles de Sport',second:'Ajouter',route:'list-salle-de-sport'}},
     {path:'Nos-Produits',component:CommerceComponent,data:{header:'Produits'}},
     {path:'liste-Produit',component:NosProduitsComponent},

@@ -5,7 +5,7 @@ import {sallesport} from "../../../model/salleDeSport";
 @Component({
   selector: 'app-liste-salle-de-sport-dashboard',
   templateUrl: './liste-salle-de-sport-dashboard.component.html',
-  styleUrls: ['./liste-salle-de-sport-dashboard.component.css']
+  styleUrls: ['./liste-salle-de-sport-dashboard.component.scss']
 })
 export class ListeSalleDeSportDashboardComponent implements OnInit {
   responsiveOptions;
@@ -44,4 +44,28 @@ export class ListeSalleDeSportDashboardComponent implements OnInit {
     )
 
   }
+
+  // Add to existing component
+ngAfterViewInit(): void {
+  if (!this.empty) {
+    this.initAnimations();
+  }
+}
+
+initAnimations(): void {
+  gsap.utils.toArray('app-iteam-salle-dashboard').forEach((card: any, index) => {
+    gsap.from(card, {
+      scrollTrigger: {
+        trigger: card,
+        start: "top 80%",
+        toggleActions: "play none none none"
+      },
+      opacity: 0,
+      y: 30,
+      duration: 0.6,
+      delay: index * 0.1,
+      ease: "power2.out"
+    });
+  });
+}
 }

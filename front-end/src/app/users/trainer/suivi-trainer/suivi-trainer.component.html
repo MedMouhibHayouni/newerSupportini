@@ -1,110 +1,99 @@
-<div id="circularMenu" class="circular-menu">
+<div class="min-h-screen text-gray-200 p-4 relative">
+  <!-- Floating Action Button -->
+  <button class="floating-btn fixed bottom-8 right-8 w-16 h-16 bg-amber-500 rounded-full flex items-center justify-center text-white shadow-lg hover:bg-amber-600 transition-all z-50"
+          (click)="showAddSuiviDialog = true">
+    <i class="fas fa-plus text-2xl"></i>
+  </button>
 
-  <a class="floating-btn" onclick="document.getElementById('circularMenu').classList.toggle('active');">
-    <i class="fa fa-plus"></i>
-  </a>
-  <menu class="items-wrapper">
-    <a href="#"></a>
-    <a href="#" class="menu-item fa fa-calculator" data-toggle="modal" data-target="#bmiModal"></a>
-    <a title="Ajouter Suivi" data-toggle="modal" data-target="#myModal" class="menu-item fa fa-hand-dots"></a>
-    <a class="menu-item fa fa-linkedin" data-toggle="modal" data-target="#myModal"></a>
-    <a href="#" class="menu-item fa fa-linkedin"></a>
-  </menu>
+  <!-- Success Message (hidden by default) -->
+  <div class="success-message fixed top-8 left-1/2 transform -translate-x-1/2 -translate-y-20 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg opacity-0 z-50">
+    Suivi added successfully!
+  </div>
 
+  <!-- Add Suivi Dialog -->
+  <div *ngIf="showAddSuiviDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div #addSuiviDialog class="bg-gray-800 rounded-xl max-w-md w-full p-6 relative">
+      <button class="absolute top-4 right-4 text-gray-400 hover:text-white" (click)="closeDialog()">
+        <i class="fas fa-times"></i>
+      </button>
 
-</div>
+      <h2 class="text-2xl font-bold text-amber-500 mb-6 text-center">Add New Tracking</h2>
 
-<!-- Modal -->
-<div id="myModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
+      <form class="space-y-6">
+        <div class="relative">
+          <input type="number" id="poidsInput" name="poidsInput" required
+                 class="w-full bg-gray-700 border-b-2 border-amber-500 py-2 px-3 text-white focus:outline-none focus:border-amber-400 peer">
+          <label class="absolute left-3 top-2 text-gray-400 transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-amber-400 peer-valid:-top-4 peer-valid:text-xs">
+            Weight (kg)
+          </label>
+        </div>
 
-    <!-- Modal content-->
-    <div class="modal-content">
-      <div class="modal-body">
-        <div class="login-box">
-          <h2>Ajouter Nouvell Suivi</h2>
-          <form>
-            <div class="user-box">
-              <input type="number" id="poidsInput" name="poidsInput" required="">
-              <label>Poids</label>
-            </div>
-            <div class="user-box">
-              <input type="number" id="tailleInput" name="tailleInput" required="">
-              <label>Taille</label>
-            </div>
-            <a (click)="addSuivi()" routerLink="/suiviTrainer">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-              <i class="fa fa-send-o"></i>
-            </a>
-          </form>
+        <div class="relative">
+          <input type="number" id="tailleInput" name="tailleInput" required
+                 class="w-full bg-gray-700 border-b-2 border-amber-500 py-2 px-3 text-white focus:outline-none focus:border-amber-400 peer">
+          <label class="absolute left-3 top-2 text-gray-400 transition-all peer-focus:-top-4 peer-focus:text-xs peer-focus:text-amber-400 peer-valid:-top-4 peer-valid:text-xs">
+            Height (cm)
+          </label>
+        </div>
+
+        <button type="button" (click)="addSuivi()"
+                class="w-full bg-amber-500 hover:bg-amber-600 text-white py-2 px-4 rounded-lg transition-all flex items-center justify-center space-x-2">
+          <span>Submit</span>
+          <i class="fas fa-paper-plane"></i>
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- BMI Calculator Dialog -->
+  <div *ngIf="showBmiDialog" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+    <div #bmiDialog class="bg-gray-800 rounded-xl max-w-md w-full p-6 relative">
+      <button class="absolute top-4 right-4 text-gray-400 hover:text-white" (click)="closeDialog()">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <h2 class="text-2xl font-bold text-amber-500 mb-6 text-center">BMI Calculator</h2>
+
+      <div class="bmi-scale bg-gray-700 rounded-lg p-6 mb-6">
+        <div class="scale-display relative h-40 mb-8">
+          <div class="scale-bg absolute inset-0 bg-gradient-to-r from-red-500 via-yellow-500 to-red-500 rounded-full opacity-20"></div>
+          <div id="needle" class="absolute bottom-0 left-1/2 w-1 h-24 bg-amber-500 transform -translate-x-1/2 origin-bottom"></div>
+          <div id="needle-bottom" class="absolute bottom-0 left-1/2 w-4 h-4 bg-amber-500 rounded-full transform -translate-x-1/2"></div>
+
+          <div *ngIf="bmiValue" class="bmi-result absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-center">
+            <div class="text-3xl font-bold text-amber-500">{{bmiValue}}</div>
+            <div class="text-sm">{{bmiCalcul}}</div>
+          </div>
+        </div>
+
+        <div class="space-y-4">
+          <div>
+            <label class="block text-gray-400 mb-2">Height (cm)</label>
+            <input type="number" [(ngModel)]="heightCalcul" name="height"
+                   class="w-full bg-gray-700 border border-gray-600 rounded-lg py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
+          </div>
+
+          <div>
+            <label class="block text-gray-400 mb-2">Weight (kg)</label>
+            <input type="number" [(ngModel)]="weightCalcul" name="weight"
+                   class="w-full bg-gray-700 border border-gray-600 rounded-lg py-2 px-3 text-white focus:outline-none focus:ring-2 focus:ring-amber-500">
+          </div>
         </div>
       </div>
 
-    </div>
-
-  </div>
-</div>
-
-<div id="bmiModal" class="modal fade" role="dialog">
-  <div class="modal-dialog">
-
-    <!-- Modal content-->
-    <div class="modal-content top 50">
-      <div class="modal-body">
-        <div class="login-box">
-          <h2>Calculatrice du IMC</h2>
-          <form>
-            <div class="user-box">
-              <div id="scale_main">
-                <div class="align-center" id="scale_display">
-                  <h3 class="align-center" id="bmi" *ngIf="bmiValue">{{bmiCalcul}}</h3>
-                  <h3 class="align-center" id="bmiValue" *ngIf="bmiValue">{{bmiValue}}</h3>
-                  <div id="needle">
-                  </div>
-                  <div id="needle_bottom">
-                  </div>
-                </div>
-
-                <div class="measurement" id="height">
-                  <h4>Height</h4>
-                  <input type="number" name="height"[(ngModel)]="heightCalcul" />
-                  <span class="unit">Inches</span>
-                </div>
-                <div class="measurement" id="weight">
-                  <h4>Weight</h4>
-                  <input class="input" type="number" id="weight_input" name="weight" [(ngModel)]="weightCalcul" required/>
-                  <span class="unit">Pounds</span>
-                </div>
-
-                <div>
-                  <button id="calculate"
-                         (click)="calculateBMI()">
-                    CALCULATE
-                  </button>
-                  <button id="clear" type="delete" >CLEAR</button>
-                </div>
-                <a>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <span></span>
-                  <i class="fa fa-send-o"></i>
-                </a>
-              </div>
-              </div>
-          </form>
-        </div>
+      <div class="flex space-x-4">
+        <button (click)="calculateBMI()"
+                class="flex-1 bg-amber-500 hover:bg-amber-600 text-white py-2 px-4 rounded-lg transition-all">
+          Calculate
+        </button>
+        <button type="button" (click)="closeDialog()"
+                class="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-2 px-4 rounded-lg transition-all">
+          Close
+        </button>
       </div>
-
     </div>
-
   </div>
+
+  <!-- Main Content -->
+  <app-suivi-tab></app-suivi-tab>
 </div>
-
-
-<app-suivi-tab></app-suivi-tab>
-
-

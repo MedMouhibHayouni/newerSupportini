@@ -9,239 +9,297 @@ import { gsap } from 'gsap';
   templateUrl: './acceuil.component.html',
   styleUrls: ['./acceuil.component.scss']
 })
-export class AcceuilComponent{
-  @ViewChild('hero', { static: true }) hero!: ElementRef;
-  @ViewChild('heroVideo', { static: true }) heroVideo!: ElementRef;
+export class AcceuilComponent implements OnInit {
+  constructor() { }
+
+  ngOnInit(): void {
+    gsap.registerPlugin(ScrollTrigger, TextPlugin);
+  }
 
   ngAfterViewInit(): void {
-    gsap.registerPlugin(ScrollTrigger, TextPlugin);
-
-    this.initHeroAnimations();
+    this.initAnimations();
     this.initScrollAnimations();
-    this.initServiceCardAnimations();
-    this.initStatCounters();
-    this.initTestimonialAnimations();
-    this.initContinuousAnimations();
   }
 
-  initHeroAnimations(): void {
-    // Hero video parallax effect
-    gsap.to(this.heroVideo.nativeElement, {
-      scale: 1.2,
-      scrollTrigger: {
-        trigger: this.hero.nativeElement,
-        start: "top top",
-        end: "bottom top",
-        scrub: true
-      }
-    });
+  private initAnimations(): void {
+    // Hero section animations
+    this.animateHeroSection();
 
-    // Hero content animations
-    const tl = gsap.timeline();
+    // Animate floating circles
+    this.animateFloatingCircles();
 
-    // Badge animation
-    tl.from("#hero-badge", {
+    // Video parallax effect
+    this.setupVideoParallax();
+  }
+
+  private initScrollAnimations(): void {
+    // Stats counter animation
+    this.animateStatsCounter();
+
+    // Features animation
+    this.animateFeatures();
+
+    // Services animation
+    this.animateServices();
+
+    // Testimonials animation
+    this.animateTestimonials();
+
+    // Pricing animation
+    this.animatePricing();
+  }
+
+  private animateHeroSection(): void {
+    // Hero badge animation
+    gsap.from('#hero-badge', {
+      duration: 1,
       y: -50,
       opacity: 0,
-      duration: 0.8,
-      ease: "back.out(1.7)"
+      ease: 'back.out(1.7)',
+      delay: 0.3
     });
 
-    // Headline character animation
-    tl.from("#headline-part1, #headline-part2", {
-      y: 80,
-      opacity: 0,
-      duration: 1.2,
-      stagger: 0.15,
-      ease: "power4.out"
-    }, "-=0.5");
-
-    // Text animation
-    tl.to("#hero-text", {
-      opacity: 1,
-      duration: 0.8,
-      ease: "power2.out"
-    }, "-=0.8");
-
-    // Buttons animation
-    tl.from("#hero-buttons button", {
+    // Headline animation
+    gsap.from('#headline-part1', {
+      duration: 1,
       y: 50,
       opacity: 0,
-      duration: 0.8,
-      stagger: 0.1,
-      ease: "back.out(1.7)"
-    }, "-=0.6");
-
-    // Users animation
-    tl.to("#hero-users", {
-      opacity: 1,
-      duration: 0.8,
-      ease: "power2.out"
-    }, "-=0.4");
-  }
-
-  initScrollAnimations(): void {
-    // Services section title
-    gsap.from("#services-title", {
-      scrollTrigger: {
-        trigger: "#services",
-        start: "top 80%",
-        toggleActions: "play none none none"
-      },
-      y: 50,
-      opacity: 0,
-      duration: 0.8,
-      ease: "power3.out"
-    });
-
-    // Services subtitle
-    gsap.from("#services-subtitle", {
-      scrollTrigger: {
-        trigger: "#services",
-        start: "top 80%",
-        toggleActions: "play none none none"
-      },
-      y: 30,
-      opacity: 0,
-      delay: 0.3,
-      duration: 0.8,
-      ease: "power2.out"
-    });
-
-    // Service cards staggered animation
-    gsap.from(".service-card", {
-      scrollTrigger: {
-        trigger: "#services",
-        start: "top 70%",
-        toggleActions: "play none none none"
-      },
-      y: 100,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "back.out(1.7)"
-    });
-  }
-
-  initServiceCardAnimations(): void {
-    // Hover animations for service cards
-    document.querySelectorAll('.service-card').forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        gsap.to(card, {
-          y: -10,
-          duration: 0.3,
-          ease: "power2.out"
-        });
-        gsap.to(card.querySelector('.service-icon'), {
-          rotation: 360,
-          duration: 0.6,
-          ease: "power2.out"
-        });
-      });
-
-      card.addEventListener('mouseleave', () => {
-        gsap.to(card, {
-          y: 0,
-          duration: 0.3,
-          ease: "power2.out"
-        });
-      });
-    });
-  }
-
-  initStatCounters(): void {
-    // Animate counting numbers
-    document.querySelectorAll('.stat-number').forEach(number => {
-      const target = parseInt(number.getAttribute('data-target') || '0');
-      const suffix = number.getAttribute('data-suffix') || '';
-
-      gsap.to(number, {
-        scrollTrigger: {
-          trigger: number,
-          start: "top 80%",
-          toggleActions: "play none none none"
-        },
-        innerText: target,
-        duration: 2,
-        snap: { innerText: 1 },
-        modifiers: {
-          innerText: value => Math.floor(parseFloat(value)) + suffix
-        },
-        ease: "power1.out"
-      });
-    });
-  }
-
-  initTestimonialAnimations(): void {
-    // Testimonial cards animation
-    gsap.from(".testimonial-card", {
-      scrollTrigger: {
-        trigger: ".testimonials",
-        start: "top 70%",
-        toggleActions: "play none none none"
-      },
-      y: 80,
-      opacity: 0,
-      duration: 0.8,
-      stagger: 0.15,
-      ease: "back.out(1.7)"
-    });
-
-    // Hover effect for testimonials
-    document.querySelectorAll('.testimonial-card').forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        gsap.to(card, {
-          y: -5,
-          boxShadow: "0 20px 25px -5px rgba(255, 161, 23, 0.1), 0 10px 10px -5px rgba(255, 161, 23, 0.04)",
-          duration: 0.3
-        });
-      });
-
-      card.addEventListener('mouseleave', () => {
-        gsap.to(card, {
-          y: 0,
-          boxShadow: "none",
-          duration: 0.3
-        });
-      });
-    });
-  }
-
-  initContinuousAnimations(): void {
-    // Floating circles in hero
-    gsap.to(".animate-float-1", {
-      y: -20,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
-    });
-
-    gsap.to(".animate-float-2", {
-      y: -30,
-      duration: 4,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
+      ease: 'power3.out',
       delay: 0.5
     });
 
-    gsap.to(".animate-float-3", {
-      y: -25,
-      duration: 5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      delay: 1
+    gsap.from('#headline-part2', {
+      duration: 1,
+      y: 50,
+      opacity: 0,
+      ease: 'power3.out',
+      delay: 0.8
     });
 
-    // Pulse animation for featured elements
-    gsap.to(".animate-pulse-slow", {
-      scale: 1.1,
+    // Hero text animation
+    gsap.to('#hero-text', {
+      duration: 1,
+      opacity: 1,
+      x: 20,
+      ease: 'power2.out',
+      delay: 1.3
+    });
+
+    // Buttons animation
+    gsap.to('#hero-buttons', {
+      duration: 1,
+      opacity: 1,
+      y: -20,
+      ease: 'power2.out',
+      delay: 1.6
+    });
+
+    // Users animation
+    gsap.to('#hero-users', {
+      duration: 1,
+      opacity: 1,
+      y: -20,
+      ease: 'power2.out',
+      delay: 1.9
+    });
+
+    // Scroll indicator animation
+    gsap.from('#scroll-indicator', {
       duration: 2,
+      y: -20,
+      opacity: 0,
+      ease: 'power1.inOut',
+      delay: 2.5,
       repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut"
+      yoyo: true
+    });
+  }
+
+  private animateFloatingCircles(): void {
+    // Floating circle animations
+    gsap.to('.animate-float-1', {
+      duration: 8,
+      y: '+=40',
+      x: '+=30',
+      rotation: '+=360',
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true
+    });
+
+    gsap.to('.animate-float-2', {
+      duration: 10,
+      y: '+=50',
+      x: '-=40',
+      rotation: '-=360',
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true
+    });
+
+    gsap.to('.animate-float-3', {
+      duration: 12,
+      y: '-=60',
+      x: '+=50',
+      rotation: '+=180',
+      ease: 'sine.inOut',
+      repeat: -1,
+      yoyo: true
+    });
+  }
+
+  private setupVideoParallax(): void {
+    gsap.to('#hero-video', {
+      scrollTrigger: {
+        trigger: '#hero',
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true
+      },
+      y: 100,
+      scale: 1.05,
+      ease: 'none'
+    });
+  }
+
+  private animateStatsCounter(): void {
+    const statItems = document.querySelectorAll('.stat-item');
+
+    statItems.forEach((item, index) => {
+      gsap.from(item, {
+        scrollTrigger: {
+          trigger: '#stats',
+          start: 'top 75%',
+          toggleActions: 'play none none none'
+        },
+        duration: 1,
+        y: 50,
+        opacity: 0,
+        ease: 'power2.out',
+        delay: index * 0.2
+      });
+    });
+
+    // Counter animation
+    const counters = document.querySelectorAll('.stat-number');
+    const speed = 200;
+
+    counters.forEach(counter => {
+      const dataTarget = counter.getAttribute('data-target');
+      const target = dataTarget !== null ? +dataTarget : 0;
+      const count = +(counter as HTMLElement).innerText;
+      const increment = target / speed;
+
+      const updateCount = () => {
+        const currentCount = +(counter as HTMLElement).innerText;
+
+        if (currentCount < target) {
+          (counter as HTMLElement).innerText = Math.ceil(currentCount + increment).toString();
+          setTimeout(updateCount, 1);
+        } else {
+          (counter as HTMLElement).innerText = target.toString();
+        }
+      };
+
+      ScrollTrigger.create({
+        trigger: counter,
+        start: 'top 80%',
+        onEnter: updateCount,
+        once: true
+      });
+    });
+  }
+
+  private animateFeatures(): void {
+    gsap.utils.toArray('.feature-item').forEach((item: any, index) => {
+      gsap.from(item, {
+        scrollTrigger: {
+          trigger: item,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        },
+        duration: 0.8,
+        x: index % 2 === 0 ? -50 : 50,
+        opacity: 0,
+        ease: 'power2.out',
+        delay: index * 0.15
+      });
+    });
+
+    gsap.from('.features-image', {
+      scrollTrigger: {
+        trigger: '.features-image',
+        start: 'top 75%',
+        toggleActions: 'play none none none'
+      },
+      duration: 1,
+      scale: 0.9,
+      opacity: 0,
+      ease: 'power3.out'
+    });
+
+    gsap.from('.feature-badge', {
+      scrollTrigger: {
+        trigger: '.feature-badge',
+        start: 'top 75%',
+        toggleActions: 'play none none none'
+      },
+      duration: 0.8,
+      y: 30,
+      rotation: -15,
+      opacity: 0,
+      ease: 'back.out(1.7)'
+    });
+  }
+
+  private animateServices(): void {
+    gsap.utils.toArray('.service-card').forEach((card: any, index) => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: '#services',
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        },
+        duration: 0.8,
+        y: 50,
+        opacity: 0,
+        ease: 'power2.out',
+        delay: index * 0.15
+      });
+    });
+  }
+
+  private animateTestimonials(): void {
+    gsap.utils.toArray('.testimonial-card').forEach((card: any, index) => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        },
+        duration: 0.8,
+        y: 50,
+        opacity: 0,
+        ease: 'power2.out',
+        delay: index * 0.15
+      });
+    });
+  }
+
+  private animatePricing(): void {
+    gsap.utils.toArray('.pricing-card').forEach((card: any, index) => {
+      gsap.from(card, {
+        scrollTrigger: {
+          trigger: card,
+          start: 'top 80%',
+          toggleActions: 'play none none none'
+        },
+        duration: 0.8,
+        y: 50,
+        opacity: 0,
+        ease: 'power2.out',
+        delay: index * 0.15
+      });
     });
   }
 }

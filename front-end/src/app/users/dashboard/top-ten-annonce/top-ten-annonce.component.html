@@ -1,21 +1,14 @@
+<div class="space-y-6">
 
 
-<div class=" card d-flex flex-wrap justify-content-around  " *ngIf="listAnnonces.length!=0">
-
-  <div  class=" body col-md-9 col-12  d-flex flex-wrap  ">
-    <div   *ngFor="let annonce of listAnnonces" class="col-4 ">
-
-
-      <div  routerLink="/detail-annonce/{{annonce.id}}">
-
-        <app-item-annonce [annonce]="annonce"></app-item-annonce>
-      </div>
-
-
-
-    </div>
-
+  <div *ngIf="listAnnonces.length === 0" class="text-center py-8 bg-gray-800 rounded-xl">
+    <i class="fas fa-bullhorn text-5xl text-amber-500 mb-4"></i>
+    <p class="text-gray-300">Aucune annonce disponible pour le moment</p>
   </div>
 
+  <div *ngIf="listAnnonces.length > 0" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div *ngFor="let annonce of listAnnonces" class="annonce-card">
+      <app-item-annonce [annonce]="annonce"></app-item-annonce>
+    </div>
+  </div>
 </div>
-

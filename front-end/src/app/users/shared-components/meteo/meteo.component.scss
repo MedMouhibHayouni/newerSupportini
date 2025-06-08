@@ -1,0 +1,19 @@
+.weather-compact {
+  transition: all 0.3s ease;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+
+  .weather-icon {
+    min-width: 40px;
+    text-align: center;
+  }
+
+  .weather-details {
+    span {
+      color: #bbbec2;
+    }
+  }
+}

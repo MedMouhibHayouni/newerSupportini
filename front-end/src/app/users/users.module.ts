@@ -43,9 +43,7 @@ import { ItemPlanningDashboardComponent } from './dashboard/list-planning-dashbo
 import {NgChartsModule} from "ng2-charts";
 import { SuiviCoachComponent } from './coach/suivi-coach/suivi-coach.component';
 import { ListEntrComponent } from './coach/suivi-coach/list-entr/list-entr.component';
-import { DetailsEntrComponent } from './coach/suivi-coach/details-entr/details-entr.component';
 import {ContactComponent} from "./contact/contact.component";
-import {AboutUsComponent} from "./about-us/about-us.component";
 import {NosProduitsComponent} from "./commerce/nos-produits/nos-produits.component";
 import {CommerceComponent} from "./commerce/commerce.component";
 import {DetailProduitComponent} from "./commerce/detail-produit/detail-produit.component";
@@ -74,6 +72,7 @@ import timeGridPlugin from '@fullcalendar/timegrid';
 import interactionPlugin from "@fullcalendar/interaction";
 import { CoachProfileComponent } from './coach/coach-profile/coach-profile.component';
 import {NgbDatepickerModule} from "@ng-bootstrap/ng-bootstrap";
+import { AboutUsComponent } from './about-us/about-us.component';
 
 
 
@@ -110,9 +109,7 @@ FullCalendarModule.registerPlugins([
     ItemPlanningDashboardComponent,
     SuiviCoachComponent,
     ListEntrComponent,
-    DetailsEntrComponent,
     ContactComponent,
-    AboutUsComponent,
     NosProduitsComponent,
     CommerceComponent,
     DetailProduitComponent,
@@ -128,7 +125,8 @@ FullCalendarModule.registerPlugins([
 
     MesAnnonceComponent,
     ListregimeComponent,
-    CoachProfileComponent
+    CoachProfileComponent,
+    AboutUsComponent
   ],
   imports: [
     CommonModule,

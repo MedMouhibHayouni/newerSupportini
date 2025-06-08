@@ -15,7 +15,7 @@ const MIME_TYPES = {
 const storage =multer.diskStorage({
     destination: (req, file, callback) => {
         callback(null, './public/images');
-        callback(null,'C:/Users/GIGABYTE/Documents/Supportini/SupportiniDesk/src/gui/uicontrolers/imagesproduits')
+        //callback(null,'C:/Users/GIGABYTE/Documents/Supportini/SupportiniDesk/src/gui/uicontrolers/imagesproduits')
     },
     filename: (req, file, callback) => {
 

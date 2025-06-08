@@ -1,5 +1,8 @@
-<mat-tab-group mat-align-tabs="center" animationDuration="0">
-  <mat-tab class="tabs" label="Suivi"><app-stats></app-stats></mat-tab>
-  <mat-tab class="tabs" label="Historique"><app-history></app-history></mat-tab>
+<mat-tab-group mat-align-tabs="center" animationDuration="200" class="rounded-lg overflow-hidden">
+  <mat-tab label="Tracking" class="p-4">
+    <app-stats class="block mt-4"></app-stats>
+  </mat-tab>
+  <mat-tab label="History" class="p-4">
+    <app-history class="block mt-4"></app-history>
+  </mat-tab>
 </mat-tab-group>
-

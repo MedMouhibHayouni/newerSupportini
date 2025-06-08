@@ -8,31 +8,38 @@ const Op = db.Sequelize.Op;
 
 
 // ajouter salle de sport avec pluseur image //
-const createGym = async (req , res, next) => {
-    const id  = req.user.id;
-    console.log(req.user)
+const createGym = async (req, res) => {
+  const { nomSalle, numTel, ville, rue, codePostal, description, prix, url } = req.body;
 
-    const {nomSalle,numTel,ville,rue,codePostal,description,prix,url}=req.body
+  try {
+    const imageVitrine = req.files && req.files.length > 0 ? req.files[0].filename : null;
 
-    try {
+    const newGym = await sallesport.create({
+      nomSalle,
+      numTel,
+      ville,
+      rue,
+      codePostal,
+      description,
+      prix,
+      url,
+      imageVitrine
+    });
 
-        const image=req.files[0].filename;
-      const  newGym = await sallesport.create({ nomSalle,numTel,ville,rue,codePostal,description,prix,url,imageVitrine:image,fk_idUser: id})
-       if(newGym){
-           console.log(req.files)
-           if(req.files.length!=0){
-
-               for (const el of req.files) {
-                   await  imagesalle.create({imageVitrine:el.filename,fk_idsallesport:newGym.id})
-               }
-
-           }
-
-       }
-        return  res.status(201).json({message: "salle de sport ajouter", newGym})
-    }catch (error){
-        res.status(500).json({"error":error.message})
+    if (newGym && req.files && req.files.length > 1) {
+      for (let i = 1; i < req.files.length; i++) {
+        await imagesalle.create({
+          imageVitrine: req.files[i].filename,
+          fk_idsallesport: newGym.id
+        });
+      }
     }
+
+    return res.status(201).json({ message: "Salle de sport ajoutée", newGym });
+  } catch (error) {
+    console.error("Erreur lors de l'ajout de la salle:", error.message);
+    return res.status(500).json({ error: error.message });
+  }
 };
 ///////////
 // const postPlusImagesGym = async (req,res,next) =>{

@@ -1,0 +1,103 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+
+/* Custom styles */
+.gallery-thumbnail {
+  transition: all 0.3s ease;
+  &:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(255, 161, 23, 0.3);
+  }
+}
+
+.equipment-card {
+  transition: all 0.3s ease;
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(255, 161, 23, 0.2);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2d3748;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ffa117;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #e69115;
+}
+
+/* Animation for price table */
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+}
+
+.price-table {
+  animation: pulse 3s ease-in-out infinite;
+}
+
+/* Lightgallery custom styles */
+.lg-backdrop {
+  background-color: rgba(0, 0, 0, 0.9);
+}
+
+.lg-toolbar {
+  background-color: transparent;
+}
+
+.lg-actions .lg-next, .lg-actions .lg-prev {
+  background-color: rgba(255, 161, 23, 0.5);
+  &:hover {
+    background-color: rgba(255, 161, 23, 0.8);
+  }
+}
+
+
+/* Dialog styles */
+dialog {
+  border: none;
+  &::backdrop {
+    background: rgba(0, 0, 0, 0.7);
+  }
+
+  /* Animation */
+  &[open] {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  /* Close button */
+  [data-close] {
+    cursor: pointer;
+    transition: transform 0.2s ease;
+    &:hover {
+      transform: scale(1.1);
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

@@ -6,7 +6,7 @@ import {User} from "../../../model/user";
 @Component({
   selector: 'app-top-ten-annonce',
   templateUrl: './top-ten-annonce.component.html',
-  styleUrls: ['./top-ten-annonce.component.css']
+  styleUrls: ['./top-ten-annonce.component.scss']
 })
 export class TopTenAnnonceComponent implements OnInit {
   @Input()user!:User

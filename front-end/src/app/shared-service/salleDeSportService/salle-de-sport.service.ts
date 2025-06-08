@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {config} from "rxjs";
+import {config, map} from "rxjs";
 import {sallesport} from "../../model/salleDeSport";
 
 @Injectable({
@@ -22,9 +22,35 @@ export class SalleDeSportService {
   postImageGymUrl     : string = "http://localhost:8080/gym/updateImageGym"
   getImagesGymUrl     : string = "http://localhost:8080/gym/imagesGym"
 
-  getAllGym(){
-  return this.httpClient.get<any>(this.getGymUrl)
+getAllGym() {
+  return this.httpClient.get<any>(this.getGymUrl).pipe(
+    map(response => {
+      // Clean the data by removing escaped quotes
+      if (Array.isArray(response)) {
+        return response.map((gym: any) => this.cleanGymData(gym));
+      }
+      return response;
+    })
+  );
 }
+
+private cleanGymData(gym: any): any {
+  return {
+    ...gym,
+    nomSalle: this.cleanString(gym.nomSalle),
+    ville: this.cleanString(gym.ville),
+    rue: this.cleanString(gym.rue),
+    description: this.cleanString(gym.description)
+    // Add other fields as needed
+  };
+}
+
+private cleanString(value: string): string {
+  if (!value) return value;
+  return value.replace(/^"(.*)"$/, '$1');
+}
+
+
   getGymSoetedAsc(){
     return this.httpClient.get<any>(this.getGymSoetedAscUrl)
   }

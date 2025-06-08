@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {config} from "rxjs";
+import {catchError, config, Observable, throwError} from "rxjs";
 import {Annonce} from "../../model/annonce";
 @Injectable({
   providedIn: 'root'
@@ -8,7 +8,8 @@ import {Annonce} from "../../model/annonce";
 export class AnnonceService {
 
   constructor(private httpClient: HttpClient ) { }
-  getAllAnnoncesUrl: string = "http://localhost:8080/annonce/affiche"
+  apiUrl: string = "http://localhost:8080/annonce";
+  getAllAnnoncesUrl: string = "http://localhost:8080/annonce/debug/all-annonces"
   createAnnonceUrl: string = "http://localhost:8080/annonce/create"
   getAnnonceByIdUrl: string = "http://localhost:8080/annonce/afficheById"
   modifierUrl: string = "http://localhost:8080/annonce/update"
@@ -37,9 +38,22 @@ pariciperUrl:string="http://localhost:8080/annonce/participer"
   }
 
 
-  createAnnonce(a:any){
-    return this.httpClient.post(this.createAnnonceUrl,a)
-  }
+createAnnonce(formData: FormData): Observable<any> {
+    // Verify the FormData structure
+    formData.forEach((value, key) => {
+        console.log(key, value);
+    });
+
+    return this.httpClient.post(`${this.apiUrl}/create`, formData, {
+        reportProgress: true,
+        observe: 'events'
+    }).pipe(
+        catchError(error => {
+            console.error('Error:', error);
+            return throwError(error);
+        })
+    );
+}
 
   getAnnonceById(id : any){
 

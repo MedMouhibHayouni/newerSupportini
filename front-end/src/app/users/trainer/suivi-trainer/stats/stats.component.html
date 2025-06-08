@@ -1,90 +1,200 @@
-<div class="row clearfix overflow-hidden" xmlns="http://www.w3.org/1999/html">
-  <div class="col-6 col-md-4">
-    <div class="card">
-      <div class="body">
-        <div class="d-flex align-items-center justify-content-center">
-          <div class="icon-in-bg bg-indigo text-white text-large rounded-circle"><i class="fa fa-ruler-vertical"><i
-            class="fa fa-person"></i></i></div>
-          <div class="ml-4">
-            <span>Taille</span>
-            <h4 class="mb-0 font-weight-medium">{{suiviss?.taille}} cm</h4>
+<div class="stats-container p-4 md:p-6 space-y-6">
+  <!-- Header with User Info -->
+  <div
+    class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6"
+  >
+    <div>
+      <h1 class="text-2xl font-bold text-white">Fitness Statistics</h1>
+      <p class="text-amber-400">Track your progress and achievements</p>
+    </div>
+    <div class="mt-4 md:mt-0">
+      <button (click)="openFeedbackModal()" class="feedback-button">
+        <i class="fas fa-comment-alt mr-2"></i> View Coach Feedback
+      </button>
+    </div>
+  </div>
+
+  <!-- Stats Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+    <!-- Height Card -->
+    <div class="stat-card bg-gradient-to-br from-gray-800 to-gray-900">
+      <div class="stat-icon">
+        <i class="fas fa-ruler-vertical"></i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Height</p>
+        <h3 class="stat-value">{{ suiviss?.taille }} cm</h3>
+        <div class="stat-trend">
+          <i class="fas fa-arrow-up text-green-400"></i>
+          <span class="text-xs text-gray-400 ml-1">+2cm since start</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Weight Card -->
+    <div class="stat-card bg-gradient-to-br from-gray-800 to-gray-900">
+      <div class="stat-icon">
+        <i class="fas fa-weight-scale"></i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Weight</p>
+        <h3 class="stat-value">{{ suiviss?.poids }} kg</h3>
+        <div class="stat-trend">
+          <i class="fas fa-arrow-down text-red-400"></i>
+          <span class="text-xs text-gray-400 ml-1">-5kg last month</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- BMI Card -->
+    <div class="stat-card bg-gradient-to-br from-gray-800 to-gray-900">
+      <div class="stat-icon">
+        <i class="fas fa-heartbeat"></i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">BMI</p>
+        <h3 class="stat-value">{{ calculateBMI() | number : "1.1-1" }}</h3>
+        <div class="stat-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" [style.width.%]="getBMIProgress()"></div>
           </div>
+          <span class="text-xs text-gray-400">{{ getBMIStatus() }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Age Card -->
+    <div class="stat-card bg-gradient-to-br from-gray-800 to-gray-900">
+      <div class="stat-icon">
+        <i class="fas fa-birthday-cake"></i>
+      </div>
+      <div class="stat-content">
+        <p class="stat-label">Age</p>
+        <h3 class="stat-value">{{ suiviss?.age }} years</h3>
+        <div class="stat-meta">
+          <span class="text-xs text-gray-400"
+            >Fitness age: {{ calculateFitnessAge() }} years</span
+          >
         </div>
       </div>
     </div>
   </div>
 
-  <div class="col-6 col-md-4">
-    <div class="card">
-      <div class="body">
-        <div class="d-flex align-items-center justify-content-center">
-          <div class="icon-in-bg bg-pink text-white text-large rounded-circle"><i class="fa fa-cake-candles"></i></div>
-          <div class="ml-4">
-            <span>Age</span>
-            <h4 class="mb-0 font-weight-medium">{{suiviss?.age}} Ans</h4>
+  <!-- Charts Section -->
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+    <!-- BMI Progress Chart -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3 class="chart-title">BMI Evolution</h3>
+        <div class="chart-actions">
+          <button class="chart-action-btn" (click)="toggleChartType()">
+            <i class="fas fa-exchange-alt"></i>
+          </button>
+        </div>
+      </div>
+      <div class="chart-container">
+        <canvas
+          baseChart
+          [datasets]="barChartData.datasets"
+          [labels]="barChartLabels"
+          [options]="barChartOptions"
+          [legend]="barChartLegend"
+          [type]="barChartType"
+        >
+        </canvas>
+      </div>
+    </div>
+
+    <!-- Body Composition -->
+    <div class="chart-card">
+      <div class="chart-header">
+        <h3 class="chart-title">Body Composition</h3>
+      </div>
+      <div class="composition-chart">
+        <div class="composition-item">
+          <div class="composition-label">Muscle</div>
+          <div class="composition-bar">
+            <div class="composition-fill muscle" [style.width.%]="45"></div>
           </div>
+          <div class="composition-value">45%</div>
+        </div>
+        <div class="composition-item">
+          <div class="composition-label">Fat</div>
+          <div class="composition-bar">
+            <div class="composition-fill fat" [style.width.%]="22"></div>
+          </div>
+          <div class="composition-value">22%</div>
+        </div>
+        <div class="composition-item">
+          <div class="composition-label">Water</div>
+          <div class="composition-bar">
+            <div class="composition-fill water" [style.width.%]="60"></div>
+          </div>
+          <div class="composition-value">60%</div>
         </div>
       </div>
     </div>
   </div>
 
-  <div class="col-6 col-md-4">
-    <div class="card">
-      <div class="body">
-        <div class="d-flex align-items-center justify-content-center">
-          <div class="icon-in-bg bg-azura text-white rounded-circle text-large"><i class="fa fa-weight-scale"></i></div>
-          <div class="ml-4">
-            <span>Poids</span>
-            <h4 class="mb-0 font-weight-medium">{{suiviss?.poids}} Kg</h4>
-          </div>
+  <!-- Recent Activity -->
+  <div class="activity-card mt-6">
+    <div class="activity-header">
+      <h3 class="activity-title">Recent Activity</h3>
+      <a routerLink="/activity" class="activity-link">View All</a>
+    </div>
+    <div class="activity-list">
+      <div class="activity-item" *ngFor="let activity of recentActivities">
+        <div class="activity-icon">
+          <i [class]="activity.icon"></i>
+        </div>
+        <div class="activity-details">
+          <h4 class="activity-name">{{ activity.name }}</h4>
+          <p class="activity-meta">
+            <span>{{ activity.date }}</span>
+            <span>{{ activity.duration }} min</span>
+            <span>{{ activity.calories }} kcal</span>
+          </p>
         </div>
       </div>
     </div>
   </div>
 
+  <!-- Feedback Modal -->
+  <ng-template #feedbackModal>
+    <div class="modal-container">
+      <div class="modal-header">
+        <h3 class="modal-title">Coach Feedback</h3>
+        <button (click)="modalService.dismissAll()" class="modal-close">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="coach-profile">
+          <img
+            class="coach-avatar"
+            src="//localhost:8080/public/images/imageUser/{{ coachImage }}"
+            alt="{{ getedCoachData?.nom }}"
+          />
+          <div class="coach-info">
+            <h4>{{ getedCoachData?.nom }} {{ getedCoachData?.prenom }}</h4>
+            <p class="coach-title">Personal Coach</p>
+          </div>
+        </div>
+        <div class="feedback-content">
+          <div class="feedback-rating">
+            <i
+              class="fas fa-star text-amber-400"
+              *ngFor="let star of [1, 2, 3, 4, 5]"
+            ></i>
+          </div>
+          <p class="feedback-text">
+            {{ feedbackByIdSuivi?.feedback || "No feedback available" }}
+          </p>
+          <div class="feedback-date">
+            Last updated: {{ getFeedbackDate() | date : "mediumDate" }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
 </div>
-<div>
-  <div style="display: block">
-    <canvas baseChart
-            [datasets]="barChartData"
-            [labels]="barChartLabels"
-            [options]="barChartOptions"
-            [legend]="barChartLegend"
-            [type]="barChartType">
-    </canvas>
-  </div>
-</div>
-<ng-template #content let-modal class="modal">
-  <div class="modal-content">
-    <div class="modal-body">
-    <form>
-          <article>
-            <figure>
-              <img class="align-center" src="//localhost:8080/public/images/imageUser/{{coachImage}}">
-            </figure>
-            <div class="user-box">
-            <p>
-                {{feedbackByIdSuivi?.feedback}}
-              </p>
-            </div>
-            <div class="user-box">
-              <h1>
-                {{getedCoachData?.nom}} {{getedCoachData?.prenom}}
-              </h1>
-            </div>
-          </article>
-    </form>
-    </div>
-  </div>
-</ng-template>
-<hr/>
-
-
-
-
-
-
-
-
-
-

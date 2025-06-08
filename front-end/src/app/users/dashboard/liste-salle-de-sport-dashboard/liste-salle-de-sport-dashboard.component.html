@@ -1,13 +1,14 @@
+<div class="space-y-6">
+  <h2 class="text-2xl font-bold text-amber-500 mb-4">Dernières Salles Ajoutées</h2>
 
-  <p-carousel *ngIf="empty" [value]="listGyms" orientation="vertical" [style]="{'max-width':'300px'}" verticalViewPortHeight="352px" [numVisible]="1" [numScroll]="1">
+  <div *ngIf="!empty" class="text-center py-8 bg-gray-800 rounded-xl">
+    <i class="fas fa-dumbbell text-5xl text-amber-500 mb-4"></i>
+    <p class="text-gray-300">Aucune salle de sport disponible pour le moment</p>
+  </div>
 
-    <ng-template let-gym pTemplate="item" class="col-12" >
+  <div *ngIf="empty" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <ng-container *ngFor="let gym of listGyms">
       <app-iteam-salle-dashboard [Gyms]="gym"></app-iteam-salle-dashboard>
-    </ng-template>
-  </p-carousel>
-
-
-
-
-
-
+    </ng-container>
+  </div>
+</div>

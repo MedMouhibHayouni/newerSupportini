@@ -1,18 +1,39 @@
+<div class="min-h-screen bg-gray-900 py-8 px-4 sm:px-6 lg:px-8">
+  <!-- Header Section -->
+  <div class="max-w-7xl mx-auto mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+    <h1 class="text-2xl md:text-3xl font-bold text-amber-500">Mes Annonces</h1>
 
+    <button type="submit"
+            class="flex items-center px-6 py-3 bg-amber-600 hover:bg-amber-700 text-white font-medium rounded-lg shadow-lg transition-all duration-300"
+            [routerLink]="'/ajouter-annonce'">
+      <i class="fas fa-plus mr-2"></i> Ajouter une annonce
+    </button>
+  </div>
 
-<button type="submit" class="btn  btnColor"   [routerLink]="'/ajouter-annonce'" >Ajouter une annonce</button>
-<div class="container-fluid d-flex flex-wrap justify-content-around">
-
-
-  <div   *ngFor="let annonce of listAnnonces" class="col-3">
-
-
-    <div  routerLink="/detail-annonce/{{annonce.id}}">
-
-      <app-item-annonce [annonce]="annonce"></app-item-annonce>
+  <!-- Announcements Grid -->
+  <div class="max-w-7xl mx-auto">
+    <!-- Empty State -->
+    <div *ngIf="!listAnnonces || listAnnonces.length === 0"
+         class="text-center py-12 bg-gray-800 rounded-xl shadow-lg">
+      <div class="mx-auto h-24 w-24 text-amber-500 mb-4">
+        <i class="fas fa-bullhorn text-5xl"></i>
+      </div>
+      <h3 class="text-xl font-medium text-gray-300 mb-2">Aucune annonce trouvée</h3>
+      <p class="text-gray-400 mb-6">Vous n'avez pas encore créé d'annonces. Commencez dès maintenant !</p>
+      <button [routerLink]="'/ajouter-annonce'"
+              class="px-6 py-2 bg-amber-600 hover:bg-amber-700 text-white rounded-lg">
+        Créer ma première annonce
+      </button>
     </div>
 
-
-
+    <!-- Announcements List -->
+    <div *ngIf="listAnnonces && listAnnonces.length > 0"
+         class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <ng-container *ngFor="let annonce of listAnnonces; let i = index">
+        <div class="announcement-container" [attr.data-index]="i">
+          <app-item-annonce [annonce]="annonce"></app-item-annonce>
+        </div>
+      </ng-container>
+    </div>
   </div>
 </div>

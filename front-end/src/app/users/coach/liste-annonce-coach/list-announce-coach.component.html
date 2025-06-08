@@ -1,150 +1,100 @@
-<!-- filter-->
-<div class="row clearfix">
-  <div class="col-12">
-    <form class="card" action="" method="post">
-      <div class="body">
-        <div class="row">
+<!-- Filter Section -->
+<div class="bg-gray-800 rounded-xl shadow-md p-4 mb-8">
+  <form class="space-y-4 md:space-y-0 md:grid md:grid-cols-5 md:gap-4">
+    <!-- Price Filter -->
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Trier par Prix</label>
+      <select class="w-full bg-gray-700 border border-gray-600 text-gray-300 rounded-lg p-2.5 focus:ring-amber-500 focus:border-amber-500 transition-all"
+              (change)="filterPrix($event)">
+        <option selected>Tous les prix</option>
+        <option value="1">Moins cher → plus cher</option>
+        <option value="2">Plus cher → moins cher</option>
+      </select>
+    </div>
 
-            <!--     prix     -->
-          <div class="col-lg-2 col-md-4 col-sm-6">
-            <div class="form-group">
+    <!-- City Filter -->
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Ville</label>
+      <select class="w-full bg-gray-700 border border-gray-600 text-gray-300 rounded-lg p-2.5 focus:ring-amber-500 focus:border-amber-500 transition-all"
+              (change)="filterville($event)">
+        <option selected value="">Toutes les villes</option>
+        <option value="ariana">Ariana</option>
+        <option value="beja">Beja</option>
+        <!-- Other cities... -->
+      </select>
+    </div>
 
-              <select class="form-control show-tick" (change)="filterPrix($event)">
+    <!-- Type Filter -->
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Type</label>
+      <select class="w-full bg-gray-700 border border-gray-600 text-gray-300 rounded-lg p-2.5 focus:ring-amber-500 focus:border-amber-500 transition-all"
+              (change)="filterType($event)">
+        <option selected>Tous les types</option>
+        <option value="domicile">À domicile</option>
+        <option value="salle">Salle de Sport</option>
+        <option value="entreprise">Entreprise</option>
+        <option value="espace">Espace public</option>
+      </select>
+    </div>
 
-                <option selected  >Trier par Prix</option>
-                <option value="1">moin cher -> plus cher</option>
-                <option value="2">plus cher -> moin cher  </option>
+    <!-- Discipline Filter -->
+    <div>
+      <label class="block text-sm font-medium text-gray-300 mb-1">Discipline</label>
+      <select class="w-full bg-gray-700 border border-gray-600 text-gray-300 rounded-lg p-2.5 focus:ring-amber-500 focus:border-amber-500 transition-all"
+              (change)="filterDiscipline($event)">
+        <option selected>Toutes les disciplines</option>
+        <option value="natation">Natation</option>
+        <option value="foot">Football</option>
+        <option value="equitation">Équitation</option>
+        <option value="gymnastique">Gymnastique</option>
+      </select>
+    </div>
 
-              </select>
-            </div>
-          </div>
-                      <!--ville-->
-          <div class="col-lg-2 col-md-4 col-sm-6" (change)="filterville($event)">
-            <div class="form-group">
-
-              <select  class="form-control show-tick"  >
-
-                <option selected value="">Trouver par ville</option>
-
-                <option value="ariana">	Ariana</option>
-                <option value="beja">Beja</option>
-                <option value="	benarous">	Ben Arous</option>
-                <option value="bizerte">Bizerte</option>
-                <option value="gabes">	Gabès </option>
-                <option value="gafsa">	Gafsa </option>
-                <option value="jendouba">Jendouba </option>
-                <option value="kairouan"> Kairouan</option>
-                <option value="kasserine"> Kasserine</option>
-                <option value="kebili"> Kébili</option>
-                <option value="kef"> Le Kef</option>
-                <option value="mahdia">Mahdia </option>
-                <option value="manouba"> La Manouba</option>
-                <option value="medenine">Médenine </option>
-                <option value="monastir"> Monastir</option>
-                <option value="Nabeul">Nabeul </option>
-                <option value="Sfax"> 	Sfax</option>
-                <option value="sidibouzid"> Sidi Bouzid</option>
-                <option value="siliana "> 	Siliana</option>
-                <option value="sousse">	Sousse </option>
-                <option value="tataouine "> Tataouine</option>
-                <option value="tozeur"> 	Tozeur</option>
-                <option value="tunis"> Tunis</option>
-                <option value="zaghouan">Zaghouan </option>
-              </select>
-            </div>
-          </div>
-                        <!-- type-->
-          <div class="col-lg-2 col-md-4 col-sm-6">
-            <div class="form-group">
-              <select   class="form-control show-tick" (change)="filterType($event)">
-                <option selected>Type</option>
-                <option value="domicile">a domicile</option>
-                <option value="salle">Salle de Sport</option>
-                <option value="entreprise">Entreprise</option>
-                <option value="espace">Espace public</option>
-              </select>
-            </div>
-          </div>
-                    <!-- discipline-->
-          <div class="col-lg-2 col-md-4 col-sm-6">
-            <div class="form-group">
-              <select  class="form-control show-tick" (change)="filterDiscipline($event)">
-                <option selected>Discipline</option>
-                <option value="natation">natation</option>
-                <option value="foot">foot</option>
-                <option value="equitation">equitation</option>
-                <option value="gymnastique">gymnastique</option>
-              </select>
-            </div>
-          </div>
-
-
-          <div class="col-md-4 col-lg-2 col-12 d-md-flex justify-content-md-around">
-            <div class="form-group  ">
-
-
-              <button type="submit" class="btn  btn-block btnColor" (click)="filterAnnonce()">Chercher</button>
-
-            </div>
-            <div class="form-group" *ngIf="user.fk_idRole==3">
-
-              <button type="submit" class="btn  btn-general"   [routerLink]="'/mes-annonces'" >Mes annonces</button>
-            </div>
-            <div class="form-group">
-
-              <button type="submit" class="btn  btn-block btnColor" *ngIf="user.fk_idRole==3" routerLink="/ajouter-annonce">Proposer Vos Seances</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </form>
-  </div>
+    <!-- Buttons -->
+    <div class="flex flex-col space-y-2 justify-end">
+      <button type="submit"
+              class="bg-amber-500 hover:bg-amber-600 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
+              (click)="filterAnnonce()">
+        Chercher
+      </button>
+      <button *ngIf="user.fk_idRole==3"
+              class="border border-amber-500 text-amber-500 hover:bg-amber-500 hover:text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
+              [routerLink]="'/mes-annonces'">
+        Mes annonces
+      </button>
+    </div>
+  </form>
 </div>
 
-
-
-
-
-<div class="container-fluid d-flex flex-wrap justify-content-around">
-  <div   *ngFor="let annonce of listAnnonces" class="col-3">
-
-
-    <div  routerLink="/detail-annonce/{{annonce.id}}">
-
+<!-- Annonces Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" *ngIf="listAnnonces && listAnnonces.length > 0">
+  <div *ngFor="let annonce of listAnnonces" class="animate-fadeIn">
+    <div routerLink="/detail-annonce/{{annonce.id}}">
       <app-item-annonce [annonce]="annonce"></app-item-annonce>
     </div>
-
-
-
   </div>
 </div>
 
-
-
-
-<div class="auth-main particles_js" *ngIf="listAnnonces.length==0">
-  <div class="auth_div vivify popIn">
-    <div class="auth_brand">
-      <a class="navbar-brand" href="javascript:void(0);"><img src="../../../assets/images/icon.svg" width="30" height="30" class="d-inline-block align-top mr-2" alt="">Supportini</a>
+<!-- Empty State -->
+<div class="flex flex-col items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-800 rounded-xl" *ngIf="listAnnonces && listAnnonces.length === 0">
+  <div class="max-w-md w-full space-y-8 text-center">
+    <div>
+      <img class="mx-auto h-24 w-auto" src="../../../assets/images/icon.svg" alt="Logo">
+      <h2 class="mt-6 text-3xl font-extrabold text-white">
+        Oops! Aucun résultat
+      </h2>
+      <p class="mt-2 text-gray-400">
+        Désolé, il n'existe pas d'offre compatible avec vos critères. Veuillez consulter notre liste complète.
+      </p>
     </div>
-    <div class="card page-400">
-      <div class="body">
-        <p class="lead mb-3"><span class="text">Oops! </span></p>
-        <p>Desolé il n'existe pas une offre compatible à votre choix avec ces critères, s'il vous plaît consulter notre liste complète.</p>
-        <div class="margin-top-30">
-          <a routerLink="/acceuil" class="btn btn-round btn-default btn-block"><i class="fa fa-arrow-left"></i> <span>Go Back</span></a>
-
-        </div>
-      </div>
+    <div>
+      <a routerLink="/acceuil"
+         class="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-amber-500 hover:bg-amber-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amber-500 transition-colors duration-300">
+        <span class="absolute left-0 inset-y-0 flex items-center pl-3">
+          <i class="fas fa-arrow-left"></i>
+        </span>
+        Retour à l'accueil
+      </a>
     </div>
-  </div>
-  <div id="particles-js">
-
   </div>
 </div>
-
-
-<!--<div *ngIf="listAnnonces.length==0">-->
-<!--  <h1> desolé il n'ya pas des annonces de ce choix-->
-<!--  </h1>-->
-<!--</div>-->
