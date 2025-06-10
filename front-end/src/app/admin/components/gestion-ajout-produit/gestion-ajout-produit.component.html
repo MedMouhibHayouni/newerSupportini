@@ -37,7 +37,6 @@
                       <h6 class="form-label">Categorie</h6>
                       <select  type="text" name="catrg" #categorieIdInput class="form-control show-tick">
                         <option value="default">----</option>
-                        <option value="1">Fitness</option>
                         <option *ngFor="let item of categories" >{{item.nom}}</option>
 
                       </select>

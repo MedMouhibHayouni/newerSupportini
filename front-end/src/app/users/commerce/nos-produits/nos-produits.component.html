@@ -1,54 +1,107 @@
-<div class="auth-main" *ngIf="listeProduit?.length==0">
-  <div class="auth_div vivify popIn " >
+<div class="min-h-screen bg-[#22252a] py-8 px-4 sm:px-6 lg:px-8">
+  <!-- Empty State -->
+  <div *ngIf="listeProduit?.length === 0" class="max-w-3xl mx-auto text-center py-16">
+    <div class="bg-[#2a2e34] rounded-xl shadow-lg p-8 border border-[#3a3e44]">
+      <div class="text-[#ffa117] text-6xl mb-4">😕</div>
+      <h2 class="text-2xl font-bold text-[#bbbec2] mb-2">Oops! Aucun produit trouvé</h2>
+      <p class="text-[#9a9da1] mb-6">Désolé, il n'existe pas d'offre correspondant à vos critères. Veuillez consulter notre liste complète.</p>
+      <a routerLink="/acceuil" class="inline-flex items-center px-6 py-3 border border-transparent text-sm font-medium rounded-md shadow-sm text-[#22252a] bg-[#ffa117] hover:bg-[#ffb347] transition-colors duration-300">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Consulter à nouveau
+      </a>
+    </div>
+  </div>
 
-    <div class="card page-400">
-      <div class="body">
-        <p class="lead mb-3"><span class="text">Oops! </span></p>
-        <p>Desolé il n'existe pas une offre compatible à votre choix avec ces critères, s'il vous plaît consulter notre liste complète.</p>
-        <div class="margin-top-30">
-          <a routerLink="/acceuil" class="btn btn-round btn-default btn-block"><i class="fa fa-arrow-left"></i> <span>Consulter une autre fois</span></a>
+  <!-- Product Listing -->
+  <div *ngIf="listeProduit?.length !== 0" class="max-w-7xl mx-auto">
+    <!-- Filters Section -->
+    <div class="bg-[#2a2e34] rounded-xl shadow-lg mb-8 p-6 border border-[#3a3e44]">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Search Input -->
+        <div>
+          <label for="search" class="block text-sm font-medium text-[#bbbec2] mb-1">Rechercher</label>
+          <div class="relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-[#9a9da1]" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
+              </svg>
+            </div>
+            <input
+              type="text"
+              id="search"
+              class="bg-[#22252a] border border-[#3a3e44] text-[#bbbec2] focus:ring-[#ffa117] focus:border-[#ffa117] block w-full pl-10 pr-3 py-2 rounded-md"
+              placeholder="Rechercher..."
+              [(ngModel)]="searchProduit"
+              (keyup)="filterByName(myInput.value)"
+              #myInput
+            >
+          </div>
+        </div>
 
+        <!-- Price Filter -->
+        <div>
+          <label for="price-filter" class="block text-sm font-medium text-[#bbbec2] mb-1">Trier par prix</label>
+          <select
+            id="price-filter"
+            class="bg-[#22252a] border border-[#3a3e44] text-[#bbbec2] focus:ring-[#ffa117] focus:border-[#ffa117] block w-full pl-3 pr-10 py-2 rounded-md"
+            (change)="filterPrix($event)"
+          >
+            <option selected value="">Filtrer par prix</option>
+            <option value="1">Prix croissant</option>
+            <option value="2">Prix décroissant</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+      <div *ngFor="let Prod of listeProduit" class="group">
+        <div class="bg-[#2a2e34] rounded-xl shadow-lg overflow-hidden border border-[#3a3e44] hover:border-[#ffa117] transition-all duration-300 h-full flex flex-col">
+          <!-- Product Image -->
+          <div class="relative pt-[70%] overflow-hidden bg-[#1e2126]">
+            <img
+              [src]="'http://localhost:8080/public/images/produits/' + Prod.imageProduit"
+              alt="{{Prod.nomproduit}}"
+              class="absolute top-0 left-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+            >
+            <!-- Stock Badge -->
+            <div class="absolute top-2 right-2">
+              <span *ngIf="Prod.quantite.valueOf() > 0" class="px-2 py-1 bg-green-900/80 text-green-100 text-xs font-bold rounded-full">
+                En stock
+              </span>
+              <span *ngIf="Prod.quantite.valueOf() <= 0" class="px-2 py-1 bg-red-900/80 text-red-100 text-xs font-bold rounded-full">
+                Rupture
+              </span>
+            </div>
+          </div>
+
+          <!-- Product Info -->
+          <div class="p-4 flex-grow flex flex-col">
+            <h3 class="text-lg font-bold text-[#bbbec2] mb-1">{{Prod.nomproduit}}</h3>
+            <p class="text-sm text-[#9a9da1] mb-3 line-clamp-2">{{Prod.description}}</p>
+
+            <div class="mt-auto">
+              <div class="flex items-center justify-between mb-3">
+                <span class="text-xl font-bold text-[#ffa117]">{{Prod.prix}} DNT</span>
+                <span class="text-xs text-[#9a9da1]">{{Prod.quantite}} disponibles</span>
+              </div>
+
+              <button
+                (click)="AjouterauPanier({item: Prod})"
+                class="w-full bg-[#ffa117] hover:bg-[#ffb347] text-[#22252a] py-2 px-4 rounded-md font-medium transition-colors duration-300 flex items-center justify-center"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+                </svg>
+                Ajouter au panier
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
-
-
-  <div class="container-fluid" *ngIf="listeProduit?.length!=0">
-    <div class="card">
-      <div class="body">
-        <div class="row">
-
-          <div class="input-group d-md-flex justify-content-md-between p-2" >
-            <input type="text" class="form-control col-md-3 col-12"  placeholder="Rechercher...."#myInput [(ngModel)]="searchProduit"  (keyup)="filterByName(myInput.value)">
-            <select  class="custom-select col-md-3 col-12" id="inputGroupSelect04" (change)="filterPrix($event)">
-              <option selected>chercher a partir d'un prix</option>
-              <option value="1" >prix Ascendant</option>
-              <option value="2">prix descendant</option>
-
-            </select>
-
-
-        </div>
-      </div>
-    </div>
-
-    <div class=" d-flex flex-wrap justify-content-evenly p-4" >
-
-
-      <div  class="col-md-3 col-sm-6 col-12" *ngFor="let Prod of listeProduit">
-
-<div class="input-group-append"></div>
-
-
-
-          <app-item-produit [data] ="Prod" (item)="AjouterauPanier($event)"  [produit]="Prod" ></app-item-produit>
-
-      </div>
-
-    </div>
-
-  </div>
-</div>
-<!--</div>-->

@@ -1,13 +1,20 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
-import { User } from "../../../model/user";
-import { ToastService } from "../../../shared-service/toastService/toast.service";
-import { SalleDeSportService } from "../../../shared-service/salleDeSportService/salle-de-sport.service";
-import { UserService } from "../../../shared-service/userService/user.service";
-import { sallesport } from "../../../model/salleDeSport";
-import { materielSalle } from "../../../model/materielSalle";
-import { EquipementGymService } from "../../../shared-service/materialSalleService/equipement-gym.service";
+import {Component, OnInit} from '@angular/core';
+import {LightGallery} from 'lightgallery/lightgallery';
+import lgZoom from 'lightgallery/plugins/zoom'
+
+import {ActivatedRoute, Router} from "@angular/router";
+import {User} from "../../../model/user";
+import {ToastService} from "../../../shared-service/toastService/toast.service";
+import {SalleDeSportService} from "../../../shared-service/salleDeSportService/salle-de-sport.service";
+import {UserService} from "../../../shared-service/userService/user.service";
+import {sallesport} from "../../../model/salleDeSport";
+import {materielSalle} from "../../../model/materielSalle";
+import {EquipementGymService} from "../../../shared-service/materialSalleService/equipement-gym.service";
+
+
+declare var $: any;
+
+declare var window: any;
 
 @Component({
   selector: 'app-detail-salle',
@@ -15,191 +22,134 @@ import { EquipementGymService } from "../../../shared-service/materialSalleServi
   styleUrls: ['./detail-salle.component.scss']
 })
 export class DetailSalleComponent implements OnInit {
-  imagesGym: any[] = [];
-  currentImageIndex = 0;
-  isChangingImage = false;
-  idGym: number;
-  user!: User;
+   imagesGym : any
+   idGym: number;
+
+   // equipment! : any
+   user! :User
+  selectedFile!: File
+
+  previews: string[] = [];
+  constructor(private toastService: ToastService,
+              private salleDeSportService: SalleDeSportService,
+              private ac: ActivatedRoute,
+              private userService: UserService,
+              private equipementGymService:EquipementGymService,
+              private router: Router)
+
+  {this.idGym = this.ac.snapshot.params["id"];}
+
   gym!: sallesport;
-  equipment: materielSalle[] = [];
-  equipments: materielSalle = new materielSalle();
-  newEquipment: materielSalle = new materielSalle();
-  selectedEquipmentImage?: File;
-  showAddEquipmentModal = false;
-  showEditEquipmentModal = false;
-  safeMapUrl: SafeResourceUrl;
-
-  pricingPlans = [
-    { duration: '1 month', price: 0, popular: false },
-    { duration: '3 months', price: 120, popular: false },
-    { duration: '6 months', price: 250, popular: true },
-    { duration: '12 months', price: 400, popular: false }
-  ];
-
-  constructor(
-    private toastService: ToastService,
-    private salleDeSportService: SalleDeSportService,
-    private ac: ActivatedRoute,
-    private userService: UserService,
-    private equipementGymService: EquipementGymService,
-    private sanitizer: DomSanitizer
-  ) {
-    this.idGym = this.ac.snapshot.params["id"];
-    this.safeMapUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3220.757473652379!2d8.695635715621231!3d36.17245591048149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fba5ae0812500b%3A0x87be404701aaef06!2sGolden%20Gym%20Le%20Kef!5e0!3m2!1sfr!2sin!4v1670438020841!5m2!1sfr!2sin"
-    );
-  }
+  equipment !: materielSalle []
+  equipments : materielSalle = new materielSalle()
+  formModal: any;
+  selectedFiles!:FileList
+  size = '1400-933'
+  private lightGallery!: LightGallery;
+  private needRefresh = false;
 
   ngOnInit(): void {
-    this.user = this.userService.getUser() || JSON.parse(localStorage.getItem("user") || '{}');
-    this.loadGymData();
-  }
-
-  private loadGymData(): void {
-    this.salleDeSportService.getGymById(this.idGym).subscribe({
-      next: (data) => {
+    $(() => {
+      $('.dropify').dropify({
+        tpl: {
+          wrap: '<div class="dropify-wrapper"></div>',
+          loader: '<div class="dropify-loader"></div>',
+          message: '<div class="dropify-message"><span class="file-icon" /> <p>Ajouter des photos pour votre salle de sport</p></div>',
+          preview: '<div class="dropify-preview"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">Ajouter une autre photo</p></div></div></div>',
+          filename: '<p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>',
+          clearButton: '<button type="button" class="dropify-clear">Supprimer</button>',
+          errorLine: '<p class="dropify-error">Ooops, quelque chose qui cloche.</p>',
+          errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>'
+        }
+      })
+    })
+    this.user = this.userService.getUser() || JSON.parse(localStorage.getItem("user") || '{}')
+    this.salleDeSportService.getGymById(this.idGym).subscribe(
+      (data) => {
         this.gym = data.gym;
         this.equipment = data.equipment;
-        this.pricingPlans[0].price = Number(this.gym.prix) || 0;
+        // console.log(data)
+        console.log(this.equipment)
+        this.salleDeSportService.getImagesGym(this.gym.id).subscribe(
+          (data) => {
+            this.imagesGym = data.images
+            console.log(this.imagesGym)
+          });
+        // console.log(this.idGym)
+        this.equipementGymService.getEquipementGym(this.gym.id).subscribe(
+          (data) => {
+            this.equipment = data.equipement, console.log(this.equipment)
+          })
 
-        this.loadGymImages();
-        this.loadEquipment();
-      },
-      error: (err) => {
-        this.toastService.errorToast("Failed to load gym data", "Error");
-      }
-    });
+      });
+
   }
 
-  private loadGymImages(): void {
-    this.salleDeSportService.getImagesGym(this.gym.id).subscribe({
-      next: (data) => {
-        this.imagesGym = data.images || [];
-      },
-      error: (err) => {
-        this.toastService.errorToast("Failed to load gym images", "Error");
-      }
-    });
-  }
 
-  private loadEquipment(): void {
-    this.equipementGymService.getEquipementGym(this.gym.id).subscribe({
-      next: (data) => {
-        this.equipment = data.equipement || [];
-      },
-      error: (err) => {
-        this.toastService.errorToast("Failed to load equipment", "Error");
-      }
-    });
-  }
+  onInit = (detail: any): void => {
+    this.lightGallery = detail.instance;
+    this.formModal = new window.bootstrap.Modal(document.getElementById("exampleModal"))
 
-  // Image Gallery Methods
-  nextImage(): void {
-    this.changeImage((this.currentImageIndex + 1) % this.imagesGym.length);
-  }
-
-  prevImage(): void {
-    this.changeImage((this.currentImageIndex - 1 + this.imagesGym.length) % this.imagesGym.length);
-  }
-
-  goToImage(index: number): void {
-    if (index !== this.currentImageIndex) {
-      this.changeImage(index);
+  };
+  ngAfterViewChecked(): void {
+    if (this.needRefresh) {
+      this.lightGallery.refresh();
+      this.needRefresh = false;
     }
   }
-
-  private changeImage(newIndex: number): void {
-    this.isChangingImage = true;
-    setTimeout(() => {
-      this.currentImageIndex = newIndex;
-      this.isChangingImage = false;
-    }, 250);
+  settings = {
+    counter: false,
+    plugins: [lgZoom]
+  };
+  getEditGym(gym: sallesport) {
+    this.gym = gym;
   }
-
-  getImageUrl(imageVitrine: string): string {
-    return `http://localhost:8080/public/images/salleDeSport/${imageVitrine}`;
+  onFileChanged(e:any){
+    this.selectedFile=e.target.files[0]
   }
-
-  handleImageError(): void {
-    console.error('Failed to load gym image');
+  onUploadImage(id:any) {
+    console.log(id)
+    const uploadData = new FormData();
+    uploadData.append('imageVitrine', this.selectedFile, this.selectedFile.name);
+    this.salleDeSportService.postImageGym(uploadData,id).subscribe()
   }
-
-  // Equipment Methods
-  getEquipmentImageUrl(imageVitrine: string): string {
-    return `http://localhost:8080/public/images/materielSalleDeSport/${imageVitrine}`;
+  updateGym() {
+    return this.salleDeSportService.putGymUpdate(this.idGym, this.gym).subscribe(
+      (data) => {this.gym = data.updated
+      this.toastService.successToast("modification avec succès","success")});
   }
-
-  handleEquipmentImageError(equipment: materielSalle): void {
-    console.error('Failed to load equipment image', equipment);
-    // You could set a default image here if desired
+  // updateImageGym(){
+  //   return this.salleDeSportService.postImageGym(this.idGym,this.imagesGym).subscribe()
+  // }
+  addEquipementGym(idGym : any ){
+    const uploadData = new FormData();
+    uploadData.append('imageVitrine', this.selectedFile, this.selectedFile.name);
+    console.log(uploadData.getAll('imageVitrine'));
+    let nomEquipement = document.getElementById("nomEquipement") as HTMLInputElement ;
+    let discipline = document.getElementById("discipline") as HTMLInputElement ;
+    let description = document.getElementById("description") as HTMLInputElement ;
+    uploadData.set('nomMaterial',nomEquipement.value)
+    uploadData.set('description',description.value);
+    uploadData.set('specialite',discipline.value);
+    //equipment.imageVitrine=uploadData.get('imageVitrine')
+    //console.log(uploadData.getAll('nomMaterial'))
+    //console.log(equipment)
+    return this.equipementGymService.getCreateEquipementGym(idGym,uploadData).subscribe({
+      next:(result)=>{this.toastService.successToast(result.message,result.titre)},
+      error:(err)=>{this.toastService.successToast(err.error.message,"Erreur")},
+      // complete:()=>{this.router.navigate(["detail-salle"])}
+      });
   }
+updateEquipmentGym(){
+    return this.equipementGymService.putUpdateEquipementGym(this.idGym,this.equipments).subscribe(
+      (data) => {this.equipments = data.updated
+  this.toastService.successToast("modification avec succès","success")});
 
-  onEquipmentImageChange(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      this.selectedEquipmentImage = file;
-    }
-  }
-
-  // Modal Methods
-  openAddEquipmentModal(): void {
-    this.newEquipment = new materielSalle();
-    this.showAddEquipmentModal = true;
-  }
-
-  closeAddEquipmentModal(): void {
-    this.showAddEquipmentModal = false;
-  }
-
-  openEditEquipmentModal(equipment: materielSalle): void {
-    this.equipments = { ...equipment };
-    this.showEditEquipmentModal = true;
-  }
-
-  closeEditEquipmentModal(): void {
-    this.showEditEquipmentModal = false;
-  }
-
-  // Form Submission Methods
-  addEquipment(): void {
-    const formData = new FormData();
-    if (this.selectedEquipmentImage) {
-      formData.append('imageVitrine', this.selectedEquipmentImage);
-    }
-    formData.append('nomMaterial', this.newEquipment.nomMaterial || '');
-    formData.append('specialite', this.newEquipment.specialite || '');
-    formData.append('description', this.newEquipment.description || '');
-
-    this.equipementGymService.getCreateEquipementGym(this.gym.id, formData).subscribe({
-      next: (res) => {
-        this.toastService.successToast("Equipment added successfully", "Success");
-        this.loadEquipment();
-        this.closeAddEquipmentModal();
-      },
-      error: (err) => {
-        this.toastService.errorToast("Failed to add equipment", "Error");
-      }
-    });
-  }
-
-  updateEquipment(): void {
-    const formData = new FormData();
-    if (this.selectedEquipmentImage) {
-      formData.append('imageVitrine', this.selectedEquipmentImage);
-    }
-    formData.append('nomMaterial', `${this.equipments.nomMaterial || ''}`);
-    formData.append('specialite', this.equipments.specialite || '');
-    formData.append('description', this.equipments.description || '');
-
-    this.equipementGymService.putUpdateEquipementGym(this.equipments.id || 0, formData).subscribe({
-      next: (res) => {
-        this.toastService.successToast("Equipment updated successfully", "Success");
-        this.loadEquipment();
-        this.closeEditEquipmentModal();
-      },
-      error: (err) => {
-        this.toastService.errorToast("Failed to update equipment", "Error");
-      }
-    });
-  }
 }
+
+editMateriel(materiel : any){
+  this.equipments=materiel
+}
+
+}
+

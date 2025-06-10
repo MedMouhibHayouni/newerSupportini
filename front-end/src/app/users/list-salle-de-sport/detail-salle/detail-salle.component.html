@@ -1,232 +1,354 @@
-<div class="min-h-screen bg-[#22252a] text-[#a5a8ad]">
-  <div class="container mx-auto px-4 py-8">
-    <div class="flex flex-col lg:flex-row gap-8">
-      <!-- Image Gallery -->
-      <div class="lg:w-1/2">
-        <div class="relative h-96 w-full rounded-xl overflow-hidden shadow-2xl bg-[#2a2e34]">
-          <!-- Main Image with Transition -->
-          <img *ngIf="imagesGym?.length > 0"
-               [src]="getImageUrl(imagesGym[currentImageIndex].imageVitrine)"
-               class="absolute inset-0 w-full h-full object-cover transition-all duration-500"
-               [class.image-enter]="isChangingImage"
-               [class.image-enter-active]="!isChangingImage"
-               alt="Gym photo"
-               (error)="handleImageError()">
 
-          <!-- Fallback if no images -->
-          <div *ngIf="!imagesGym?.length" class="absolute inset-0 flex items-center justify-center">
-            <span class="text-[#ffa117]">No images available</span>
-          </div>
-
-          <!-- Navigation Arrows -->
-          <button *ngIf="imagesGym?.length > 1"
-                  (click)="prevImage()"
-                  class="absolute left-4 top-1/2 -translate-y-1/2 bg-[#ffa117]/80 hover:bg-[#ffa117] text-[#22252a] w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg">
-            <i class="fa fa-chevron-left"></i>
-          </button>
-
-          <button *ngIf="imagesGym?.length > 1"
-                  (click)="nextImage()"
-                  class="absolute right-4 top-1/2 -translate-y-1/2 bg-[#ffa117]/80 hover:bg-[#ffa117] text-[#22252a] w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300 shadow-lg">
-            <i class="fa fa-chevron-right"></i>
-          </button>
+<div class="container-fluid p-5 ">
+  <div class="row   ">
+    <div id="carouselExampleControls" class="carousel col-md-6 col-12 slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item"
+             *ngFor="let photo of imagesGym; let i = index"
+             [ngClass]="{'active': i == 0 }">
+          <img src="http://localhost:8080/public/images/salleDeSport/{{photo.imageVitrine}}"  class=" responsive d-block w-100  ">
         </div>
+        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
 
-        <!-- Image Indicators -->
-        <div *ngIf="imagesGym?.length > 1" class="flex justify-center mt-4 space-x-2">
-          <button *ngFor="let img of imagesGym; let i = index"
-                  (click)="goToImage(i)"
-                  class="w-3 h-3 rounded-full transition-all duration-300 hover:bg-[#ffa117]/80"
-                  [class.bg-[#ffa117]]="i === currentImageIndex"
-                  [class.bg-[#a5a8ad]/30]="i !== currentImageIndex">
-            <span class="sr-only">Go to image {{i + 1}}</span>
-          </button>
+      </div>
+      </div>
+      <!-- carousel controls omitted -->
+
+    <div class="col-md-6 col-12 ">    <!--    description-->
+      <ul class="list-group d-flex ">
+        <li class="list-group-item">
+          <small class="text-muted text-larger "  >Nom Salle De Sport: </small>
+          <p class="mb-0  " >{{gym.nomSalle}}</p>
+          <iframe class=" w-100 h-50"  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3220.757473652379!2d8.
+          695635715621231!3d36.17245591048149!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12fba5ae0812500b%3A0x87be404701aaef06!
+          2sGolden%20Gym%20Le%20Kef!5e0!3m2!1sfr!2sin!4v1670438020841!5m2!1sfr!2sin"
+                  width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </li>
+        <li class="list-group-item">
+          <p >{{gym.description}}</p>
+        </li>
+        <li class="list-group-item">
+          <small class="text-muted text-larger"  >Adress : </small>
+          <p  class="mb-0">{{gym.rue}},{{gym.ville}},{{gym.codePostal}}</p>
+        </li>
+      </ul>
+      <div class="col-md-4 col-12 justify-content-center">
+        <ul class="mt-3 list-unstyled d-flex ">
+          <li><a class="p-3" target="_blank" href="#"><i class="fa fa-facebook design-icone"></i></a></li>
+          <li><a class="p-3 " target="_blank" href="#"><i class="fa  fa-instagram design-icone"></i></a></li>
+          <li><a  class="p-3 " target="_blank" href="#"><i class="fa fa-youtube design-icone"></i></a></li>
+          <li><a  class="p-3 " target="_blank" href="#"><i class="fa fa-twitter design-icone"></i></a></li>
+        </ul>
+      </div>
+      <div class="row mt-md-5">
+        <div><span class="col-4  text-right mb-5 " >les prix d'abonnement DT </span></div>
+        <table class="table ">
+          <thead class="table-light ">
+          <tr >
+            <th scope="col">1 mois</th>
+            <th scope="col">3 mois</th>
+            <th scope="col">6 mois</th>
+            <th scope="col">12 mois</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr>
+            <th scope="row">{{gym.prix}}</th>
+            <td>120</td>
+            <td>250</td>
+            <td>400</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="row justify-content-end">
+        <div class="col-md-8 col-12 d-flex justify-content-end p-r-50  " *ngIf="user.fk_idRole==4 && user.id==gym.fk_idUser">
+          <button type="button" class="btn btn-primary btn-round" title="Edit" data-toggle="modal" data-target=".new-project-modal-salle" >Modifier</button>
+<!--          <button class="btn btn-success btn-round" type="button" (click)="updateGym()">Confirmer</button>-->
         </div>
       </div>
 
-      <!-- Gym Details -->
-      <div class="lg:w-1/2 space-y-6">
-        <div class="bg-[#2a2e34] p-6 rounded-xl shadow-lg">
-          <h1 class="text-3xl font-bold text-[#ffa117] mb-2">{{gym.nomSalle}}</h1>
-          <p class="text-[#a5a8ad]">{{gym.description}}</p>
-        </div>
-
-        <div class="bg-[#2a2e34] p-6 rounded-xl shadow-lg">
-          <h2 class="text-xl font-semibold text-[#ffa117] mb-3">Location</h2>
-          <p class="mb-4">{{gym.rue}}, {{gym.ville}}, {{gym.codePostal}}</p>
-          <iframe class="w-full h-64 rounded-lg"
-                  [src]="safeMapUrl"
-                  style="border:0;" allowfullscreen="" loading="lazy"
-                  referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
-
-        <div class="flex justify-center space-x-4">
-          <a href="#" class="w-10 h-10 flex items-center justify-center bg-[#2a2e34] rounded-full text-[#ffa117] hover:bg-[#ffa117] hover:text-white transition-colors duration-300 shadow">
-            <i class="fa fa-facebook"></i>
-          </a>
-          <a href="#" class="w-10 h-10 flex items-center justify-center bg-[#2a2e34] rounded-full text-[#ffa117] hover:bg-[#ffa117] hover:text-white transition-colors duration-300 shadow">
-            <i class="fa fa-instagram"></i>
-          </a>
-          <a href="#" class="w-10 h-10 flex items-center justify-center bg-[#2a2e34] rounded-full text-[#ffa117] hover:bg-[#ffa117] hover:text-white transition-colors duration-300 shadow">
-            <i class="fa fa-youtube"></i>
-          </a>
-          <a href="#" class="w-10 h-10 flex items-center justify-center bg-[#2a2e34] rounded-full text-[#ffa117] hover:bg-[#ffa117] hover:text-white transition-colors duration-300 shadow">
-            <i class="fa fa-twitter"></i>
-          </a>
-        </div>
-      </div>
     </div>
+  </div>
 
-    <!-- Pricing Section -->
-    <div class="mt-12">
-      <h2 class="text-2xl font-bold text-[#ffa117] mb-6 text-center">Subscription Plans</h2>
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div *ngFor="let plan of pricingPlans"
-             class="bg-[#2a2e34] p-6 rounded-xl shadow-lg transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl"
-             [class.border-2]="plan.popular"
-             [class.border-[#ffa117]]="plan.popular">
-          <div class="text-center">
-            <h3 class="text-lg font-semibold text-[#ffa117]">{{plan.duration}}</h3>
-            <p class="text-3xl font-bold my-4">{{plan.price}} DT</p>
-            <button class="w-full bg-[#ffa117] text-[#22252a] py-2 rounded-lg font-medium hover:bg-opacity-90 transition-colors">
-              Subscribe
-            </button>
-          </div>
-        </div>
-      </div>
+  <!-- code Upload images pour materiel  -->
+     <div class="block-header  ">
+          <div  class="row mt-md-5 justify-content-md-between ">
+       <div class=""><h2>Images Des Materiels</h2></div>
+       <div class="">
+         <button class="btn btn-primary" data-toggle="modal" data-target=".new-project-modal-ajout-materiel"*ngIf="user.fk_idRole==4 && user.id==gym.fk_idUser"><i class="fa-2x fa-solid fa-file-arrow-up"></i></button>
+         </div>
     </div>
+  </div>
 
-    <!-- Equipment Gallery -->
-    <div class="mt-16">
-      <div class="flex justify-between items-center mb-8">
-        <h2 class="text-2xl font-bold text-[#ffa117]">Equipment Gallery</h2>
-        <button *ngIf="user.fk_idRole==4 && user.id==gym.fk_idUser"
-                class="bg-[#ffa117] text-[#22252a] px-4 py-2 rounded-lg font-medium hover:bg-opacity-90 transition-colors flex items-center gap-2 shadow"
-                (click)="openAddEquipmentModal()">
-          <i class="fa-solid fa-plus"></i> Add Equipment
-        </button>
-      </div>
+    <!--  lightGallery-->
+<!--  <div class="row clearfix lightGallery">-->
+<!--    <lightgallery [settings]="settings" [onInit]="onInit" class=" row clearfix lightGallery">-->
+<!--      <div class="col-lg-3 col-md-6 m-b-30 rounded light-link gallery-item" *ngFor="let mat of equipment; let i = index "-->
+<!--         [attr.href]=" mat.imageVitrine">-->
+<!--        <div class="container">-->
+<!--          <div class="box">-->
+<!--            <div class="body">-->
+<!--              <div class="imgContainer">-->
+<!--                  <img class="w-100"  src="//localhost:8080/public/images/materielSalleDeSport/{{ mat.imageVitrine}}" alt=""/>-->
+<!--&lt;!&ndash;                  <img class="w-100"  src="../assets/images/sm/salle.jpg" alt=""/>&ndash;&gt;-->
+<!--              </div>-->
+<!--              <div class="content d-flex flex-column align-items-center justify-content-center">-->
+<!--                <div >-->
+<!--                  <h3 class="text-white fs-5">non salle{{mat.nomMaterial}}</h3>-->
+<!--                  <p class="fs-6 text-white"> description {{mat.description}}</p>-->
+<!--                  <p class="fs-6 text-white"> specialite{{mat.specialite}}</p>-->
+<!--                  <button class="btn btn-primary" data-t type="button"  data-toggle="modal" data-target=".project-modal-modifier-materiel" *ngIf="user.fk_idRole==4 && user.id==gym.fk_idUser" ><i class="fa-solid fa-plus"></i></button>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+<!--    </lightgallery>-->
+<!--  </div>-->
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        <div *ngFor="let mat of equipment"
-             class="relative group overflow-hidden rounded-xl shadow-lg hover:shadow-xl transition-shadow duration-300 bg-[#2a2e34]">
-          <div class="relative h-64 overflow-hidden">
-            <img [src]="getEquipmentImageUrl(mat.imageVitrine)"
-                 alt="{{mat.nomMaterial}}"
-                 class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                 (error)="handleEquipmentImageError(mat)">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-              <div>
-                <h3 class="text-white font-semibold text-lg">{{mat.nomMaterial}}</h3>
-                <p class="text-[#a5a8ad]">Specialty: {{mat.specialite}}</p>
+<!--      lightGallery version 2-->
+  <div class="row clearfix lightGallery">
+
+      <div class="col-lg-3 col-md-6 m-b-30 rounded light-link gallery-item" *ngFor="let mat of equipment; let i = index "
+         [attr.href]=" mat.imageVitrine">
+        <div class="container">
+          <div class="box">
+            <div class="body">
+              <div class="imgContainer">
+                <img class="w-100"  src="//localhost:8080/public/images/materielSalleDeSport/{{ mat.imageVitrine}}" alt=""/>
+                <!--                  <img class="w-100"  src="../assets/images/sm/salle.jpg" alt=""/>-->
+              </div>
+              <div class="content d-flex flex-column align-items-center justify-content-center">
+                <div >
+                  <h3 class="text-white fs-5">non Material :{{mat.nomMaterial}}</h3>
+                  <p class="fs-6 text-white"> description :{{mat.description}}</p>
+                  <p class="fs-6 text-white"> specialite :{{mat.specialite}}</p>
+                  <button class="btn btn-primary" type="button" data-toggle="modal" (click)="editMateriel(mat)" data-target=".project-modal-modifier-materiel"*ngIf="user.fk_idRole==4 && user.id==gym.fk_idUser" ><i class="fa-solid fa-plus"></i></button>
+                </div>
               </div>
             </div>
           </div>
-          <div class="p-4">
-            <p class="text-sm text-[#a5a8ad] line-clamp-2">{{mat.description}}</p>
-            <button *ngIf="user.fk_idRole==4 && user.id==gym.fk_idUser"
-                    class="mt-3 text-[#ffa117] hover:text-[#ffa117]/80 transition-colors flex items-center gap-1 text-sm"
-                    (click)="openEditEquipmentModal(mat)">
-              <i class="fa-solid fa-pen"></i> Edit
+        </div>
+      </div>
+  </div>
+  <div class="container-fluid p-5 ">
+    <!--    modal modifier salle de sport -->
+  <div class="modal fade new-project-modal-salle" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">  Modifier votre salle de sport
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <a>
+            <div class="body">
+
+              <div class="row ">
+                <form class="form-auth-small m-t-20 mb-3 " ngForm #salleForm="ngForm">
+                  <div class="container-fluid">
+                    <div class="block-header">
+                      <div class="row clearfix">
+                        <div class="col-md-12  ">
+                          <input type="file" class="dropify" (change)="onFileChanged($event)">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row clearfix">
+                      <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                          <input [(ngModel)]="gym.nomSalle" type="text" class="form-control"  name="nomSalle" ngModel #nom="ngModel" placeholder="nomSalle"  required >
+                          <div class="invalid-feedback d-block text-left" *ngIf="nom.invalid&&nom.touched&&nom.hasError('required')">
+                            Nom salle est obligatoire.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                          <input [(ngModel)]="gym.prix" type="number" class="form-control" name="prix" ngModel #prix="ngModel" placeholder="prix" pattern="[1-9][0-9]{0,}"  required>
+                          <div class="invalid-feedback d-block text-left" *ngIf="prix.invalid&&prix.touched&&prix.hasError('required')">
+                            Montant Mensuel est obligatoire.
+                          </div>
+                          <div class="invalid-feedback d-block text-left" *ngIf="prix.errors?.['pattern']">
+                            montant doit etre positif.
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                          <input [(ngModel)]="gym.rue" type="text" class="form-control"  name="rue" ngModel #rue="ngModel" placeholder="rue" required>
+                          <div class="invalid-feedback d-block text-left" *ngIf="rue.invalid&&rue.touched&&rue.hasError('required')">
+                            rue est obligatoire.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                          <input [(ngModel)]="gym.ville" type="text" class="form-control"  name="ville" ngModel #ville="ngModel"  placeholder="ville" required>
+                          <div class="invalid-feedback d-block text-left" *ngIf="ville.invalid&&ville.touched&&ville.hasError('required')">
+                            Ville est obligatoire.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-6 col-md-12">
+                        <div class="form-group">
+                          <input [(ngModel)]="gym.codePostal" type="number" class="form-control"  name="postal" ngModel #postal="ngModel" placeholder="codePostal" pattern="[0-9]{4,4}"  required>
+                          <div class="invalid-feedback d-block text-left" *ngIf="postal.invalid&&postal.touched&&postal.hasError('required')">
+                            Code postal est obligatoire.
+                          </div>
+                          <div class="invalid-feedback d-block text-left" *ngIf="postal.errors?.['pattern']">
+                            Code postal de longueur 4.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-12 col-md-12">
+                        <div class="form-group">
+                          <textarea [(ngModel)]="gym.description" rows="4" type="text" class="form-control" name="description" ngModel #description="ngModel" placeholder="descriprtion" required></textarea>
+                          <div class="invalid-feedback d-block text-left" *ngIf="description.invalid&&description.touched&&description.hasError('required')">
+                            Description est obligatoire.
+                          </div>
+                        </div>
+                      </div>
+
+
+                    </div>
+
+                  </div>   <div class="modal-footer">
+                  <button type="button" class="btn btn-round btn-default" data-dismiss="modal" >Annuler</button>
+                  <button type="button" class="btn btn-round btn-success" data-dismiss="modal"  [disabled]="salleForm.invalid"(click)="updateGym();onUploadImage(gym.id)">Modifier</button>
+                </div>
+
+                </form>
+              </div>
+            </div>
+        </a>
+      </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<div class="container-fluid p-5 ">
+    <!--    modal ajouter materiel -->
+    <div class="modal fade new-project-modal-ajout-materiel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalAjouyer">Ajouter votre materiel</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
             </button>
+          </div>
+          <div class="modal-body " ngForm #materielForm="ngForm">
+                <div class="container-fluid">
+                  <div class="block-header">
+                    <div class="row clearfix">
+                      <div class="col-md-12  ">
+                        <input    type="file" class="dropify" (change)="onFileChanged($event)" >
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row clearfix">
+                    <div class="col-lg-6 col-md-12">
+                      <div class="form-group">
+                        <input id="nomEquipement" type="text"  class="form-control" name="nom" ngModel #nom="ngModel" placeholder="Nom Materiel De Sport" required>
+                        <div class="invalid-feedback d-block text-left" *ngIf="nom.invalid&&nom.touched&&nom.hasError('required')">
+                          Nom Materiel est obligatoire.
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-6 col-md-12">
+                      <div class="form-group">
+                        <input id="discipline" type="text" class="form-control" name="discipline" ngModel #discipline="ngModel" placeholder="discipline" required>
+                        <div class="invalid-feedback d-block text-left" *ngIf="discipline.invalid&&discipline.touched&&discipline.hasError('required')">
+                          discipline est obligatoire.
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12">
+                      <div class="form-group">
+                        <textarea id="description" rows="4" type="text" class="form-control" placeholder="Description"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-round btn-default" data-dismiss="modal">Annuler</button>
+            <button type="button" class="btn btn-round btn-success" data-dismiss="modal" [disabled]="materielForm.invalid" (click)="addEquipementGym(gym.id)">Confirmer</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <!-- Add Equipment Modal -->
-  <div *ngIf="showAddEquipmentModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-    <div class="bg-[#2a2e34] rounded-xl shadow-2xl w-full max-w-md">
-      <div class="border-b border-[#3a3e44] p-6 flex justify-between items-center">
-        <h3 class="text-xl font-bold text-[#ffa117]">Add Equipment</h3>
-        <button (click)="closeAddEquipmentModal()" class="text-[#a5a8ad] hover:text-white">
-          <i class="fa fa-times"></i>
-        </button>
-      </div>
-      <div class="p-6">
-        <form (ngSubmit)="addEquipment()" #equipmentForm="ngForm">
-          <div class="mb-6">
-            <label class="block text-sm font-medium mb-2">Image</label>
-            <input type="file" class="w-full bg-[#3a3e44] border border-[#3a3e44] rounded-lg px-4 py-2"
-                   (change)="onEquipmentImageChange($event)" required>
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-2">Equipment Name</label>
-            <input type="text" class="w-full bg-[#3a3e44] border border-[#3a3e44] rounded-lg px-4 py-2"
-                   [(ngModel)]="newEquipment.nomMaterial" name="nomMaterial" required>
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-2">Specialty</label>
-            <input type="text" class="w-full bg-[#3a3e44] border border-[#3a3e44] rounded-lg px-4 py-2"
-                   [(ngModel)]="newEquipment.specialite" name="specialite" required>
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-2">Description</label>
-            <textarea class="w-full bg-[#3a3e44] border border-[#3a3e44] rounded-lg px-4 py-2"
-                      [(ngModel)]="newEquipment.description" name="description" rows="3"></textarea>
-          </div>
-          <div class="flex justify-end gap-4 pt-4">
-            <button type="button" (click)="closeAddEquipmentModal()"
-                    class="px-4 py-2 rounded-lg border border-[#3a3e44] hover:bg-[#3a3e44] transition-colors">
-              Cancel
-            </button>
-            <button type="submit" [disabled]="equipmentForm.invalid"
-                    class="px-4 py-2 rounded-lg bg-[#ffa117] text-[#22252a] font-medium hover:bg-opacity-90 transition-colors">
-              Add Equipment
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
 
-  <!-- Edit Equipment Modal -->
-  <div *ngIf="showEditEquipmentModal" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
-    <div class="bg-[#2a2e34] rounded-xl shadow-2xl w-full max-w-md">
-      <div class="border-b border-[#3a3e44] p-6 flex justify-between items-center">
-        <h3 class="text-xl font-bold text-[#ffa117]">Edit Equipment</h3>
-        <button (click)="closeEditEquipmentModal()" class="text-[#a5a8ad] hover:text-white">
-          <i class="fa fa-times"></i>
-        </button>
-      </div>
-      <div class="p-6">
-        <form (ngSubmit)="updateEquipment()" #editEquipmentForm="ngForm">
-          <div class="mb-6">
-            <label class="block text-sm font-medium mb-2">Current Image</label>
-            <img [src]="getEquipmentImageUrl(equipments.imageVitrine)"
-                 class="w-full h-40 object-cover rounded-lg mb-2"
-                 (error)="handleEquipmentImageError(equipments)">
-            <label class="block text-sm font-medium mb-2">Change Image</label>
-            <input type="file" class="w-full bg-[#3a3e44] border border-[#3a3e44] rounded-lg px-4 py-2"
-                   (change)="onEquipmentImageChange($event)">
+
+</div>
+  <!--    modal modifier materiel -->
+  <div class="modal fade project-modal-modifier-materiel" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalModifier">Modifier votre materiel</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body " ngForm #FormMaterielModifier="ngForm">
+          <div class="container-fluid">
+            <div class="block-header">
+              <div class="row clearfix">
+                <div class="col-md-12  ">
+                  <input type="file" class="dropify" >
+                </div>
+              </div>
+            </div>
+            <div class="row clearfix">
+              <div class="col-lg-6 col-md-12">
+                <div class="form-group">
+                  <input [(ngModel)]="equipments.nomMaterial" type="text"  class="form-control" name="nomMaterial" ngModel #NomMateriel="ngModel" placeholder="Nom Materiel De Sport" required>
+                  <div class="invalid-feedback d-block text-left" *ngIf="NomMateriel.invalid&&NomMateriel.touched&&NomMateriel.hasError('required')">
+                    Nom Materiel est obligatoire.
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-6 col-md-12">
+                <div class="form-group">
+                  <input  [(ngModel)]="equipments.specialite"   type="text"  class="form-control" name="discipline" ngModel #disciplineMateriel="ngModel" placeholder="discipline" required>
+                  <div class="invalid-feedback d-block text-left" *ngIf="disciplineMateriel.invalid&&disciplineMateriel.touched&&disciplineMateriel.hasError('required')">
+                    discipline est obligatoire.
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-lg-12 col-md-12">
+                <div class="form-group">
+                  <textarea  [(ngModel)]="equipments.description"  name="Description" rows="4" type="text" class="form-control" ngModel #descriptionMateriel="ngModel" placeholder="Description"></textarea>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-2">Equipment Name</label>
-            <input type="text" class="w-full bg-[#3a3e44] border border-[#3a3e44] rounded-lg px-4 py-2"
-                   [(ngModel)]="equipments.nomMaterial" name="nomMaterial" required>
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-2">Specialty</label>
-            <input type="text" class="w-full bg-[#3a3e44] border border-[#3a3e44] rounded-lg px-4 py-2"
-                   [(ngModel)]="equipments.specialite" name="specialite" required>
-          </div>
-          <div class="mb-4">
-            <label class="block text-sm font-medium mb-2">Description</label>
-            <textarea class="w-full bg-[#3a3e44] border border-[#3a3e44] rounded-lg px-4 py-2"
-                      [(ngModel)]="equipments.description" name="description" rows="3"></textarea>
-          </div>
-          <div class="flex justify-end gap-4 pt-4">
-            <button type="button" (click)="closeEditEquipmentModal()"
-                    class="px-4 py-2 rounded-lg border border-[#3a3e44] hover:bg-[#3a3e44] transition-colors">
-              Cancel
-            </button>
-            <button type="submit" [disabled]="editEquipmentForm.invalid"
-                    class="px-4 py-2 rounded-lg bg-[#ffa117] text-[#22252a] font-medium hover:bg-opacity-90 transition-colors">
-              Save Changes
-            </button>
-          </div>
-        </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-round btn-default" data-dismiss="modal">Annuler</button>
+          <button type="button" class="btn btn-round btn-success" data-dismiss="modal"  (click)="updateEquipmentGym()"  [disabled]="FormMaterielModifier.invalid">Confirmer</button>
+        </div>
       </div>
     </div>
   </div>

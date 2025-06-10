@@ -18,7 +18,7 @@ id!:any
     this.annonceservice.getAllAnnonces().subscribe(
         {
           next:(data) => {
-            this.listAnnonces=data.annonces;
+            this.listAnnonces = data;
             console.log(this.listAnnonces)
           },
             error:(err)=>{console.log(err)}

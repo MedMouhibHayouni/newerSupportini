@@ -1,44 +1,125 @@
+<div class="min-h-screen bg-[#22252a] py-12 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Back button -->
+    <button
+      routerLink="/liste-Produit"
+      class="mb-8 flex items-center text-[#ffa117] hover:text-[#ffb347] transition-colors duration-300"
+      @fadeIn
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+      </svg>
+      Retour à la liste
+    </button>
 
-<div class="container-fluid p-4">
+    <!-- Product Card -->
+    <div class="bg-[#2a2e34] rounded-xl shadow-lg overflow-hidden border border-[#3a3e44]" @staggerIn>
+      <div class="md:flex">
+        <!-- Image Gallery -->
+        <div class="md:w-1/2 p-6" @fadeInLeft>
+          <div class="relative h-96 rounded-lg overflow-hidden bg-[#1e2126]">
+            <div #carousel class="swiper-container h-full w-full">
+              <div class="swiper-wrapper">
+                <div class="swiper-slide" *ngFor="let photo of imageProd">
+                  <img
+                    [src]="'http://localhost:8080/public/images/produits/' + photo.imageProduit"
+                    alt="{{pro.nomproduit}}"
+                    class="w-full h-full object-contain transition-opacity duration-300"
+                  />
+                </div>
+              </div>
 
-  <div class="row ">
-    <div id="carouselExampleControls" class="carousel col-md-6 col-12 slide" data-ride="carousel">
-      <div class="carousel-inner">
-        <div class="carousel-item"
-             *ngFor="let photo of imageProd; let i = index"
-             [ngClass]="{'active': i == 0 }">
-          <img src="http://localhost:8080/public/images/{{photo.imageProduit}}"  class=" responsive d-block w-100">
+              <!-- Navigation buttons -->
+              <div class="swiper-button-prev text-[#ffa117]"></div>
+              <div class="swiper-button-next text-[#ffa117]"></div>
+
+              <!-- Pagination -->
+              <div class="swiper-pagination"></div>
+            </div>
+          </div>
         </div>
-        <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="sr-only">Previous</span>
-        </a>
-        <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="sr-only">Next</span>
-        </a>
+
+        <!-- Product Details -->
+        <div class="md:w-1/2 p-8 flex flex-col justify-between" @fadeInRight>
+          <div>
+            <h1 class="text-3xl font-bold text-[#bbbec2] mb-2">{{pro.nomproduit}}</h1>
+
+            <div class="flex items-center mb-6">
+              <span class="text-3xl font-bold text-[#ffa117]">{{pro.prix}} DNT</span>
+              <span *ngIf="pro.quantite.valueOf() > 0" class="ml-4 px-3 py-1 bg-[#1e3a1e] text-[#4ade80] text-sm font-medium rounded-full">
+                En stock ({{pro.quantite}})
+              </span>
+              <span *ngIf="pro.quantite.valueOf() <= 0" class="ml-4 px-3 py-1 bg-[#3a1e1e] text-[#de4a4a] text-sm font-medium rounded-full">
+                Rupture de stock
+              </span>
+            </div>
+
+            <div class="mb-8">
+              <h2 class="text-lg font-medium text-[#bbbec2] mb-2">Description</h2>
+              <p class="text-[#9a9da1] leading-relaxed">{{pro.description}}</p>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-[#3a3e44]">
+            <div class="flex space-x-4">
+              <button
+                class="flex-1 bg-[#ffa117] hover:bg-[#ffb347] text-[#22252a] py-3 px-6 rounded-lg font-medium transition-colors duration-300"
+                (click)="addToCart()"
+              >
+                Ajouter au panier
+              </button>
+              <button
+                class="flex-1 bg-transparent border border-[#ffa117] text-[#ffa117] hover:bg-[#ffa117]/10 py-3 px-6 rounded-lg font-medium transition-colors duration-300"
+                (click)="addToWishlist()"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 inline mr-2" viewBox="0 0 20 20" fill="currentColor">
+                  <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+                </svg>
+                Favoris
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
 
-    <div class="col-md-6">
-      <div class="clearfix">
-          <span class="h2">
-                    <strong class="text-right">{{pro.nomproduit}}</strong><br />
-
-                </span>
-        <div class="pull-right">
-          <span class="h2"><strong>{{pro.prix}}DNT</strong></span>
+    <!-- Additional Info Section -->
+    <div class="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8" @staggerIn>
+      <div class="bg-[#2a2e34] p-6 rounded-lg shadow border border-[#3a3e44]">
+        <div class="flex items-center mb-4">
+          <div class="p-3 rounded-full bg-[#ffa117]/10 text-[#ffa117] mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-medium text-[#bbbec2]">Livraison rapide</h3>
         </div>
-
+        <p class="text-[#9a9da1]">Livraison sous 2-3 jours ouvrables dans toute la Tunisie.</p>
       </div>
-      <hr />
-      <p>
-        {{pro.description}}
-      </p>
-      <hr />
 
-      <button type="submit" class="btn btn-general" routerLink="/liste-Produit" >Retour </button>
+      <div class="bg-[#2a2e34] p-6 rounded-lg shadow border border-[#3a3e44]">
+        <div class="flex items-center mb-4">
+          <div class="p-3 rounded-full bg-[#ffa117]/10 text-[#ffa117] mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-medium text-[#bbbec2]">Paiement sécurisé</h3>
+        </div>
+        <p class="text-[#9a9da1]">Paiement 100% sécurisé avec cryptage SSL.</p>
+      </div>
 
+      <div class="bg-[#2a2e34] p-6 rounded-lg shadow border border-[#3a3e44]">
+        <div class="flex items-center mb-4">
+          <div class="p-3 rounded-full bg-[#ffa117]/10 text-[#ffa117] mr-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <h3 class="text-lg font-medium text-[#bbbec2]">Garantie</h3>
+        </div>
+        <p class="text-[#9a9da1]">Garantie 1 an sur tous nos produits.</p>
+      </div>
     </div>
   </div>
 </div>
