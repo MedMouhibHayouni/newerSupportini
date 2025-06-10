@@ -7,7 +7,7 @@ const {
     checkRole,
     serializeUser
 } = require("../utils/Auth");
-const produit= require('../controllers/produit/produitController')
+const produit= require('../controllers/Produit/produitController')
 const {uploadImageProduit} = require("../middlewares/ImagesProduit");
 
 

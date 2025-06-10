@@ -1,22 +1,59 @@
+<div class="product-card bg-[#2a2e34] rounded-xl shadow-lg overflow-hidden border border-[#3a3e44] hover:shadow-xl transition-all duration-300 hover:border-[#ffa117]/50">
+  <div routerLink="/detail-Produit/{{produit.id}}" class="cursor-pointer">
+    <!-- Product Image with Hover Effect -->
+    <div class="relative h-48 overflow-hidden bg-[#1e2126]">
+      <img
+        [src]="'http://localhost:8080/public/images/produits/' + produit.imageProduit"
+        alt="{{produit.nomproduit}}"
+        class="w-full h-full object-contain transition-transform duration-500 hover:scale-105"
+      >
+      <!-- Quick View Button (shown on hover) -->
+      <div class="absolute inset-0 flex items-center justify-center opacity-0 hover:opacity-100 bg-black/30 transition-opacity duration-300">
+        <span class="bg-[#ffa117] text-[#22252a] px-4 py-2 rounded-full font-medium">Voir détails</span>
+      </div>
+    </div>
 
-
-
-
-<div class="card">
-  <div routerLink="/detail-Produit/{{produit.id}}">
-  <img class="imgprod" src="//localhost:8080/public/images/{{produit.imageProduit}}" alt="">
-  <div class="body">
-    <h6 class="mt-3">{{produit.nomproduit}}</h6>
-    <div class="text-muted">{{produit.prix}}</div>
+    <!-- Product Info -->
+    <div class="p-4">
+      <h3 class="text-lg font-semibold text-[#bbbec2] truncate">{{produit.nomproduit}}</h3>
+      <div class="flex items-center justify-between mt-2">
+        <span class="text-xl font-bold text-[#ffa117]">{{produit.prix}} DNT</span>
+        <span *ngIf="produit.quantite > 0" class="text-xs px-2 py-1 bg-[#1e3a1e] text-[#4ade80] rounded-full">
+          En stock
+        </span>
+        <span *ngIf="produit.quantite <= 0" class="text-xs px-2 py-1 bg-[#3a1e1e] text-[#de4a4a] rounded-full">
+          Épuisé
+        </span>
+      </div>
+    </div>
   </div>
-  </div>
-  <div class="card-footer">
 
-    <button class="btn btn-general" *ngIf="!AjouterauPanierButton"  (click)="AjouterauPanierButton=true"><i class="icon-basket" ></i> Ajouter au Panier</button>
-    <div class="d-flex w-50"*ngIf="AjouterauPanierButton" >
-      <input type="number" min="1" class="form-control"[(ngModel)]="amount" >
-      <button class="btn btn-danger" (click)="add(); AjouterauPanierButton=false ">Add</button>
+  <!-- Add to Cart Section -->
+  <div class="px-4 pb-4">
+    <button
+      *ngIf="!AjouterauPanierButton"
+      (click)="AjouterauPanierButton=true"
+      class="w-full bg-[#ffa117] hover:bg-[#ffb347] text-[#22252a] py-2 rounded-lg font-medium transition-colors duration-300 flex items-center justify-center"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" viewBox="0 0 20 20" fill="currentColor">
+        <path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3zM16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z" />
+      </svg>
+      Ajouter au panier
+    </button>
+
+    <div *ngIf="AjouterauPanierButton" class="flex gap-2">
+      <input
+        type="number"
+        min="1"
+        [(ngModel)]="amount"
+        class="flex-1 bg-[#1e2126] border border-[#3a3e44] text-[#bbbec2] rounded-lg px-3 focus:outline-none focus:ring-2 focus:ring-[#ffa117]"
+      >
+      <button
+        (click)="add(); AjouterauPanierButton=false"
+        class="bg-[#ffa117] hover:bg-[#ffb347] text-[#22252a] px-4 rounded-lg font-medium transition-colors duration-300"
+      >
+        Confirmer
+      </button>
     </div>
   </div>
 </div>
-

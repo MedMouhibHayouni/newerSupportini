@@ -27,6 +27,9 @@ getCategorie :string="http://localhost:8080/categorie/affiche"
   getProdSoetedDescUrl : string = "http://localhost:8080/produit/get-sorted-desc-price"
   getImagesProduitsUrl :string ="http://localhost:8080/produit/afficheImages"
 
+  private apiUrl = 'http://localhost:8080'; // Update with your API URL
+
+
 
 
   getAllProduct() {
@@ -67,5 +70,27 @@ return this.httpClient.get<any>( this.getCategorie)
   }
   getImagesProduits(id : any){
     return this.httpClient.get<any>(this.getImagesProduitsUrl+"/"+id)
+  }
+
+
+  // Category methods
+  createCategorie(categorie: categorie): Observable<categorie> {
+    return this.httpClient.post<categorie>(`${this.apiUrl}/categorie/create`, categorie);
+  }
+
+  getAllCategorie(): Observable<{categories: categorie[]}> {
+    return this.httpClient.get<{categories: categorie[]}>(`${this.apiUrl}/categorie/affiche`);
+  }
+
+  getCategorieById(id: number): Observable<categorie> {
+    return this.httpClient.get<categorie>(`${this.apiUrl}/categorie/afficheById/${id}`);
+  }
+
+  updateCategorie(id: number, categorie: categorie): Observable<categorie> {
+    return this.httpClient.put<categorie>(`${this.apiUrl}/categorie/update/${id}`, categorie);
+  }
+
+  deleteCategorie(id: number): Observable<any> {
+    return this.httpClient.delete(`${this.apiUrl}/categorie/${id}`);
   }
 }

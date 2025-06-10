@@ -5,10 +5,10 @@ import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
 import { GestionUserComponent } from './components/gestion-user/gestion-user.component';
 
-import {LayoutsModule} from "../layouts/layouts.module";
+import { LayoutsModule } from '../layouts/layouts.module';
 import { GestionSalleDeSportComponent } from './components/gestion-salle-de-sport/gestion-salle-de-sport.component';
 import { GestionUserModificationComponent } from './components/gestion-user-modification/gestion-user-modification.component';
-import {FormsModule} from "@angular/forms";
+import { FormsModule } from '@angular/forms';
 
 import { GestionSalleDeSportModificationComponent } from './components/gestion-salle-de-sport-modification/gestion-salle-de-sport-modification.component';
 
@@ -17,41 +17,29 @@ import { GestionProduitComponent } from './components/gestion-produit/gestion-pr
 
 import { FilterPipe } from './shared-pipe/userPipe/filter.pipe';
 
-import {
-    GestionModifierProduitComponent
-} from "./components/gestion-modifier-produit/gestion-modifier-produit.component";
+import { GestionModifierProduitComponent } from './components/gestion-modifier-produit/gestion-modifier-produit.component';
 import { GestionDesAnnoncesComponent } from './components/gestion-des-annonces/gestion-des-annonces.component';
-
-
-
-
+import { AjoutCategorieComponent } from './components/ajout-categorie/ajout-categorie.component';
 
 @NgModule({
-    declarations: [
-        AdminComponent,
-        GestionUserComponent,
-        GestionSalleDeSportComponent,
-        GestionUserModificationComponent,
+  declarations: [
+    AdminComponent,
+    GestionUserComponent,
+    GestionSalleDeSportComponent,
+    GestionUserModificationComponent,
 
-        GestionSalleDeSportModificationComponent,
+    GestionSalleDeSportModificationComponent,
 
-        GestionAjoutProduitComponent,
-        GestionProduitComponent,
+    GestionAjoutProduitComponent,
+    GestionProduitComponent,
 
     FilterPipe,
 
-        GestionModifierProduitComponent,
-          GestionDesAnnoncesComponent,
-
-
-    ],
-
-  imports: [
-    CommonModule,
-    AdminRoutingModule,
-    LayoutsModule,
-    FormsModule
+    GestionModifierProduitComponent,
+    GestionDesAnnoncesComponent,
+    AjoutCategorieComponent
   ],
 
+  imports: [CommonModule, AdminRoutingModule, LayoutsModule, FormsModule],
 })
-export class AdminModule { }
+export class AdminModule {}

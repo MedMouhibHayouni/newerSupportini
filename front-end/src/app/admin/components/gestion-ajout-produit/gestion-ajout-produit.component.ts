@@ -1,10 +1,11 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {produit} from "../../../model/produit";
-import {ToastService} from "../../../shared-service/toastService/toast.service";
-import {ProduitserviceService} from "../../../shared-service/ProduitService/produitservice.service";
-import {categorie} from "../../../model/categorie";
-import {User} from "../../../model/user";
-declare var $: any;
+// gestion-ajout-produit.component.ts
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { produit } from "../../../model/produit";
+import { ToastService } from "../../../shared-service/toastService/toast.service";
+import { ProduitserviceService } from "../../../shared-service/ProduitService/produitservice.service";
+import { categorie } from "../../../model/categorie";
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-gestion-ajout-produit',
   templateUrl: './gestion-ajout-produit.component.html',
@@ -15,116 +16,93 @@ export class GestionAjoutProduitComponent implements OnInit {
   @ViewChild('prixInput') prixInput!: ElementRef;
   @ViewChild('descriptionInput') descriptionInput!: ElementRef;
   @ViewChild('quantiteInput') quantiteInput!: ElementRef;
-@ViewChild('categorieIdInput') categorieIdInput!:ElementRef;
+  @ViewChild('categorieIdInput') categorieIdInput!: ElementRef;
 
-
-  produit!: produit
-  id!: any
-  prod!: produit[]
-  categories: any=[];
-  SelectedValue!: any;
-
-  selectedFiles?:FileList
+  produit: produit = new produit();
+  categories: categorie[] = [];
+  SelectedValue: any;
+  selectedFiles?: FileList;
   previews: string[] = [];
+  submitted = false;
 
-
-  constructor(private toastService: ToastService,
-              private produitservice: ProduitserviceService,
-              private prodcatserv: ProduitserviceService
-  ) {
-
-
-
-      //this.categories = data.categories;
-
-
-
-  }
-
+  constructor(
+    private toastService: ToastService,
+    private produitservice: ProduitserviceService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.prodcatserv.getallcategorie().subscribe((data) => {
-
-
-      this.categories = data.categories || [{id:1 ,nom :"Fitness"},{id:2,nom:"Musculation"},{id:3,nom:"Cross-fit"},{id:4,nom:"gymnas"}];
-
-
-    })
-    this.produit = new produit();
-
-    $(() => {
-      $('.dropify').dropify({
-        tpl: {
-          wrap: '<div class="dropify-wrapper"></div>',
-          loader: '<div class="dropify-loader"></div>',
-          message: '<div class="dropify-message"><span class="file-icon" /> <p>Ajouter des photos pour votre Produit</p></div>',
-          preview: '<div class="dropify-preview"><span class="dropify-render"></span><div class="dropify-infos"><div class="dropify-infos-inner"><p class="dropify-infos-message">Ajouter une autre photo</p></div></div></div>',
-          filename: '<p class="dropify-filename"><span class="file-icon"></span> <span class="dropify-filename-inner"></span></p>',
-          clearButton: '<button type="button" class="dropify-clear">Supprimer</button>',
-          errorLine: '<p class="dropify-error">Ooops, quelque chose qui cloche.</p>',
-          errorsContainer: '<div class="dropify-errors-container"><ul></ul></div>',
-        }
-      })
-
-
-    })
-
+    this.loadCategories();
   }
+
+  loadCategories(): void {
+    this.produitservice.getAllCategorie().subscribe({
+      next: (data) => {
+        this.categories = data.categories || [
+          {id: 1, nom: "Fitness"},
+          {id: 2, nom: "Musculation"},
+          {id: 3, nom: "Cross-fit"},
+          {id: 4, nom: "Gymnastique"}
+        ];
+      },
+      error: (err) => {
+        console.error('Error loading categories:', err);
+        this.toastService.errorToast("Erreur de chargement des catégories", "Erreur");
+      }
+    });
+  }
+
   selectFiles(event: any): void {
-
     this.selectedFiles = event.target.files;
+    this.previews = [];
 
-
-    if (this.selectedFiles && this.selectedFiles[0]) {
+    if (this.selectedFiles && this.selectedFiles.length > 0) {
       const numberOfFiles = this.selectedFiles.length;
       for (let i = 0; i < numberOfFiles; i++) {
         const reader = new FileReader();
-
-        reader.onload = (e: any) => {
-          this.previews.push(e.target.result);
-        };
-
+        reader.onload = (e: any) => this.previews.push(e.target.result);
         reader.readAsDataURL(this.selectedFiles[i]);
       }
     }
-
   }
 
-  createProduit() {
-    if (this.selectedFiles) {
-      const nomproduit = this.nomproduitInput.nativeElement.value;
-      const prix = this.prixInput.nativeElement.value;
-      const description = this.descriptionInput.nativeElement.value;
-      const quantite = this.quantiteInput.nativeElement.value;
-      const categorieId=this.categorieIdInput.nativeElement.value;
-      const formData: FormData = new FormData();
-      for (let i = 0; i < this.selectedFiles.length; i++) {
+  removeImage(index: number): void {
+    this.previews.splice(index, 1);
+    // You might also want to remove from selectedFiles if you're tracking that
+  }
 
-        formData.append('imagesProduits[]', this.selectedFiles[i]);
+  createProduit(): void {
+    this.submitted = true;
 
+    if (!this.selectedFiles || this.selectedFiles.length === 0) {
+      this.toastService.errorToast("Veuillez ajouter au moins une image", "Erreur");
+      return;
+    }
+
+    const formData = new FormData();
+    for (let i = 0; i < this.selectedFiles.length; i++) {
+      formData.append('imagesProduits[]', this.selectedFiles[i]);
+    }
+
+    formData.append('nomproduit', this.nomproduitInput.nativeElement.value);
+    formData.append('prix', this.prixInput.nativeElement.value);
+    formData.append('description', this.descriptionInput.nativeElement.value);
+    formData.append('quantite', this.quantiteInput.nativeElement.value);
+    formData.append('categorieId', this.categorieIdInput.nativeElement.value);
+
+    this.produitservice.createProduct(formData).subscribe({
+      next: (response) => {
+        this.showSuccess();
+        this.router.navigate(['/liste-Produit']);
+      },
+      error: (err) => {
+        console.error('Error creating product:', err);
+        this.toastService.errorToast("Erreur lors de la création du produit", "Erreur");
       }
-      formData.set('nomproduit' , nomproduit);
-      formData.set('prix' , prix);
-      formData.set('description' , description);
-      formData.set('quantite' , quantite);
-      formData.set( 'categorieId',categorieId)
-
-      this.produitservice.createProduct(formData).subscribe({
-      })
-
-    }else {
-      this.toastService.errorToast("Images Obligatoire", "Erreur")
-    }
-    }
-
-
-  showSuccess() {
-    this.toastService.successToast('Ajout de produit avec succèss!', 'succes!')
+    });
   }
 
-  createProduct() {
-    this.produitservice.createProduct(this.produit).subscribe();
-    console.log(this.produitservice)
+  showSuccess(): void {
+    this.toastService.successToast('Produit ajouté avec succès!', 'Succès!');
   }
-
- }
+}

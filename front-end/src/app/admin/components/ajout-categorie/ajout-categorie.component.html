@@ -1,21 +1,46 @@
-<div class="container p-4">
-  <div class=" col-md-12 col-sm-12" >
-    <div class="card">
-      <div class="body">
+<!-- ajout-categorie.component.html -->
+<div class="min-h-screen bg-[#22252a] py-8 px-4 sm:px-6 lg:px-8">
+  <div class="max-w-3xl mx-auto">
+    <div class="bg-[#2a2e34] rounded-xl shadow-lg overflow-hidden border border-[#3a3e44]">
+      <div class="p-6 border-b border-[#3a3e44]">
+        <h2 class="text-2xl font-bold text-[#ffa117]">Ajouter une nouvelle catégorie</h2>
+        <p class="text-[#9a9da1] mt-1">Remplissez les détails de la catégorie</p>
+      </div>
 
-        <form class="form-auth-small m-t-20 mb-3 " ngForm #categorieForm="ngForm">
-          <div class="row clearfix">
+      <form class="p-6" #categorieForm="ngForm" (ngSubmit)="createcategorie()">
+        <div class="mb-6">
+          <label for="nom" class="block text-sm font-medium text-[#bbbec2] mb-2">Nom de la catégorie</label>
+          <input
+            type="text"
+            id="nom"
+            name="nom"
+            [(ngModel)]="categorie.nom"
+            required
+            class="w-full px-4 py-2 bg-[#1e2126] border border-[#3a3e44] rounded-lg text-[#bbbec2] placeholder-[#6b7280] focus:outline-none focus:ring-2 focus:ring-[#ffa117] focus:border-transparent"
+            placeholder="Ex: Fitness, Musculation..."
+          >
+          <div *ngIf="categorieForm.submitted && categorieForm.controls['nom']?.errors?.['required']" class="mt-1 text-sm text-[#de4a4a]">
+            Le nom de la catégorie est obligatoire
+          </div>
+        </div>
 
-            <div class="col-md-6 col-sm-6">
-              <div class="form-group">
-                <h6>Nom categorie</h6>
-                <input type="text" class="form-control round" name="nom" ngModel #nom="ngModel" placeholder="Nom Categorie" required >
-                <div class="invalid-feedback d-block text-left" *ngIf="nom.invalid&&nom.touched&&nom.hasError('required')">
-                  Nom de categorie Obligatoire!
-                </div>
-
-                <div class="row clearfix col-sm-12 m-5">
-                  <button type="submit" class="btn btn-round btn-success" (click)="createcategorie();showSuccess()"[disabled]="categorieForm.invalid"[routerLink]="'/liste-Produit' " >Valider</button>
-                  <button type="submit" class="btn btn-round btn-default" [routerLink]="'/liste-Produit'">Annuler</button>
-                </div>
-              </div></div></div></form></div></div></div></div>
+        <div class="flex justify-end space-x-4 mt-8">
+          <button
+            type="button"
+            routerLink="/liste-Produit"
+            class="px-6 py-2 border border-[#3a3e44] text-[#bbbec2] rounded-lg hover:bg-[#3a3e44] transition-colors duration-300"
+          >
+            Annuler
+          </button>
+          <button
+            type="submit"
+            [disabled]="categorieForm.invalid"
+            class="px-6 py-2 bg-[#ffa117] hover:bg-[#ffb347] text-[#22252a] rounded-lg font-medium transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            Créer la catégorie
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
